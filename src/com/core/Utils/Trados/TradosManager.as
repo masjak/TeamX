@@ -1,4 +1,4 @@
-package com.knr.utils.Trados
+package com.core.Utils.Trados
 {
 	/**
 	 * 本地化字符管理工具

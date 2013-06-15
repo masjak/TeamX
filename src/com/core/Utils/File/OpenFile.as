@@ -1,4 +1,4 @@
-package com.knr.utils.File
+package com.core.Utils.File
 {
 	import flash.events.Event;
 	import flash.events.EventDispatcher;

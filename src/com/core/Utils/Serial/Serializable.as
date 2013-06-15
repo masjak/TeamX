@@ -1,4 +1,4 @@
-package com.knr.utils.Serial
+package com.core.Utils.Serial
 {
 	/**可序列化接口
 	 * 

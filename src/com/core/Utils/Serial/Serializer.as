@@ -1,4 +1,4 @@
-package com.knr.utils.Serial
+package com.core.Utils.Serial
 {
 	import flash.net.registerClassAlias;
 
