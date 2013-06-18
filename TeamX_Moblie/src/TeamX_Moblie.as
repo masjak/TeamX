@@ -8,8 +8,8 @@ package
 	
 	import starling.core.Starling;
 	
-	
-	[SWF(width="800", height="600", frameRate="30", backgroundColor="#cccccc")]
+	//[SWF(width="800", height="600", frameRate="30", backgroundColor="#cccccc")]
+	[SWF(width="800", height="600",frameRate="60",  backgroundColor="#cccccc")]
 	public class TeamX_Moblie extends Sprite
 	{
 		public function TeamX_Moblie()
