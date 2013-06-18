@@ -13,6 +13,7 @@ package com.Game
 	import dragonBones.Bone;
 	import dragonBones.animation.WorldClock;
 	import dragonBones.factorys.StarlingFactory;
+	import dragonBones.utils.dragonBones_internal;
 	
 	import starling.core.Starling;
 	import starling.display.Sprite;
@@ -28,18 +29,10 @@ package com.Game
 		public function StarlingGame()
 		{
 			DragonInit();
-
 			
-//			var file:File = new File(File.applicationDirectory.nativePath + "/KnightData.bin");
-//			var b:ByteArray = OpenFile.open(file);
-//			factory.parseData(b);
-//			
-//			factory.parseData(new AssetsManager.CyborgData());
-//			
-//			file = new File(File.applicationDirectory.nativePath + "/ResourcesData.bin");
-//			b= OpenFile.open(file);
-//			
-//			factory.parseData(b);
+			factory.parseData(new AssetsManager.KnightData());
+			factory.parseData(new AssetsManager.CyborgData());
+			factory.parseData(new AssetsManager.DragonData());
 			
 			
 //			OpenFile.write(new AssetsManager.ResourcesData(),File.applicationDirectory.nativePath + "/ResourcesData.bin");
@@ -96,26 +89,9 @@ package com.Game
 		
 		private function test():void 
 		{
-			packageRes(File.applicationDirectory.nativePath);
-		}
-		
-		private function packageRes(path:String):void 
-		{
-			var file:File = new File(path);
-			var files:Array = file.getDirectoryListing();
-			for each (var f:File in files)
-			{
-				if(f.isDirectory)
-				{
-					packageRes(f.nativePath)
-				}
-				else
-				{
-					trace(f.nativePath);
-				}
-			}
 			
 		}
+
 		
 	}
 }

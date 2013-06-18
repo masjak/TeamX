@@ -9,6 +9,6 @@ package Assets
 		public static const CyborgData:Class;
 		
 		[Embed(source = "../assets/DragonWithClothes.png",mimeType = "application/octet-stream")]
-		public static const ResourcesData:Class;
+		public static const DragonData:Class;
 	}
 }
