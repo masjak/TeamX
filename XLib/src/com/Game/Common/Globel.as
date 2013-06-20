@@ -1,4 +1,4 @@
-package com.Game.Globel
+package com.Game.Common
 {
 	import flash.events.Event;
 	

@@ -8,7 +8,14 @@ package Assets
 		[Embed(source = "Cyborg_output.swf", mimeType = "application/octet-stream")]
 		public static const CyborgData:Class;
 		
-		[Embed(source = "../assets/DragonWithClothes.png",mimeType = "application/octet-stream")]
+		[Embed(source = "DragonWithClothes.png",mimeType = "application/octet-stream")]
 		public static const DragonData:Class;
+		
+		[Embed(source = "Zombie_output.png")]
+		public static const ZombieData:Class;
+		
+		
+		
+		
 	}
 }

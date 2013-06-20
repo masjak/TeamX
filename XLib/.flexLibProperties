@@ -3,7 +3,7 @@
   <includeClasses>
     <classEntry path="com.Game.StarlingGame"/>
     <classEntry path="Assets.AssetsManager"/>
-    <classEntry path="com.Game.Globel.Globel"/>
+    <classEntry path="com.Game.Common.Globel"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

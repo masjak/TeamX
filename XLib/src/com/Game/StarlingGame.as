@@ -1,6 +1,6 @@
 package com.Game
 {
-	import com.Game.Globel.Globel;
+	import com.Game.Common.Globel;
 	import com.core.Utils.File.OpenFile;
 	
 	import flash.events.Event;
@@ -17,8 +17,10 @@ package com.Game
 	import dragonBones.utils.dragonBones_internal;
 	
 	import starling.core.Starling;
+	import starling.display.Image;
 	import starling.display.Sprite;
 	import starling.events.EnterFrameEvent;
+	import starling.textures.Texture;
 	
 	public class StarlingGame extends Sprite
 	{
@@ -60,13 +62,23 @@ package com.Game
 //			cyborg.animation.gotoAndPlay("run");
 //			addChild(cyborg.display as Sprite);
 			
+			for(var i:int = 0; i < 100; i++)
+			{
+//				var dargon:Armature= factory.buildArmature("Dragon");
+//				dargon.display.x = 20*i;
+////				dargon.display.y = 400;
+//				dargon.display.scaleX = dargon.display.scaleY = 0.25;
+//				dargon.animation.gotoAndPlay("walk");
+//				addChild(dargon.display as Sprite);
+//				WorldClock.clock.add(dargon);
+			}
 			
-			dargon = factory.buildArmature("Dragon");
-			dargon.display.x = 200;
-			dargon.display.y = 400;
-			dargon.display.scaleX = -1;
-			dargon.animation.gotoAndPlay("walk");
-			addChild(dargon.display as Sprite);
+//			dargon = factory.buildArmature("Dragon");
+//			dargon.display.x = 200;
+//			dargon.display.y = 400;
+//			dargon.display.scaleX = -1;
+//			dargon.animation.gotoAndPlay("walk");
+//			addChild(dargon.display as Sprite);
 			
 //			WorldClock.clock.add(knight);
 			WorldClock.clock.add(cyborg);
@@ -88,9 +100,23 @@ package com.Game
 		
 		private function test():void 
 		{
-			
+			addscene();
 		}
 
-		
+		private function addscene():void 
+		{
+			for(var i:int = 0; i < 100; i++)
+			{
+				var img:Image = new Image(Texture.fromBitmap(new AssetsManager.ZombieData()));
+				img.x = i;
+				addChild(img);
+			}
+			
+			
+			var img:Image = new Image(Texture.fromBitmap(new AssetsManager.ZombieData()));
+			addChild(img);
+			
+			
+		}
 	}
 }
