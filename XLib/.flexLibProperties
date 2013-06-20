@@ -4,7 +4,8 @@
     <classEntry path="com.Game.StarlingGame"/>
     <classEntry path="Assets.AssetsManager"/>
     <classEntry path="com.Game.Common.Globel"/>
-    <classEntry path="Test.RobotLegs.ITest"/>
+    <classEntry path="Test.ITest"/>
+    <classEntry path="Test.RobotLegs.RobotLegsTest"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

@@ -210,7 +210,7 @@ package org.robotlegs.mvcs
 		 */
 		protected function get reflector():IReflector
 		{
-			return _reflector ||= new SwiftSuspendersReflector();
+			return _reflector || new SwiftSuspendersReflector();
 		}
 		
 		/**
@@ -226,7 +226,7 @@ package org.robotlegs.mvcs
 		 */
 		protected function get commandMap():ICommandMap
 		{
-			return _commandMap ||= new CommandMap(eventDispatcher, createChildInjector(), reflector);
+			return _commandMap || new CommandMap(eventDispatcher, createChildInjector(), reflector);
 		}
 		
 		/**
@@ -242,7 +242,7 @@ package org.robotlegs.mvcs
 		 */
 		protected function get mediatorMap():IMediatorMap
 		{
-			return _mediatorMap ||= new MediatorMap(contextView, createChildInjector(), reflector);
+			return _mediatorMap || new MediatorMap(contextView, createChildInjector(), reflector);
 		}
 		
 		/**
@@ -258,7 +258,7 @@ package org.robotlegs.mvcs
 		 */
 		protected function get viewMap():IViewMap
 		{
-			return _viewMap ||= new ViewMap(contextView, injector);
+			return _viewMap || new ViewMap(contextView, injector);
 		}
 		
 		/**
