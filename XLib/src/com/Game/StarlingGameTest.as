@@ -10,6 +10,9 @@ package com.Game
 	
 	import Assets.AssetsManager;
 	
+	import Test.Scene.ResManager;
+	import Test.Scene.imageBlock;
+	
 	import dragonBones.Armature;
 	import dragonBones.Bone;
 	import dragonBones.animation.WorldClock;
@@ -18,6 +21,7 @@ package com.Game
 	
 	import starling.core.Starling;
 	import starling.display.Image;
+	import starling.display.Quad;
 	import starling.display.Sprite;
 	import starling.events.EnterFrameEvent;
 	import starling.textures.Texture;
@@ -31,14 +35,14 @@ package com.Game
 		{
 			DragonInit();
 			
-			var factory:StarlingFactory = Globel.instacne().factory;
-			
-			factory.parseData(new AssetsManager.KnightData());
-			factory.parseData(new AssetsManager.CyborgData());
-			factory.parseData(new AssetsManager.DragonData());
-			factory.addEventListener(Event.COMPLETE, textureCompleteHandler);
-			
-//			OpenFile.write(new AssetsManager.ResourcesData(),File.applicationDirectory.nativePath + "/ResourcesData.bin");
+//			var factory:StarlingFactory = Globel.instacne().factory;
+//			
+//			factory.parseData(new AssetsManager.KnightData());
+//			factory.parseData(new AssetsManager.CyborgData());
+//			factory.parseData(new AssetsManager.DragonData());
+//			factory.addEventListener(Event.COMPLETE, textureCompleteHandler);
+//			
+////			OpenFile.write(new AssetsManager.ResourcesData(),File.applicationDirectory.nativePath + "/ResourcesData.bin");
 			test();
 		}
 		
@@ -105,17 +109,27 @@ package com.Game
 
 		private function addscene():void 
 		{
-			for(var i:int = 0; i < 100; i++)
+//			for(var i:int = 0; i < 100; i++)
+//			{
+//				var img:Image = new Image(Texture.fromBitmap(new AssetsManager.ZombieData()));
+//				img.x = i;
+//				addChild(img);
+//			}
+//			
+//			
+//			var img:Image = new Image(Texture.fromBitmap(new AssetsManager.ZombieData()));
+//			addChild(img);
+			
+			ResManager.initBlock();
+//			addChild(ResManager.image);
+			
+			for(var i:int = 0; i < 7; i++)
 			{
-				var img:Image = new Image(Texture.fromBitmap(new AssetsManager.ZombieData()));
-				img.x = i;
+				var name:String = "block" + (i +1);
+				var img:Image = ResManager.getBlockByName(name);
+				img.x = 100*i;
 				addChild(img);
 			}
-			
-			
-			var img:Image = new Image(Texture.fromBitmap(new AssetsManager.ZombieData()));
-			addChild(img);
-			
 			
 		}
 	}

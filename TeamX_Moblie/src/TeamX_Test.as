@@ -16,7 +16,6 @@ package
 	[SWF(width="800", height="600",frameRate="60",  backgroundColor="#cccccc")]
 	public class TeamX_Test extends Sprite
 	{
-		protected var context:HelloFlashContext;
 		
 		public function TeamX_Test()
 		{
@@ -27,7 +26,7 @@ package
 			stage.align = StageAlign.TOP_LEFT;
 			stage.scaleMode = StageScaleMode.NO_SCALE;
 			
-//			starlingInit();
+			starlingInit();
 			
 			test();
 			
@@ -37,7 +36,7 @@ package
 		private function test():void
 		{
 			
-			addChild(new HelloFlash);
+			
 		}
 		
 		private function starlingInit():void 
