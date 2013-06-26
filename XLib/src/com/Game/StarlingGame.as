@@ -1,6 +1,6 @@
 package com.Game
 {
-	import com.Game.Common.Globel;
+	import com.Game.Common.Singleton;
 	import com.core.Utils.File.OpenFile;
 	
 	import flash.events.Event;
@@ -31,7 +31,7 @@ package com.Game
 		{
 			DragonInit();
 			
-			var factory:StarlingFactory = Globel.instacne().factory;
+			var factory:StarlingFactory = Singleton.starlingFactory;
 			
 			factory.parseData(new AssetsManager.KnightData());
 			factory.parseData(new AssetsManager.CyborgData());
@@ -44,7 +44,7 @@ package com.Game
 		
 		private function textureCompleteHandler(e:Event):void 
 		{
-			var factory:StarlingFactory = Globel.instacne().factory;
+			var factory:StarlingFactory = Singleton.starlingFactory;
 //			knight = factory.buildArmature("knight");
 //			knight.display.x = 350;
 //			knight.display.y = 400;

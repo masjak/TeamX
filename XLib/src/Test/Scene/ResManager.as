@@ -1,5 +1,7 @@
 package Test.Scene
 {
+	import com.Game.Common.PlatformManager;
+	import com.Game.Common.Singleton;
 	import com.core.Utils.File.OpenFile;
 	
 	import flash.filesystem.File;
@@ -12,13 +14,23 @@ package Test.Scene
 	public class ResManager
 	{
 		
-	 	public static var vBlock:Vector.<imageBlock> = new Vector.<imageBlock>();
-		public static var image:Image;
+	 	public static var vBlock:Vector.<Block> = new Vector.<Block>();
+//		public static var image:Image;
+		public static var resRoot:String;
+		
 		
 		public static function initBlock():void
 		{
+			if(Singleton.platform.Platform == PlatformManager.PLATFORM_MAC)
+			{
+				resRoot = "/Users/mf02/workplace/XLib/TeamX/Resouce";
+			}
+			else if(Singleton.platform.Platform == PlatformManager.PLATFORM_WINDOW)
+			{
+				resRoot = "F:/工作路径/work/XLib/Resouce";
+			}
 			
-			var filePath:String = "F:/工作路径/work/XLib/Resouce/Test.xml";
+			var filePath:String = resRoot + "/Test.xml";
 			
 			var xmlFile:File = new File(filePath);
 			var ba:ByteArray = OpenFile.open(xmlFile);
@@ -28,7 +40,11 @@ package Test.Scene
 			
 			for(var i:int = 0; i < len; i++)
 			{
-				var b:imageBlock = new imageBlock;
+				var b:Block = new Block;
+				b.imageName = xml.Block[i].@ImageName;
+				b.ImageWidth = xml.Block[i].@ImageWidth;
+				b.ImageHeight = xml.Block[i].@ImageHeight;
+				
 				b.bName = xml.Block[i].@Name;
 				b.bPosX = xml.Block[i].@PosX;
 				b.bPosY = xml.Block[i].@PosY;
@@ -36,43 +52,62 @@ package Test.Scene
 				b.bHeight = xml.Block[i].@Height;
 				vBlock.push(b);
 			}
-			
-			trace(vBlock);
-			
-			
-			// 加载image
-			filePath = "F:/工作路径/work/XLib/Resouce/test1.atf";
-			
-			xmlFile = new File(filePath);
-			ba = OpenFile.open(xmlFile)
-			image = new Image(Texture.fromAtfData(ba));		
-			
-			
 		}
 		
 		
-		public static function getBlockByName(name:String):Image
+		public static function getBlockByName(name:String):Block
 		{
+			if(name == null || name.length <= 0)
+			{
+				return null;
+			}
 			
-			for each(var block:imageBlock in vBlock)
+			for each(var block:Block in vBlock)
 			{
 				if(block.bName == name)
 				{
-					var img:Image = new Image(image.texture);
-					
-					img.setTexCoords(0,new Point(block.bPosX/1024,block.bPosY/1024));
-					img.setTexCoords(1,new Point((block.bPosX + block.bWidth)/1024,block.bPosY/1024));
-					img.setTexCoords(2,new Point(block.bPosX/1024,(block.bPosY + block.bHeight)/1024));
-					img.setTexCoords(3,new Point((block.bPosX + block.bWidth)/1024,(block.bPosY + block.bHeight)/1024));
-					
-					img.scaleX = block.bWidth/1024;
-					img.scaleY = block.bHeight/1024;
-					return img;
+					return block;
 				}
 			}
 			
 			return null;
 		}
+		
+		public static function getImageByName(name:String):Image
+		{
+			var block:Block = getBlockByName(name);
+			
+			if(block == null)
+			{
+				trace("[error]: Can't find Block By name " + name);
+				return null;
+			}
+			
+			var tex:Texture = Singleton.assets.getTexture(block.imageName);
+			if(tex == null)
+			{
+				var filePath:String = resRoot + "/" + block.imageName;
+				var f:File = new File(filePath);
+				tex = Texture.fromAtfData(OpenFile.open(f));
+				
+				trace("[tips]: add one texture to game name is :" + block.imageName);
+				Singleton.assets.addTexture(block.imageName,tex);
+			}
+			
+			
+			var img:Image = new Image(tex);
+			
+			img.setTexCoords(0,new Point(block.bPosX/block.ImageWidth,block.bPosY/block.ImageHeight));
+			img.setTexCoords(1,new Point((block.bPosX + block.bWidth)/block.ImageWidth,block.bPosY/block.ImageHeight));
+			img.setTexCoords(2,new Point(block.bPosX/block.ImageWidth,(block.bPosY + block.bHeight)/block.ImageHeight));
+			img.setTexCoords(3,new Point((block.bPosX + block.bWidth)/block.ImageWidth,(block.bPosY + block.bHeight)/block.ImageHeight));
+			
+			img.scaleX = block.bWidth/block.ImageWidth;
+			img.scaleY = block.bHeight/block.ImageHeight;
+			
+			return img;
+		}
+		
 		
 	}
 

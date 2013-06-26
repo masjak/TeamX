@@ -1,6 +1,6 @@
 package Test.Scene
 {
-	public class imageBlock
+	public class Block
 	{
 //		public function Block()
 //		{

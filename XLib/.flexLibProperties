@@ -4,7 +4,9 @@
     <classEntry path="com.Game.StarlingGame"/>
     <classEntry path="Assets.AssetsManager"/>
     <classEntry path="Test.Scene.ResManager"/>
-    <classEntry path="Test.Scene.imageBlock"/>
+    <classEntry path="Test.Scene.Block"/>
+    <classEntry path="com.Game.Common.PlatformManager"/>
+    <classEntry path="com.Game.Common.Constants"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>
