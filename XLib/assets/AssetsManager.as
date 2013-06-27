@@ -1,4 +1,4 @@
-package Assets
+package assets
 {
 	public class AssetsManager
 	{

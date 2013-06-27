@@ -8,7 +8,7 @@ package com.Game
 	import flash.utils.ByteArray;
 	import flash.utils.getTimer;
 	
-	import Assets.AssetsManager;
+	import assets.AssetsManager;
 	
 	import dragonBones.Armature;
 	import dragonBones.Bone;
@@ -33,9 +33,9 @@ package com.Game
 			
 			var factory:StarlingFactory = Singleton.starlingFactory;
 			
-			factory.parseData(new AssetsManager.KnightData());
-			factory.parseData(new AssetsManager.CyborgData());
-			factory.parseData(new AssetsManager.DragonData());
+//			factory.parseData(new AssetsManager.KnightData());
+//			factory.parseData(new AssetsManager.CyborgData());
+//			factory.parseData(new AssetsManager.DragonData());
 			factory.addEventListener(Event.COMPLETE, textureCompleteHandler);
 			
 //			OpenFile.write(new AssetsManager.ResourcesData(),File.applicationDirectory.nativePath + "/ResourcesData.bin");
@@ -105,16 +105,16 @@ package com.Game
 
 		private function addscene():void 
 		{
-			for(var i:int = 0; i < 100; i++)
-			{
-				var img:Image = new Image(Texture.fromBitmap(new AssetsManager.ZombieData()));
-				img.x = i;
-				addChild(img);
-			}
-			
-			
-			var img:Image = new Image(Texture.fromBitmap(new AssetsManager.ZombieData()));
-			addChild(img);
+//			for(var i:int = 0; i < 100; i++)
+//			{
+//				var img:Image = new Image(Texture.fromBitmap(new AssetsManager.ZombieData()));
+//				img.x = i;
+//				addChild(img);
+//			}
+//			
+//			
+//			var img:Image = new Image(Texture.fromBitmap(new AssetsManager.ZombieData()));
+//			addChild(img);
 			
 			
 		}
