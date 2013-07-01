@@ -4,7 +4,7 @@ package Test
 	{
 		
 		function test():void;
-		
+		 
 		
 	}
 }
