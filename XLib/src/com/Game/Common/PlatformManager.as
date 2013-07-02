@@ -8,7 +8,7 @@ package com.Game.Common
 	 * 
 	 */	
 	
-	public class PlatformManager
+	public class PlatformManager implements IDispose
 	{
 		public static const PLATFORM_UNKNOW:int = 0;
 		public static const PLATFORM_ANDROID:int = 1;
@@ -49,6 +49,14 @@ package com.Game.Common
 			
 			return PLATFORM_UNKNOW;
 		}
+		
+		public function dispose():void
+		{
+			// TODO Auto Generated method stub
+			
+		}
+		
+		
 		
 	}
 }

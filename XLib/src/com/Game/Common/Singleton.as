@@ -22,6 +22,9 @@ package com.Game.Common
 		/***资源管理 对象 */		
 		private static var _asset:AssetManager;
 		
+		/***相册相机管理 对象 */		
+		private static var _camera:CameraManager;
+		
 		public function Singleton()
 		{
 			
@@ -47,7 +50,7 @@ package com.Game.Common
 			return _factory;
 		}
 
-		/***dragonbones 的对象创建器 */
+		/***资源管理 对象 */
 		public static function get assets():AssetManager
 		{
 			if(_asset == null)
@@ -58,11 +61,43 @@ package com.Game.Common
 			return _asset;
 		}
 		
+		/***相册相机管理 对象 */
+		public static function get camera():CameraManager
+		{
+			if(_camera == null)
+			{
+				_camera = new CameraManager;
+			}
+			return _camera;
+		}
+		
+		
 		/***销毁 */
 		public static function dispose():void
 		{
-			_platform = null;
-			_factory = null;
+			if(_platform != null)
+			{
+				_platform.dispose();
+				_platform = null;
+			}
+			
+			if(_factory != null)
+			{
+				_factory.dispose();
+				_factory = null;
+			}
+			
+			if(_asset != null)
+			{
+				_asset.dispose();
+				_asset = null;
+			}
+			
+			if(_camera != null)
+			{
+				_camera.dispose();
+				_camera = null;
+			}
 		}
 		
 	}
