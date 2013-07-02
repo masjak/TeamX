@@ -2,6 +2,7 @@ package com.Game
 {
 	import com.Game.Common.CameraManager;
 	import com.Game.Common.Constants;
+	import com.Game.Common.ScreenManager;
 	import com.Game.Common.Singleton;
 	import com.Game.GameUI.WelcomeUI;
 	import com.core.TileMap.TileMap;
@@ -20,6 +21,8 @@ package com.Game
 	import feathers.controls.Button;
 	import feathers.controls.Callout;
 	import feathers.controls.Label;
+	import feathers.controls.ScreenNavigator;
+	import feathers.controls.ScreenNavigatorItem;
 	import feathers.themes.MetalWorksMobileTheme;
 	
 	import starling.display.Image;
@@ -35,8 +38,6 @@ package com.Game
 		
 		/**feathers UI 主题 */		
 		protected var theme:MetalWorksMobileTheme;
-		protected var wel:WelcomeUI;
-		
 		protected var btnMap:Button;
 		
 		public function StarlingGameTest()
@@ -48,6 +49,10 @@ package com.Game
 		{
 			this.removeEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
 			theme = new MetalWorksMobileTheme(this.stage);
+			
+			// 初始化屏幕管理
+			ScreenManager.init();
+			addChild(ScreenManager.screenNavigator);
 			init();
 		}
 		
@@ -78,17 +83,6 @@ package com.Game
 		
 		private function onTriggeredMap(event:Event):void
 		{
-			trace("加载XML");
-			var f:File = new File(Constants.resRoot + "/Test.xml");
-			
-			if(f != null)
-			{
-				var map:TileMap = TileMap.praseDataFormXml(new XML(OpenFile.open(f)));
-//				const label:Label = new Label();
-////				label.text = "点击可以打开相册功能！";
-//				Callout.show(label, btnMap);
-			}
-			
 			var scene:TileScene = new TileScene;
 //			scene.scaleX = scene.scaleY = 0.3;
 			addChild(scene);
@@ -96,11 +90,14 @@ package com.Game
 		
 		private function onTriggeredOpen(event:Event):void
 		{
-			if(wel == null)
+			if(ScreenManager.screenNavigator.activeScreenID != "Welcome")
 			{
-				wel = new WelcomeUI();
+				ScreenManager.screenNavigator.showScreen("Welcome");
 			}
-			addChild(wel);
+			else
+			{
+				ScreenManager.screenNavigator.clearScreen();
+			}
 		}
 		
 		private function addscene():void 

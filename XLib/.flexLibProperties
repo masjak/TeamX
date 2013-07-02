@@ -4,6 +4,7 @@
     <classEntry path="com.Game.StarlingGame"/>
     <classEntry path="Test.Scene.ResManager"/>
     <classEntry path="com.core.TileMap.TileScene"/>
+    <classEntry path="com.Game.Common.ScreenManager"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

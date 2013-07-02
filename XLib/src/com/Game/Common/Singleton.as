@@ -2,6 +2,8 @@ package com.Game.Common
 {
 	import dragonBones.factorys.StarlingFactory;
 	
+	import feathers.controls.ScreenNavigator;
+	
 	import starling.utils.AssetManager;
 	import starling.utils.ScaleMode;
 
@@ -24,6 +26,7 @@ package com.Game.Common
 		
 		/***相册相机管理 对象 */		
 		private static var _camera:CameraManager;
+		
 		
 		public function Singleton()
 		{
@@ -71,6 +74,13 @@ package com.Game.Common
 			return _camera;
 		}
 		
+		/***屏幕场景管理 */
+		public static function get screen():ScreenNavigator
+		{
+			
+			return ScreenManager.screenNavigator;
+		}
+		
 		
 		/***销毁 */
 		public static function dispose():void
@@ -98,6 +108,8 @@ package com.Game.Common
 				_camera.dispose();
 				_camera = null;
 			}
+			
+			ScreenManager.dispose();
 		}
 		
 	}

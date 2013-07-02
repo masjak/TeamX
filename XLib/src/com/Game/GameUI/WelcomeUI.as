@@ -9,13 +9,13 @@ package com.Game.GameUI
 	import feathers.controls.Button;
 	import feathers.controls.Callout;
 	import feathers.controls.Label;
+	import feathers.controls.Screen;
 	
 	import starling.display.Image;
-	import starling.display.Sprite;
 	import starling.events.Event;
 	import starling.textures.Texture;
 	
-	public class WelcomeUI extends Sprite
+	public class WelcomeUI extends Screen
 	{
 		
 		private var btnOpen:Button;
