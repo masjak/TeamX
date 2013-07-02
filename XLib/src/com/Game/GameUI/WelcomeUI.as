@@ -19,8 +19,10 @@ package com.Game.GameUI
 	{
 		
 		private var btnOpen:Button;
+		private var btnCarema:Button;
 		private var btnCanel:Button;
 		private var btnClose:Button;
+		
 		private var img:Image;
 		
 		public function WelcomeUI()
@@ -35,11 +37,19 @@ package com.Game.GameUI
 		{
 			// 初始化按钮
 			btnOpen = new Button();
-			btnOpen.label = "打开";
+			btnOpen.label = "相册";
 			btnOpen.validate();
 			addChild(btnOpen);
 			btnOpen.addEventListener(Event.TRIGGERED, onTriggeredOpen);
 			btnOpen.y = (Constants.STAGE_HEIGHT - btnOpen.height)/2;
+			
+			btnCarema = new Button();
+			btnCarema.label = "相机";
+			btnCarema.validate();
+			addChild(btnCarema);
+			btnCarema.addEventListener(Event.TRIGGERED, onTriggeredCarema);
+			btnCarema.y = (Constants.STAGE_HEIGHT - btnCarema.height)/2;
+			btnCarema.x = 100;
 			
 			btnCanel = new Button();
 			btnCanel.label = "清除相册";
@@ -68,6 +78,14 @@ package com.Game.GameUI
 			OpenCameraPhoto();
 		}
 		
+		private function onTriggeredCarema(event:Event):void
+		{			
+			// 测试拍照功能
+			OpenCamera();
+		}
+		
+		
+		
 		private function onTriggeredCancle(event:Event):void
 		{
 			this.removeChild(img,true);
@@ -85,9 +103,9 @@ package com.Game.GameUI
 		private function OpenCameraPhoto():void 
 		{
 			var c:CameraManager = Singleton.camera;
-			if(c.supportsBrowseForImage())
+			if(c.isSupportsCaremaPhoto())
 			{
-				c.browseImage(browseComplete);
+				c.OpenCaremaPhoto(browseComplete);
 			}
 			function browseComplete(b:Bitmap):void
 			{
@@ -102,9 +120,33 @@ package com.Game.GameUI
 				}
 				img = new Image(Texture.fromBitmap(b));
 				addChildAt(img,0);
-				
 			}
-			
 		}
+		
+		private function OpenCamera():void 
+		{
+			var c:CameraManager = Singleton.camera;
+			if(c.isSupportsCarema())
+			{
+				c.OpenCarema(browseComplete);
+			}
+			function browseComplete(b:Bitmap):void
+			{
+				if(b.width > 2048 || b.height > 2048)
+				{
+					trace("图片尺寸过大！");
+					return;
+				}
+				if(img != null)
+				{
+					img.removeFromParent(true);
+				}
+				img = new Image(Texture.fromBitmap(b));
+				addChildAt(img,0);
+			}
+		}
+		
+		
+		
 	}
 }

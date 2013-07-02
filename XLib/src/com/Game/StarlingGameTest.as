@@ -5,6 +5,7 @@ package com.Game
 	import com.Game.Common.Singleton;
 	import com.Game.GameUI.WelcomeUI;
 	import com.core.TileMap.TileMap;
+	import com.core.TileMap.TileScene;
 	import com.core.Utils.File.OpenFile;
 	
 	import flash.display.Bitmap;
@@ -36,6 +37,7 @@ package com.Game
 		protected var theme:MetalWorksMobileTheme;
 		protected var wel:WelcomeUI;
 		
+		protected var btnMap:Button;
 		
 		public function StarlingGameTest()
 		{
@@ -65,7 +67,7 @@ package com.Game
 			btnOpen.validate();
 			addChild(btnOpen);
 			
-			var btnMap:Button = new Button();
+			btnMap = new Button();
 			btnMap.label = "测试加载";
 			addChild(btnMap);
 			btnMap.addEventListener(Event.TRIGGERED, onTriggeredMap);
@@ -77,14 +79,19 @@ package com.Game
 		private function onTriggeredMap(event:Event):void
 		{
 			trace("加载XML");
-			var t:int = getTimer();
-			var f:File = new File(Constants.resRoot + "/test.tmx");
-			var map:TileMap = TileMap.praseDataFormXml(new XML(OpenFile.open(f)));
-			trace();
+			var f:File = new File(Constants.resRoot + "/Test.xml");
 			
-//			const label:Label = new Label();
-//			label.text = "点击可以打开相册功能！";
-////			Callout.show(label, event.);
+			if(f != null)
+			{
+				var map:TileMap = TileMap.praseDataFormXml(new XML(OpenFile.open(f)));
+//				const label:Label = new Label();
+////				label.text = "点击可以打开相册功能！";
+//				Callout.show(label, btnMap);
+			}
+			
+			var scene:TileScene = new TileScene;
+//			scene.scaleX = scene.scaleY = 0.3;
+			addChild(scene);
 		}
 		
 		private function onTriggeredOpen(event:Event):void

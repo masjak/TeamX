@@ -27,7 +27,7 @@ package com.Game.Common
 			}
 			else
 			{
-				_resRoot = "";
+				_resRoot = "https://github.com/haog/TeamX/blob/master/Resouce";
 			}
 			return _resRoot;
 		}
