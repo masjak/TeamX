@@ -1,6 +1,11 @@
 package com.Game.Common
 {
+	import com.Game.GameScreen.PhotoTestScreen;
+	import com.Game.GameScreen.WelcomeScreen;
+	
 	import flash.filesystem.File;
+	
+	import feathers.controls.ScreenNavigatorItem;
 	
 	import starling.errors.AbstractClassError;
 
@@ -8,7 +13,6 @@ package com.Game.Common
 	{
 		//抽象类 不用具化
 		public function Constants(){ throw new AbstractClassError(); }
-//		public static const S
 		
 		
 		/**舞台宽*/		
@@ -34,6 +38,25 @@ package com.Game.Common
 			return _resRoot;
 		}
 		
+		public static function  init():void
+		{
+			ScreenManager.screenNavigator;
+			ScreenManager.addScreen(Constants.SCREEN_WELCOME,new ScreenNavigatorItem(WelcomeScreen));
+			ScreenManager.addScreen(Constants.SCREEN_PHOTO_TEST,new ScreenNavigatorItem(PhotoTestScreen));
+		}
+		
+		
+		
+		/***********************静态常量配置 信号事件*****************/
+		public static const SIGNAL_STARLING_INIT:String = "StarlingInit";
+		
+		
+		
+		
+		
+		/***********************静态常量配置 UISCREEN屏幕*****************/
+		public static const SCREEN_WELCOME:String = "Welcome";
+		public static const SCREEN_PHOTO_TEST:String = "PhotoTest";
 		
 	}
 }

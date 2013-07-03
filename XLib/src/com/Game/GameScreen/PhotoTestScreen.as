@@ -1,7 +1,8 @@
-package com.Game.GameUI
+package com.Game.GameScreen
 {
 	import com.Game.Common.CameraManager;
 	import com.Game.Common.Constants;
+	import com.Game.Common.ScreenManager;
 	import com.Game.Common.Singleton;
 	
 	import flash.display.Bitmap;
@@ -15,7 +16,7 @@ package com.Game.GameUI
 	import starling.events.Event;
 	import starling.textures.Texture;
 	
-	public class WelcomeUI extends Screen
+	public class PhotoTestScreen extends Screen
 	{
 		
 		private var btnOpen:Button;
@@ -25,7 +26,7 @@ package com.Game.GameUI
 		
 		private var img:Image;
 		
-		public function WelcomeUI()
+		public function PhotoTestScreen()
 		{
 			super();
 			init();
@@ -65,9 +66,7 @@ package com.Game.GameUI
 			btnClose.addEventListener(Event.TRIGGERED, onTriggeredClose);
 			addChild(btnClose);
 			btnClose.x = (Constants.STAGE_WIDTH - btnClose.width)/2;
-			
-			// 初始化完成通知回调
-			Singleton.signal.dispatchSignal("test",null);
+
 		}
 		
 		private function onTriggeredOpen(event:Event):void
@@ -95,10 +94,7 @@ package com.Game.GameUI
 		
 		private function onTriggeredClose(event:Event):void
 		{
-			if(this.parent != null)
-			{
-				this.parent.removeChild(this);
-			}
+			ScreenManager.screenNavigator.showScreen(Constants.SCREEN_WELCOME);
 			
 		}
 		

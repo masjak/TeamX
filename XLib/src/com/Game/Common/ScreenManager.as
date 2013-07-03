@@ -1,7 +1,5 @@
 package com.Game.Common
 {
-	import com.Game.GameUI.WelcomeUI;
-	
 	import feathers.controls.ScreenNavigator;
 	import feathers.controls.ScreenNavigatorItem;
 
@@ -13,25 +11,26 @@ package com.Game.Common
 		{
 		}
 		
-		
+		/** 屏幕首先注册*/		
 		public static function init():void
 		{
-			addScreen("Welcome",new ScreenNavigatorItem(WelcomeUI));
+			
 		}
 		
 		public static function addScreen(id:String, item:ScreenNavigatorItem):void
 		{
-			ScreenManager.screenNavigator.addScreen(id,item);
+			_navigator.addScreen(id,item);
 		}
 		
 		public static function showScreen(id:String):void
 		{
-			ScreenManager.screenNavigator.showScreen(id);
+			_navigator.clearScreen();
+			_navigator.showScreen(id);
 		}
 		
 		public static function removeScreen(id:String):void
 		{
-			ScreenManager.screenNavigator.removeScreen(id);
+			_navigator..removeScreen(id);
 		}
 		
 		public static function get screenNavigator():ScreenNavigator

@@ -1,4 +1,4 @@
-package com.Game.GameUI.Login
+package com.Game.GameScreen.Login
 {
 	import starling.display.Sprite;
 	
