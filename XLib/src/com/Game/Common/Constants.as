@@ -1,5 +1,7 @@
 package com.Game.Common
 {
+	import flash.filesystem.File;
+	
 	import starling.errors.AbstractClassError;
 
 	public class Constants
@@ -19,15 +21,15 @@ package com.Game.Common
 		{
 			if(Singleton.platform.Platform == PlatformManager.PLATFORM_MAC)
 			{
-				_resRoot = "/Users/mf02/workplace/XLib/TeamX/Resouce";
+				_resRoot = "/Users/mf02/workplace/XLib/TeamX/TeamX_Moblie/src/Resouce";
 			}
 			else if(Singleton.platform.Platform == PlatformManager.PLATFORM_WINDOW)
 			{
-				_resRoot = "F:/工作路径/work/XLib/Resouce";
+				_resRoot = "F:/workpath/work/XLibTeamX/TeamX_Moblie/src/Resouce";
 			}
 			else
 			{
-				_resRoot = "https://github.com/haog/TeamX/blob/master/Resouce";
+				_resRoot = File.applicationDirectory.resolvePath("Resouce").nativePath;
 			}
 			return _resRoot;
 		}

@@ -44,7 +44,7 @@ package com.core.TileMap
 		
 		public function init():void
 		{
-			var f:File = new File(Constants.resRoot + "/2.tmx");
+			var f:File = new File(Constants.resRoot + "/1.tmx");
 			tileMap = TileMap.praseDataFormXml(new XML(OpenFile.open(f)));
 			var gidlen:int = tileMap.layers[0].gids.length;
 			for(var i:int = 0; i < gidlen; i++)
