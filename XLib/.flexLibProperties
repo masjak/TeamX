@@ -5,6 +5,7 @@
     <classEntry path="Test.Scene.ResManager"/>
     <classEntry path="com.core.TileMap.TileScene"/>
     <classEntry path="com.Game.Common.ScreenManager"/>
+    <classEntry path="com.Game.Common.SignalManager"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

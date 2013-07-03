@@ -1,41 +1,23 @@
 package com.Game
 {
-	import com.Game.Common.CameraManager;
 	import com.Game.Common.Constants;
 	import com.Game.Common.ScreenManager;
 	import com.Game.Common.Singleton;
-	import com.Game.GameUI.WelcomeUI;
-	import com.core.TileMap.TileMap;
 	import com.core.TileMap.TileScene;
-	import com.core.Utils.File.OpenFile;
-	
-	import flash.display.Bitmap;
-	import flash.filesystem.File;
-	import flash.system.System;
-	import flash.utils.getTimer;
 	
 	import Test.Scene.ResManager;
 	
-	import dragonBones.Armature;
-	
 	import feathers.controls.Button;
-	import feathers.controls.Callout;
-	import feathers.controls.Label;
-	import feathers.controls.ScreenNavigator;
-	import feathers.controls.ScreenNavigatorItem;
 	import feathers.themes.MetalWorksMobileTheme;
+	
+	import org.osflash.signals.events.GenericEvent;
 	
 	import starling.display.Image;
 	import starling.display.Sprite;
 	import starling.events.Event;
-	import starling.textures.Texture;
 	
 	public class StarlingGameTest extends Sprite
-	{
-		private var knight:Armature;
-		private var cyborg:Armature;
-		private var dargon:Armature;
-		
+	{	
 		/**feathers UI 主题 */		
 		protected var theme:MetalWorksMobileTheme;
 		protected var btnMap:Button;
@@ -50,15 +32,16 @@ package com.Game
 			this.removeEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
 			theme = new MetalWorksMobileTheme(this.stage);
 			
-			// 初始化屏幕管理
-			ScreenManager.init();
-			addChild(ScreenManager.screenNavigator);
 			init();
 		}
 		
 		private function init():void 
 		{
-//			addscene();
+			// 初始化屏幕管理
+			ScreenManager.init();
+			addChild(ScreenManager.screenNavigator);
+			
+			
 			
 			Constants.STAGE_WIDTH = this.stage.stageWidth;
 			Constants.STAGE_HEIGHT = this.stage.stageHeight;
@@ -90,6 +73,9 @@ package com.Game
 		
 		private function onTriggeredOpen(event:Event):void
 		{
+			Singleton.signal.addSignal("test",this);
+			Singleton.signal.registerSignalListener("test",signalTest)
+			
 			if(ScreenManager.screenNavigator.activeScreenID != "Welcome")
 			{
 				ScreenManager.screenNavigator.showScreen("Welcome");
@@ -100,16 +86,13 @@ package com.Game
 			}
 		}
 		
-		private function addscene():void 
-		{	
-			ResManager.initBlock();
-			for(var i:int = 0; i < 10; i++)
-			{
-				var name:String = "block" + (i%7 +1);
-				var img:Image = ResManager.getImageByName(name);
-				img.x = 100*i;
-				addChild(img);
-			}
+		private function signalTest(e:GenericEvent,o:Object):void
+		{
+			
+			trace("捕捉到回调");
+			
 		}
+		
+		
 	}
 }

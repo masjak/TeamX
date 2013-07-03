@@ -27,6 +27,9 @@ package com.Game.Common
 		/***相册相机管理 对象 */		
 		private static var _camera:CameraManager;
 		
+		/***信号槽管理器 */		
+		private static var _signal:SignalManager;
+		
 		
 		public function Singleton()
 		{
@@ -72,6 +75,16 @@ package com.Game.Common
 				_camera = new CameraManager;
 			}
 			return _camera;
+		}
+		
+		/***相册相机管理 对象 */
+		public static function get signal():SignalManager
+		{
+			if(_signal == null)
+			{
+				_signal = new SignalManager;
+			}
+			return _signal;
 		}
 		
 		/***屏幕场景管理 */

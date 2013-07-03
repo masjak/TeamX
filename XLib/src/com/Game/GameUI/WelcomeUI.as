@@ -66,6 +66,8 @@ package com.Game.GameUI
 			addChild(btnClose);
 			btnClose.x = (Constants.STAGE_WIDTH - btnClose.width)/2;
 			
+			// 初始化完成通知回调
+			Singleton.signal.dispatchSignal("test",null);
 		}
 		
 		private function onTriggeredOpen(event:Event):void
