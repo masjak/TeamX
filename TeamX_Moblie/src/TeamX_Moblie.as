@@ -1,30 +1,27 @@
 package
 {
 	import com.Game.StarlingGame;
-	import com.Game.StarlingGameTest;
 	import com.Game.Common.Constants;
+	import com.Game.Common.Singleton;
 	
 	import flash.display.Sprite;
 	import flash.display.StageAlign;
 	import flash.display.StageScaleMode;
 	import flash.events.Event;
 	import flash.geom.Rectangle;
-	import flash.system.Capabilities;
-	import flash.system.Security;
 	
-	import Test.RobotLegs.HelloFlash;
-	import Test.RobotLegs.helloflash.HelloFlashContext;
+	import Welcome.Welcome;
 	
-	import feathers.examples.helloWorld.Main;
+	import org.osflash.signals.events.GenericEvent;
 	
 	import starling.core.Starling;
-	import starling.utils.RectangleUtil;
-	import starling.utils.ScaleMode;
 	
-	[SWF(width="800", height="600",frameRate="60",  backgroundColor="#cccccc")]
+//	[SWF(width="800", height="600",frameRate="60",  backgroundColor="#cccccc")]
+	[SWF(width="800", height="600",frameRate="60",  backgroundColor="#0")]
 	public class TeamX_Moblie extends Sprite
 	{
 		private var _starling:Starling;
+		private var wel:Welcome;
 		
 		public function TeamX_Moblie()
 		{
@@ -36,25 +33,15 @@ package
 				this.stage.align = StageAlign.TOP_LEFT;
 			}
 			this.mouseEnabled = this.mouseChildren = false;
-			this.loaderInfo.addEventListener(Event.COMPLETE, starlingInit);
-			
-			//测试函数 
-			test();
-			
+			this.loaderInfo.addEventListener(Event.COMPLETE, logo);
 		}
 		
-		private function starlingInit(event:Event):void 
-		{
-//			var viewPort:Rectangle = RectangleUtil.fit(
-//				new Rectangle(0, 0, Constants.STAGE_WIDTH, Constants.STAGE_HEIGHT), 
-//				new Rectangle(0, 0, stage.fullScreenWidth, stage.fullScreenHeight), 
-//				ScaleMode.SHOW_ALL);
-				
-			
+		private function starlingInit():void 
+		{	
 			Starling.handleLostContext = true;
 			Starling.multitouchEnabled = true;
 			
-			_starling = new Starling(StarlingGameTest,stage);
+			_starling = new Starling(StarlingGame,stage);
 			_starling.enableErrorChecking = false;
 			_starling.showStats = true;
 			_starling.start();
@@ -63,7 +50,7 @@ package
 			this.stage.addEventListener(Event.DEACTIVATE, stage_deactivateHandler, false, 0, true);
 		}
 		
-		
+		/** 舞台大小重置*/		
 		private function stage_resizeHandler(event:Event):void
 		{
 			this._starling.stage.stageWidth = this.stage.stageWidth;
@@ -79,12 +66,14 @@ package
 			catch(error:Error) {}
 		}
 		
+		/** 舞台失去焦点*/	
 		private function stage_deactivateHandler(event:Event):void
 		{
 			this._starling.stop();
 			this.stage.addEventListener(Event.ACTIVATE, stage_activateHandler, false, 0, true);
 		}
 		
+		/** 舞台激活*/	
 		private function stage_activateHandler(event:Event):void
 		{
 			this.stage.removeEventListener(Event.ACTIVATE, stage_activateHandler);
@@ -92,11 +81,28 @@ package
 		}
 		
 		
-		/***测试函数都可以写在这里 */		
-		private function test():void
+		/***logo显示 */		
+		private function logo(event:Event):void
 		{
+			// 在显示logo的时候去初始化 starling引擎 当引擎初始化完毕之后出去logo显示
+			wel = new Welcome;
+			addChild(wel);
 			
-			//			trace(Capabilities.manufacturer);
+			//添加事件监听  
+			Singleton.signal.addSignal(Constants.SIGNAL_STARLING_INIT,this);
+			Singleton.signal.registerSignalListener(Constants.SIGNAL_STARLING_INIT,StarlingInitComplete);
+			
+			// 初始化starling 引擎
+			starlingInit();
+			
+		}
+		
+		// 引擎初始化完毕
+		private function StarlingInitComplete(e:GenericEvent,o:Object):void
+		{
+			this.removeChild(wel);
+			wel.dispose();
+			Singleton.signal.removeSignal(Constants.SIGNAL_STARLING_INIT);
 		}
 		
 	}
