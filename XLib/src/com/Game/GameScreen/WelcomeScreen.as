@@ -16,19 +16,19 @@ package com.Game.GameScreen
 		
 		protected var btnMap:Button;
 		protected var btnOpen:Button;
+		protected var btnClose:Button;
 		
-		private var img:Image;
+		protected var scene:TileScene;
 		
 		public function WelcomeScreen()
 		{
 			super();
 			init();
-			this.width = 400;
 		}
 		
 		
 		
-		private function init():void 
+		public function init():void 
 		{
 			// 初始化按钮
 			btnOpen = new Button();
@@ -48,11 +48,19 @@ package com.Game.GameScreen
 			btnMap.validate();
 			addChild(btnMap);
 
+			btnClose = new Button();
+			btnClose.label = "关闭";
+			addChild(btnClose);
+			btnClose.addEventListener(Event.TRIGGERED, onTriggeredClose);
+			btnClose.x =600;
+			addChild(btnClose);
+			
+			
 		}
 		
 		private function onTriggeredMap(event:Event):void
 		{
-			var scene:TileScene = SceneManager.createTileScene("1");
+			scene = SceneManager.createTileScene("1");
 			addChild(scene);
 		}
 		
@@ -61,9 +69,20 @@ package com.Game.GameScreen
 			ScreenManager.screenNavigator.showScreen(Constants.SCREEN_PHOTO_TEST);
 		}
 		
-	
+		private function onTriggeredClose(event:Event):void
+		{
+			ScreenManager.clearScreen();
+		}
 		
 		
+		override public function dispose():void
+		{
+			if(scene != null)
+			{
+				scene.dispose();
+				scene = null;
+			}
+		}
 		
 	}
 }

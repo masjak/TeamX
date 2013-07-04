@@ -11,7 +11,7 @@ package com.Game
 	public class GameStage extends Sprite
 	{
 		/**场景实例*/	
-		protected var instance:GameStage;
+		private static var inst:GameStage;
 		
 		/**场景层*/	
 		protected var gameScene:GameSceneLayer;
@@ -22,19 +22,13 @@ package com.Game
 		public function GameStage()
 		{
 			super();
-			if(instance != null)
-			{
-				instance.dispose();
-			}
-			instance = this;
-			
-			this.addEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
+			init();
+//			this.addEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
 		}
 		
 		protected function addedToStageHandler(event:Event):void
 		{
 			this.removeEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
-			init();
 		}
 		
 		/**初始化*/		
@@ -47,5 +41,44 @@ package com.Game
 			addChild(gameScene);
 			addChild(gameScreen);
 		}
+		
+		/**获取场景层*/		
+		public function get scene():GameSceneLayer
+		{
+			return gameScene;
+		}
+		
+		/**获取UI层*/		
+		public function get screen():GameScreenLayer
+		{
+			return gameScreen;
+		}
+		
+		/**获取stage实例*/		
+		public static function get instance():GameStage
+		{
+			if(inst == null)
+			{
+				inst = new GameStage;
+			}
+			return inst;
+		}
+		
+		/**销毁*/		
+		override public function dispose():void
+		{
+			if(gameScene != null)
+			{
+				gameScene.dispose();
+				gameScene = null;
+			}
+			
+			if(gameScreen != null)
+			{
+				gameScreen.dispose();
+				gameScreen = null;
+			}
+		}
+		
 	}
 }

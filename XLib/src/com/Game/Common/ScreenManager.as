@@ -1,5 +1,7 @@
 package com.Game.Common
 {
+	import com.Game.GameStage;
+	
 	import feathers.controls.ScreenNavigator;
 	import feathers.controls.ScreenNavigatorItem;
 
@@ -24,13 +26,19 @@ package com.Game.Common
 		
 		public static function showScreen(id:String):void
 		{
-			_navigator.clearScreen();
 			_navigator.showScreen(id);
+			_navigator.visible =true;
 		}
 		
 		public static function removeScreen(id:String):void
 		{
-			_navigator..removeScreen(id);
+			_navigator.removeScreen(id);
+		}
+		
+		public static function clearScreen():void
+		{
+			_navigator.clearScreen();
+			_navigator.visible = false;
 		}
 		
 		public static function get screenNavigator():ScreenNavigator

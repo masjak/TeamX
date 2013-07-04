@@ -12,8 +12,8 @@ package com.Game
 	
 	public class StarlingGame extends Sprite
 	{	
-		/**主舞台*/
-		protected var gameStage:GameStage;
+//		/**主舞台*/
+//		protected var gameStage:GameStage;
 		
 		public function StarlingGame()
 		{
@@ -34,9 +34,8 @@ package com.Game
 			ScreenManager.init();
 			// 初始化场景数据
 			SceneManager.init();
-			
-			gameStage = new GameStage;
-			addChild(gameStage);
+
+			addChild(GameStage.instance);
 		
 			// 调整舞台宽高
 			Constants.STAGE_WIDTH = this.stage.stageWidth;

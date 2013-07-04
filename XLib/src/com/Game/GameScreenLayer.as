@@ -20,7 +20,7 @@ package com.Game
 		
 		public function init():void
 		{
-			theme = new MetalWorksMobileTheme(Singleton.screen,false);
+			theme = new MetalWorksMobileTheme(Singleton.screen);
 			addChild(Singleton.screen);
 			
 			// 初始化完成之后 通知主屏幕
@@ -28,6 +28,6 @@ package com.Game
 			
 			// 显示第一个界面
 			ScreenManager.showScreen(Constants.SCREEN_WELCOME);
-		}
+		}	
 	}
 }
