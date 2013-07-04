@@ -5,6 +5,11 @@
     <classEntry path="com.core.TileMap.TileScene"/>
     <classEntry path="com.Game.Common.ScreenManager"/>
     <classEntry path="com.Game.Common.SignalManager"/>
+    <classEntry path="com.Game.GameStage"/>
+    <classEntry path="com.Game.GameScreenLayer"/>
+    <classEntry path="com.Game.GameSceneLayer"/>
+    <classEntry path="com.Game.GameScreen.HeaderScreenTest"/>
+    <classEntry path="com.core.Utils.UtilImage"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

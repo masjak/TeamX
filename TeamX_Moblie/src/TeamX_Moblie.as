@@ -38,7 +38,8 @@ package
 		
 		private function starlingInit():void 
 		{	
-			Starling.handleLostContext = true;
+			Starling.handleLostContext = !(Singleton.platform.Platform == Constants.PLATFORM_IOS);
+			
 			Starling.multitouchEnabled = true;
 			
 			_starling = new Starling(StarlingGame,stage);

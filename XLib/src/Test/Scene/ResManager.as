@@ -1,5 +1,6 @@
 package Test.Scene
 {
+	import com.Game.Common.Constants;
 	import com.Game.Common.PlatformManager;
 	import com.Game.Common.Singleton;
 	import com.core.Utils.File.OpenFile;
@@ -21,11 +22,11 @@ package Test.Scene
 		
 		public static function initBlock():void
 		{
-			if(Singleton.platform.Platform == PlatformManager.PLATFORM_MAC)
+			if(Singleton.platform.Platform == Constants.PLATFORM_MAC)
 			{
 				resRoot = "/Users/mf02/workplace/XLib/TeamX/Resouce";
 			}
-			else if(Singleton.platform.Platform == PlatformManager.PLATFORM_WINDOW)
+			else if(Singleton.platform.Platform == Constants.PLATFORM_WINDOW)
 			{
 				resRoot = "F:/工作路径/work/XLib/Resouce";
 			}

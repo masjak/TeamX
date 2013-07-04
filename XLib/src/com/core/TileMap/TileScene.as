@@ -1,6 +1,7 @@
 package com.core.TileMap
 {
 	import com.Game.Common.Constants;
+	import com.core.Utils.UtilImage;
 	import com.core.Utils.File.OpenFile;
 	
 	import flash.display.Bitmap;
@@ -14,22 +15,35 @@ package com.core.TileMap
 	import starling.textures.TextureAtlas;
 
 	public class TileScene extends Sprite
-	{
-		[Embed(source="/../assets/images/1.png")]
-		protected static const ATLAS_IMAGE:Class;
-		
-		[Embed(source="/../assets/images/1.xml",mimeType="application/octet-stream")]
-		protected static const ATLAS_XML:Class;
-		
+	{		
+		protected var sceneName:String;
 		protected var atlas:TextureAtlas;
 		protected var tileMap:TileMap;
 //		protected var tileImage:Bitmap;
 		protected var atlasBitmapData:BitmapData;
 		
-		public function TileScene()
+		public function TileScene(sceneName:String)
 		{
-			const atlasBitmapData:BitmapData = (new ATLAS_IMAGE()).bitmapData;
-			this.atlas = new TextureAtlas(Texture.fromBitmapData(atlasBitmapData, false), XML(new ATLAS_XML()));
+			this.sceneName = sceneName;
+			init();
+		}
+		
+		public function init():void
+		{
+			var path:String = Constants.resRoot + "/" + sceneName + ".png";
+			UtilImage.loadImage(path,compl);
+		}
+		
+		
+		protected function compl(name:String,bit:Bitmap):void
+		{
+			// 先加载PNG 
+			const atlasBitmapData:BitmapData = bit.bitmapData;
+			
+			// 加载XML
+			var path:String = Constants.resRoot + "/" + sceneName + ".xml";
+			var f:File = new File(path);
+			this.atlas = new TextureAtlas(Texture.fromBitmapData(atlasBitmapData, false), XML(OpenFile.open(f)));
 			if(Starling.handleLostContext)
 			{
 				this.atlasBitmapData = atlasBitmapData;
@@ -38,13 +52,10 @@ package com.core.TileMap
 			{
 				atlasBitmapData.dispose();
 			}
-			init();
-		}
-		
-		
-		public function init():void
-		{
-			var f:File = new File(Constants.resRoot + "/1.tmx");
+			// 加载地图格式
+			path = Constants.resRoot + "/" + sceneName + ".tmx";
+			f = new File(path);
+			
 			tileMap = TileMap.praseDataFormXml(new XML(OpenFile.open(f)));
 			var gidlen:int = tileMap.layers[0].gids.length;
 			for(var i:int = 0; i < gidlen; i++)
@@ -61,8 +72,8 @@ package com.core.TileMap
 					addChild(img);
 				}
 			}
+			
 		}
-		
 		
 	}
 }

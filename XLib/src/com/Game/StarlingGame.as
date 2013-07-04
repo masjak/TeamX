@@ -11,8 +11,8 @@ package com.Game
 	
 	public class StarlingGame extends Sprite
 	{	
-		/**feathers UI 主题 */		
-		protected var theme:MetalWorksMobileTheme;
+		/**主舞台*/
+		protected var gameStage:GameStage;
 		
 		public function StarlingGame()
 		{
@@ -22,8 +22,6 @@ package com.Game
 		protected function addedToStageHandler(event:Event):void
 		{
 			this.removeEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
-			theme = new MetalWorksMobileTheme(this.stage);
-			
 			init();
 		}
 		
@@ -31,17 +29,12 @@ package com.Game
 		{
 			// 初始化屏幕管理
 			Constants.init();
-			addChild(Singleton.screen);
+			gameStage = new GameStage;
+			addChild(gameStage);
 		
 			// 调整舞台宽高
 			Constants.STAGE_WIDTH = this.stage.stageWidth;
 			Constants.STAGE_HEIGHT = this.stage.stageHeight;
-			
-			// 初始化完成之后 通知主屏幕
-			Singleton.signal.dispatchSignal(Constants.SIGNAL_STARLING_INIT,null);
-			
-			// 显示第一个界面
-			ScreenManager.showScreen(Constants.SCREEN_WELCOME);
 		}
 		
 		

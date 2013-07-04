@@ -1,21 +1,14 @@
 package com.Game.GameScreen
 {
-	import com.Game.Common.CameraManager;
 	import com.Game.Common.Constants;
 	import com.Game.Common.ScreenManager;
-	import com.Game.Common.Singleton;
 	import com.core.TileMap.TileScene;
 	
-	import flash.display.Bitmap;
-	
 	import feathers.controls.Button;
-	import feathers.controls.Callout;
-	import feathers.controls.Label;
 	import feathers.controls.Screen;
 	
 	import starling.display.Image;
 	import starling.events.Event;
-	import starling.textures.Texture;
 	
 	public class WelcomeScreen extends Screen
 	{
@@ -29,6 +22,7 @@ package com.Game.GameScreen
 		{
 			super();
 			init();
+			this.width = 400;
 		}
 		
 		
@@ -57,7 +51,7 @@ package com.Game.GameScreen
 		
 		private function onTriggeredMap(event:Event):void
 		{
-			var scene:TileScene = new TileScene;
+			var scene:TileScene = new TileScene("1");
 			addChild(scene);
 		}
 		

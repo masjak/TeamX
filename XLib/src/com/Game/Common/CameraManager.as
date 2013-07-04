@@ -122,7 +122,6 @@ package com.Game.Common
 			}
 			
 			removeEvent();
-			
 		}
 		
 		/** 移除事件监听*/

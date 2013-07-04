@@ -10,12 +10,6 @@ package com.Game.Common
 	
 	public class PlatformManager implements IDispose
 	{
-		public static const PLATFORM_UNKNOW:int = 0;
-		public static const PLATFORM_ANDROID:int = 1;
-		public static const PLATFORM_IOS:int = 2;
-		public static const PLATFORM_WINDOW:int = 3;
-		public static const PLATFORM_MAC:int = 4;
-		
 		public function PlatformManager()
 		{
 		}
@@ -32,22 +26,22 @@ package com.Game.Common
 			var strOS:String = Capabilities.manufacturer;
 			if(strOS.indexOf("iOS") != -1)
 			{
-				return PLATFORM_IOS;
+				return Constants.PLATFORM_IOS;
 			}
 			else if(strOS.indexOf("Windows") != -1)
 			{
-				return PLATFORM_WINDOW;
+				return Constants.PLATFORM_WINDOW;
 			}
 			else if(strOS.indexOf("Macintosh") != -1)
 			{
-				return PLATFORM_MAC;
+				return Constants.PLATFORM_MAC;
 			}
 			else if(strOS.indexOf("Android") != -1)
 			{
-				return PLATFORM_ANDROID;
+				return Constants.PLATFORM_ANDROID;
 			}
 			
-			return PLATFORM_UNKNOW;
+			return Constants.PLATFORM_UNKNOW;
 		}
 		
 		public function dispose():void

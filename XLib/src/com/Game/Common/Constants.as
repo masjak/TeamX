@@ -1,5 +1,6 @@
 package com.Game.Common
 {
+	import com.Game.GameScreen.HeaderScreenTest;
 	import com.Game.GameScreen.PhotoTestScreen;
 	import com.Game.GameScreen.WelcomeScreen;
 	
@@ -23,11 +24,11 @@ package com.Game.Common
 		private static var _resRoot:String;
 		public static function get resRoot():String
 		{
-			if(Singleton.platform.Platform == PlatformManager.PLATFORM_MAC)
+			if(Singleton.platform.Platform == Constants.PLATFORM_MAC)
 			{
 				_resRoot = "/Users/mf02/workplace/XLib/TeamX/TeamX_Moblie/src/Resouce";
 			}
-			else if(Singleton.platform.Platform == PlatformManager.PLATFORM_WINDOW)
+			else if(Singleton.platform.Platform == Constants.PLATFORM_WINDOW)
 			{
 				_resRoot = "F:/workpath/work/XLibTeamX/TeamX_Moblie/src/Resouce";
 			}
@@ -41,10 +42,22 @@ package com.Game.Common
 		public static function  init():void
 		{
 			ScreenManager.screenNavigator;
-			ScreenManager.addScreen(Constants.SCREEN_WELCOME,new ScreenNavigatorItem(WelcomeScreen));
-			ScreenManager.addScreen(Constants.SCREEN_PHOTO_TEST,new ScreenNavigatorItem(PhotoTestScreen));
+			ScreenManager.addScreen(SCREEN_WELCOME,new ScreenNavigatorItem(WelcomeScreen));
+			ScreenManager.addScreen(SCREEN_PHOTO_TEST,new ScreenNavigatorItem(PhotoTestScreen));
+			ScreenManager.addScreen(SCREEN_HEAD_TEST,new ScreenNavigatorItem(HeaderScreenTest));
 		}
+		/***********************静态常量配置 UISCREEN屏幕*****************/
+		public static const SCREEN_WELCOME:String = "Welcome";
+		public static const SCREEN_PHOTO_TEST:String = "PhotoTest";
+		public static const SCREEN_HEAD_TEST:String = "HeadTest";
 		
+		
+		/***********************游戏运行平台类型*****************/
+		public static const PLATFORM_UNKNOW:int = 0;
+		public static const PLATFORM_ANDROID:int = 1;
+		public static const PLATFORM_IOS:int = 2;
+		public static const PLATFORM_WINDOW:int = 3;
+		public static const PLATFORM_MAC:int = 4;
 		
 		
 		/***********************静态常量配置 信号事件*****************/
@@ -54,9 +67,7 @@ package com.Game.Common
 		
 		
 		
-		/***********************静态常量配置 UISCREEN屏幕*****************/
-		public static const SCREEN_WELCOME:String = "Welcome";
-		public static const SCREEN_PHOTO_TEST:String = "PhotoTest";
+		
 		
 	}
 }
