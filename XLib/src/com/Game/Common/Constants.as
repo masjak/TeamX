@@ -30,7 +30,7 @@ package com.Game.Common
 			}
 			else if(Singleton.platform.Platform == Constants.PLATFORM_WINDOW)
 			{
-				_resRoot = "F:/workpath/work/XLibTeamX/TeamX_Moblie/src/Resouce";
+				_resRoot = "F:/workpath/work/XLib/TeamX/TeamX_Moblie/src/Resouce";
 			}
 			else
 			{
