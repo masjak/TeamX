@@ -1,6 +1,7 @@
 package com.Game.GameScreen
 {
 	import com.Game.Common.Constants;
+	import com.Game.Common.SceneManager;
 	import com.Game.Common.ScreenManager;
 	import com.core.TileMap.TileScene;
 	
@@ -51,7 +52,7 @@ package com.Game.GameScreen
 		
 		private function onTriggeredMap(event:Event):void
 		{
-			var scene:TileScene = new TileScene("1");
+			var scene:TileScene = SceneManager.createTileScene("1");
 			addChild(scene);
 		}
 		

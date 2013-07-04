@@ -1,6 +1,7 @@
 package com.core.TileMap
 {
 	import com.Game.Common.Constants;
+	import com.Game.Common.DataStruct.SceneStruct;
 	import com.core.Utils.UtilImage;
 	import com.core.Utils.File.OpenFile;
 	
@@ -16,21 +17,21 @@ package com.core.TileMap
 
 	public class TileScene extends Sprite
 	{		
-		protected var sceneName:String;
+		protected var sceneData:SceneStruct;
 		protected var atlas:TextureAtlas;
 		protected var tileMap:TileMap;
 //		protected var tileImage:Bitmap;
 		protected var atlasBitmapData:BitmapData;
 		
-		public function TileScene(sceneName:String)
+		public function TileScene(scene:SceneStruct)
 		{
-			this.sceneName = sceneName;
+			this.sceneData = scene;
 			init();
 		}
 		
 		public function init():void
 		{
-			var path:String = Constants.resRoot + "/" + sceneName + ".png";
+			var path:String = Constants.resRoot + sceneData.scenePath + sceneData.scenePngName;
 			UtilImage.loadImage(path,compl);
 		}
 		
@@ -41,7 +42,7 @@ package com.core.TileMap
 			const atlasBitmapData:BitmapData = bit.bitmapData;
 			
 			// 加载XML
-			var path:String = Constants.resRoot + "/" + sceneName + ".xml";
+			var path:String = Constants.resRoot + sceneData.scenePath + sceneData.sceneXmlName;
 			var f:File = new File(path);
 			this.atlas = new TextureAtlas(Texture.fromBitmapData(atlasBitmapData, false), XML(OpenFile.open(f)));
 			if(Starling.handleLostContext)
@@ -53,7 +54,7 @@ package com.core.TileMap
 				atlasBitmapData.dispose();
 			}
 			// 加载地图格式
-			path = Constants.resRoot + "/" + sceneName + ".tmx";
+			path = Constants.resRoot + sceneData.scenePath + sceneData.sceneTmxName;
 			f = new File(path);
 			
 			tileMap = TileMap.praseDataFormXml(new XML(OpenFile.open(f)));
@@ -73,6 +74,14 @@ package com.core.TileMap
 				}
 			}
 			
+		}
+		
+		override public function dispose():void
+		{
+			tileMap = null;
+			sceneData = null;
+//			atlasBitmapData.dispose();
+			atlas.dispose();
 		}
 		
 	}

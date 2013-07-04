@@ -10,6 +10,8 @@
     <classEntry path="com.Game.GameSceneLayer"/>
     <classEntry path="com.Game.GameScreen.HeaderScreenTest"/>
     <classEntry path="com.core.Utils.UtilImage"/>
+    <classEntry path="com.Game.Common.SceneManager"/>
+    <classEntry path="com.Game.Common.DataStruct.SceneStruct"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

@@ -1,6 +1,7 @@
 package com.Game
 {
 	import com.Game.Common.Constants;
+	import com.Game.Common.SceneManager;
 	import com.Game.Common.ScreenManager;
 	import com.Game.Common.Singleton;
 	
@@ -27,8 +28,13 @@ package com.Game
 		
 		private function init():void 
 		{
-			// 初始化屏幕管理
+			// 初始化常量数据
 			Constants.init();
+			// 始化屏幕管理
+			ScreenManager.init();
+			// 初始化场景数据
+			SceneManager.init();
+			
 			gameStage = new GameStage;
 			addChild(gameStage);
 		
