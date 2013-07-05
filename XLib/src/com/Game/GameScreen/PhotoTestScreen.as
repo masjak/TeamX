@@ -71,10 +71,6 @@ package com.Game.GameScreen
 		
 		private function onTriggeredOpen(event:Event):void
 		{
-			const label:Label = new Label();
-			label.text = "点击可以打开相册功能！";
-			Callout.show(label, btnOpen);
-			
 			// 测试相册功能
 			OpenCameraPhoto();
 		}

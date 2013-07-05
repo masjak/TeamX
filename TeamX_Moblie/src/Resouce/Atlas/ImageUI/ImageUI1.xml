@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker http://texturepacker.com-->
+<!-- $TexturePacker:SmartUpdate:135537addc2564d0e3549eb6aa363627$ -->
+<TextureAtlas imagePath="ImageUI1">
+    <SubTexture name="Dog" x="0" y="0" width="97" height="103"/>
+</TextureAtlas>

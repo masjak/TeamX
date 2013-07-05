@@ -12,6 +12,10 @@
     <classEntry path="com.core.Utils.UtilImage"/>
     <classEntry path="com.Game.Common.SceneManager"/>
     <classEntry path="com.Game.Common.DataStruct.SceneStruct"/>
+    <classEntry path="com.Game.GameScreen.MainScreen"/>
+    <classEntry path="com.Game.Common.DataStruct.AtlasStruct"/>
+    <classEntry path="com.Game.Common.DataStruct.BlockStruct"/>
+    <classEntry path="com.core.Utils.Util"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

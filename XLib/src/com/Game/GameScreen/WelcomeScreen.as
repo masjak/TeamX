@@ -18,7 +18,6 @@ package com.Game.GameScreen
 		protected var btnOpen:Button;
 		protected var btnClose:Button;
 		
-		protected var scene:TileScene;
 		
 		public function WelcomeScreen()
 		{
@@ -60,13 +59,12 @@ package com.Game.GameScreen
 		
 		private function onTriggeredMap(event:Event):void
 		{
-			scene = SceneManager.createTileScene("1");
-			addChild(scene);
-		}
+			
+		} 
 		
 		private function onTriggeredOpen(event:Event):void
 		{	
-			ScreenManager.screenNavigator.showScreen(Constants.SCREEN_PHOTO_TEST);
+			ScreenManager.showScreen(Constants.SCREEN_PHOTO_TEST);
 		}
 		
 		private function onTriggeredClose(event:Event):void
@@ -77,11 +75,7 @@ package com.Game.GameScreen
 		
 		override public function dispose():void
 		{
-			if(scene != null)
-			{
-				scene.dispose();
-				scene = null;
-			}
+			
 		}
 		
 	}

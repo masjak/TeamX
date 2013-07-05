@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
     <scene Id="1" name = "新手村" path="/Scene/1/" PngName="1.png" XmlName="1.xml" TmxName="1.tmx"/>
+    <scene Id="2" name = "场景2" path="/Scene/2/" PngName="2.png" XmlName="2.xml" TmxName="2.tmx"/>
 </root>
