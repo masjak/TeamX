@@ -16,7 +16,7 @@ package com.Game
 		
 		public function init():void
 		{
-			scene = SceneManager.createTileScene("1");
+			scene = SceneManager.createTileScene("2");
 			addChild(scene);
 		}
 		

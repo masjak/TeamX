@@ -1,5 +1,7 @@
 package com.Game
 {
+	import feathers.themes.MetalWorksMobileTheme;
+	
 	import starling.display.Sprite;
 	import starling.events.Event;
 	
@@ -19,15 +21,19 @@ package com.Game
 		/**UI层*/	
 		protected var gameScreen:GameScreenLayer;
 		
+		/**feathers UI 主题 */		
+		protected var theme:MetalWorksMobileTheme;
+		
 		public function GameStage()
 		{
 			super();
-			init();
-//			this.addEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
+			this.addEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
 		}
 		
 		protected function addedToStageHandler(event:Event):void
 		{
+			theme = new MetalWorksMobileTheme(this);
+			init();
 			this.removeEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
 		}
 		

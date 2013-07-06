@@ -47,6 +47,7 @@ package com.Game.GameScreen
 		{
 			btnMainMenu = new Button;
 			btnMainMenu.label = "主菜单";
+			btnMainMenu.validate();
 			btnMainMenu.addEventListener(Event.TRIGGERED, onTriggeredMain);
 			addChild(btnMainMenu);
 			ScreenManager.getTextureByBLock("Dog",getTextureByBLockCompl);

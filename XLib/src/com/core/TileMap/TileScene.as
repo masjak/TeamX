@@ -62,7 +62,7 @@ package com.core.TileMap
 			for(var i:int = 0; i < gidlen; i++)
 			{
 				var row:int = i/tileMap.layers[0].width;
-				var lis:int = i%tileMap.layers[0].height;
+				var lis:int = i%tileMap.layers[0].width;
 				var tex:Texture = atlas.getTexture(tileMap.layers[0].gids[i].gid.toString());
 				
 				if(tex != null)
