@@ -21,9 +21,9 @@ package Welcome
 		public function Welcome()
 		{
 			bit = new Logo();
-			bit.x = (Constants.STAGE_WIDTH - bit.width)>>1;
-			bit.y = (Constants.STAGE_HEIGHT - bit.height)>>1;
 			addChild(bit);
+			this.x = (Constants.STAGE_WIDTH - bit.width)>>1;
+			this.y = (Constants.STAGE_HEIGHT - bit.height)>>1;
 			
 		}
 		

@@ -60,6 +60,17 @@ package
 			const viewPort:Rectangle = this._starling.viewPort;
 			viewPort.width = this.stage.stageWidth;
 			viewPort.height = this.stage.stageHeight;
+			
+			// 调整舞台宽高
+			Constants.STAGE_WIDTH = this.stage.stageWidth;
+			Constants.STAGE_HEIGHT = this.stage.stageHeight;
+			
+			if(wel != null)
+			{
+				wel.x = (Constants.STAGE_WIDTH - wel.width)>>1;
+				wel.y = (Constants.STAGE_HEIGHT - wel.height)>>1;
+			}
+			
 			try
 			{
 				this._starling.viewPort = viewPort;
@@ -87,6 +98,8 @@ package
 		{
 			// 在显示logo的时候去初始化 starling引擎 当引擎初始化完毕之后出去logo显示
 			wel = new Welcome;
+			wel.x = (Constants.STAGE_WIDTH - wel.width)>>1;
+			wel.y = (Constants.STAGE_HEIGHT - wel.height)>>1;
 			addChild(wel);
 			
 			//添加事件监听  

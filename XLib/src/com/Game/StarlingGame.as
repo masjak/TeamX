@@ -37,9 +37,6 @@ package com.Game
 
 			addChild(GameStage.instance);
 		
-			// 调整舞台宽高
-			Constants.STAGE_WIDTH = this.stage.stageWidth;
-			Constants.STAGE_HEIGHT = this.stage.stageHeight;
 		}
 		
 		

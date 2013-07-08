@@ -32,7 +32,11 @@ package com.Game.Common
 			{
 				_resRoot = "F:/workpath/work/XLib/TeamX/TeamX_Moblie/src/Resouce";
 			}
-			else
+			else  if(Singleton.platform.Platform == Constants.PLATFORM_IOS)
+			{
+				_resRoot = File.applicationDirectory.resolvePath("Resouce").nativePath;
+			}
+			else  if(Singleton.platform.Platform == Constants.PLATFORM_ANDROID)
 			{
 				_resRoot = File.applicationDirectory.resolvePath("Resouce").nativePath;
 			}
