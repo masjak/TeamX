@@ -10,24 +10,28 @@ package com.Game
 	 * @author haog 2013-7-4
 	 * 
 	 */	
-	public class GameStage extends Sprite
+	public class XStage extends Sprite
 	{
-		/**场景实例*/	
-		private static var inst:GameStage;
+		/**舞台实例*/	
+		protected static var inst:XStage;
 		
 		/**场景层*/	
-		protected var gameScene:GameSceneLayer;
+		protected var _world:XWorld;
 		
 		/**UI层*/	
-		protected var gameScreen:GameScreenLayer;
+		protected var _hud:XHud;
 		
 		/**feathers UI 主题 */		
 		protected var theme:MetalWorksMobileTheme;
 		
-		public function GameStage()
+		public function XStage()
 		{
 			super();
+			inst = this;
+			_world = new XWorld;
+			_hud = new XHud;
 			this.addEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
+
 		}
 		
 		protected function addedToStageHandler(event:Event):void
@@ -39,50 +43,37 @@ package com.Game
 		
 		/**初始化*/		
 		public function init():void
-		{
-			gameScene = new GameSceneLayer;
-			gameScreen = new GameScreenLayer;
+		{	
 			
 			// 场景层在最下面 UI在最上面
-			addChild(gameScene);
-			addChild(gameScreen);
+			addChild(_world);
+			addChild(_hud);
 		}
 		
 		/**获取场景层*/		
-		public function get scene():GameSceneLayer
-		{
-			return gameScene;
-		}
-		
+		public function get world():XWorld{return _world;}
 		/**获取UI层*/		
-		public function get screen():GameScreenLayer
-		{
-			return gameScreen;
-		}
+		public function get hud():XHud{return _hud;}
 		
 		/**获取stage实例*/		
-		public static function get instance():GameStage
+		public static function instance():XStage
 		{
-			if(inst == null)
-			{
-				inst = new GameStage;
-			}
 			return inst;
 		}
 		
 		/**销毁*/		
 		override public function dispose():void
 		{
-			if(gameScene != null)
+			if(_world != null)
 			{
-				gameScene.dispose();
-				gameScene = null;
+				_world.dispose();
+				_world = null;
 			}
 			
-			if(gameScreen != null)
+			if(_hud != null)
 			{
-				gameScreen.dispose();
-				gameScreen = null;
+				_hud.dispose();
+				_hud = null;
 			}
 		}
 		

@@ -2,20 +2,20 @@
 <flexLibProperties includeAllClasses="true" useMultiPlatformConfig="false" version="3">
   <includeClasses>
     <classEntry path="Test.Scene.ResManager"/>
-    <classEntry path="com.core.TileMap.TileScene"/>
+    <classEntry path="com.core.Map.XScene"/>
     <classEntry path="com.Game.Common.ScreenManager"/>
     <classEntry path="com.Game.Common.SignalManager"/>
-    <classEntry path="com.Game.GameStage"/>
-    <classEntry path="com.Game.GameScreenLayer"/>
-    <classEntry path="com.Game.GameSceneLayer"/>
+    <classEntry path="com.Game.XStage"/>
+    <classEntry path="com.Game.XHud"/>
+    <classEntry path="com.Game.XWorld"/>
     <classEntry path="com.Game.GameScreen.HeaderScreenTest"/>
     <classEntry path="com.core.Utils.UtilImage"/>
     <classEntry path="com.Game.Common.SceneManager"/>
-    <classEntry path="com.Game.Common.DataStruct.SceneStruct"/>
     <classEntry path="com.Game.GameScreen.MainScreen"/>
     <classEntry path="com.Game.Common.DataStruct.AtlasStruct"/>
     <classEntry path="com.Game.Common.DataStruct.BlockStruct"/>
     <classEntry path="com.core.Utils.Util"/>
+    <classEntry path="com.core.Basic.XSprite"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

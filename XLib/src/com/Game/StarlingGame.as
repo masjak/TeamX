@@ -13,7 +13,7 @@ package com.Game
 	public class StarlingGame extends Sprite
 	{	
 //		/**主舞台*/
-//		protected var gameStage:GameStage;
+		protected var xStage:XStage;
 		
 		public function StarlingGame()
 		{
@@ -34,8 +34,9 @@ package com.Game
 			ScreenManager.init();
 			// 初始化场景数据
 			SceneManager.init();
-
-			addChild(GameStage.instance);
+			
+			xStage =new XStage;
+			addChild(xStage);
 		
 		}
 		

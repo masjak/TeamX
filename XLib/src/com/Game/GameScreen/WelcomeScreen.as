@@ -3,7 +3,7 @@ package com.Game.GameScreen
 	import com.Game.Common.Constants;
 	import com.Game.Common.SceneManager;
 	import com.Game.Common.ScreenManager;
-	import com.core.TileMap.TileScene;
+	import com.core.Map.XScene;
 	
 	import feathers.controls.Button;
 	import feathers.controls.Screen;

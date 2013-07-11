@@ -6,10 +6,10 @@ package com.Game
 	
 	import starling.display.Sprite;
 
-	public class GameScreenLayer extends Sprite
+	public class XHud extends Sprite
 	{
 		protected var _mainScreen:MainScreen;
-		public function GameScreenLayer()
+		public function XHud()
 		{
 			init();
 		}
