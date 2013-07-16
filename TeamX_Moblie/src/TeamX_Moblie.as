@@ -1,6 +1,6 @@
 package
 {
-	import com.Game.StarlingGame;
+	import com.Game.XGame;
 	import com.Game.Common.Constants;
 	import com.Game.Common.Singleton;
 	
@@ -42,7 +42,7 @@ package
 			
 			Starling.multitouchEnabled = true;
 			
-			_starling = new Starling(StarlingGame,stage);
+			_starling = new Starling(XGame,stage);
 			_starling.enableErrorChecking = false;
 			_starling.showStats = true;
 			_starling.start();
