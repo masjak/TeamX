@@ -10,12 +10,12 @@ package com.Game
 	import starling.display.Sprite;
 	import starling.events.Event;
 	
-	public class StarlingGame extends Sprite
+	public class XGame extends Sprite
 	{	
 //		/**主舞台*/
 		protected var xStage:XStage;
 		
-		public function StarlingGame()
+		public function XGame()
 		{
 			this.addEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
 		}
