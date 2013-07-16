@@ -10,7 +10,6 @@ package com.core.Basic
 	import flash.events.Event;
 	import flash.events.IOErrorEvent;
 	import flash.filesystem.File;
-	import flash.geom.Point;
 	import flash.net.URLRequest;
 	import flash.system.System;
 	import flash.utils.ByteArray;
@@ -30,9 +29,9 @@ package com.core.Basic
 		public var _hasTile:uint;
 		/*** 大地图循环块的格式 */ 
 		private var _tileFormat:String = 'png';
-		/**tile Map横向的格子数*/
+		/**tile Map横向的宽度*/
 		public var mapWidth:Number;
-		/**tile Map纵向的格子数*/
+		/**tile Map纵向的高度*/
 		public var mapHeight:Number;
 		/**tile 的宽*/
 		public var tileWidth:Number;
@@ -51,13 +50,13 @@ package com.core.Basic
 		/*** 当前屏幕正在渲染的坐标记录*/ 
 		private var posFlush:Array;
 		/*** 保存已经加载完成的资源*/ 
-		protected var MapResource:Object;
+		protected var casheMap:Object;
 		/*** 加载队列*/ 
 		private var _loadList:Vector.<XLoader> = new Vector.<XLoader>;
 		/*** 地图数组 */ 
 		private var _arry:Array;	
 		/** * 地图缓冲区（源地图） */
-		protected var buffer:BitmapData;
+//		protected var buffer:BitmapData;
 		/*** 地图绘制区*/ 
 		protected var _dbuffer:Image;
 		/** * 循环背景数据 */ 
@@ -66,8 +65,8 @@ package com.core.Basic
 		public function XMap(mapId:String)
 		{
 			_mapid = mapId;
-//			_dbuffer = new Shape;
-			MapResource = {tiles:new Object()};
+			casheMap = {tiles:new Object()};
+			_arry = new Array;
 			praseData();
 		}
 		
@@ -92,58 +91,16 @@ package com.core.Basic
 			// 释放XML资源
 			System.disposeXML(xml);
 			makeData();
-//			resize();
 		}
 				
-		public function resize():void
+		public function recut():void
 		{
-			if(buffer) buffer.dispose();
-			buffer=new BitmapData(mapWidth+tileWidth,mapHeight+tileHeight,false);
-			
-//			if(_smallMap)
-//			{
-//				var per:Number = _smallMap.width/Global.MAPSIZE.x;
-//				_scache = new BitmapData(buffer.width*per,buffer.height*per,false,0);
-//			}
-			
-			
-			// 根据宽高自动计算所能容纳的最大地图数
-			_areaX = Math.ceil(XWorld.instance.camera.viewport.width/tileWidth)+1;
-			_areaY = Math.ceil(XWorld.instance.camera.viewport.height/tileHeight)+1;
-			
-			if(_dbuffer)
-			{
-				_dbuffer.dispose();
-			}
-			renderSelf();
-		}
-		
-		/*** 渲染*/ 
-		public function renderSelf():void
-		{
-			var zero_x:int = XWorld.instance.camera.zeroX%tileWidth;
-			var zero_y:int = XWorld.instance.camera.zeroY%tileHeight;
-			
-			var tex:Texture = Texture.fromBitmapData(buffer);
-			if(_dbuffer != null)
-			{
-				_dbuffer.texture.dispose();
-				_dbuffer.texture = tex;
-			}
-			else
-			{
-				_dbuffer = new Image(tex);
-			}
-			
-			_dbuffer.x = -zero_x;
-			_dbuffer.y = -zero_y;
-			addChild(_dbuffer);
+			makeData();
 		}
 		
 		public function reset():void
 		{
 			clear();
-			buffer.fillRect(buffer.rect,0);
 		}
 		
 		/**
@@ -155,13 +112,10 @@ package com.core.Basic
 			// 根据00点坐标，计算地图渲染的开始区块坐标
 			if(startx==-1)
 			{
-				startx = int(XWorld.instance.camera.zeroX/tileHeight);
-				starty = int(XWorld.instance.camera.zeroY/tileWidth);
+				startx = XWorld.instance.camera.zeroX/tileHeight;
+				starty = XWorld.instance.camera.zeroY/tileWidth;
 			}
-			
-			
-//			if(_nowStartX==startx && _nowStartY==starty) return;
-			
+						
 			_nowStartX = startx;
 			_nowStartY = starty;
 			
@@ -173,9 +127,6 @@ package com.core.Basic
 			}
 			
 //			fillSmallMap(startx,starty);
-			
-//			var maxY:uint = Math.min(starty+_areaY,int(mapHeight/tileHeight));
-//			var maxX:uint = Math.min(startx+_areaX,int(mapWidth/tileWidth));
 			
 			_areaX = Math.ceil(XWorld.instance.camera.viewport.width/tileWidth)+1;
 			_areaY = Math.ceil(XWorld.instance.camera.viewport.height/tileHeight)+1;
@@ -205,8 +156,6 @@ package com.core.Basic
 			var arr:Array;
 			
 			var y:uint = 0;
-			
-//			_dbuffer.cacheAsBitmap=false;
 			for(var k:String in posFlush)
 			{
 				var _data:Array = posFlush[k];
@@ -216,20 +165,20 @@ package com.core.Basic
 				{
 					try
 					{
-						// 先复制循环背景图
+						// 先复制循环背景图名字
 						arr = _data[s].split('_');
 						
 						if(_data[s]==null) continue;
-						if( MapResource.tiles[_data[s]]==null)
+						if( casheMap.tiles[_data[s]]==null)
 						{
 							var load:XLoader=new XLoader();
 							load.name = LIB_DIR+"tiles/"+_mapid+"/"+_data[s]+"."+_tileFormat;
-							//							trace("tiles/"+_mapid);
 							load.data = _data[s];
 							_loadList.push(load);
-						}else if(MapResource.tiles[_data[s]]!=null){
-							buffer.copyPixels(MapResource.tiles[_data[s]],MapResource.tiles[_data[s]].rect,new Point(x*tileWidth,y*tileHeight));
-							renderSelf();
+						}
+						else if(casheMap.tiles[_data[s]]!=null)
+						{		
+							addChild(casheMap.tiles[_data[s]]);
 						}
 						
 					}catch(e:Error){
@@ -262,24 +211,25 @@ package com.core.Basic
 			var l:LoaderInfo=e.target as LoaderInfo;
 			var loader:XLoader = l.loader as XLoader;
 			
-			MapResource.tiles[loader.data]= (l.content as Bitmap).bitmapData;
+			var tex:Texture = Texture.fromBitmap((l.content as Bitmap));
+			var img:Image = new Image(tex);
+			casheMap.tiles[loader.data]= img;
 			
 			l.removeEventListener(Event.COMPLETE,tilesCompele);
 			l.removeEventListener(IOErrorEvent.IO_ERROR,error);
 			loader.unload();
 			
-			var pos:Array = loader.data.split('_');
-			if(buffer == null)
-			{
-				buffer = new BitmapData(_areaX*tileWidth,_areaY*tileHeight,true,0);
-			}
-			
-			buffer.copyPixels(MapResource.tiles[loader.data],MapResource.tiles[loader.data].rect,new Point(int(pos[1]-_nowStartX)*tileWidth,int(pos[0]-_nowStartY)*tileHeight));
-			renderSelf();
+			var pos:Array = loader.data.split('_');		
+			img.x = pos[1]*tileWidth;
+			img.y = pos[0]*tileHeight;
+			addChild(img);
+
 			if(_loadList.length>0)
 			{
 				startLoad();
-			}else{
+			}
+			else
+			{
 //				_dbuffer.cacheAsBitmap=true;
 			}
 		}		
@@ -341,7 +291,7 @@ package com.core.Basic
 		override public function dispose():void
 		{
 			clear();
-			MapResource = null;
+			casheMap = null;
 		}
 		
 	}
