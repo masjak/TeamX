@@ -26,19 +26,22 @@ package com.Game.Common
 		{
 			if(Singleton.platform.Platform == Constants.PLATFORM_MAC)
 			{
-				_resRoot = "/Users/mf02/workplace/XLib/TeamX/TeamX_Moblie/src/Resouce";
+				_resRoot = "/Users/mf02/workplace/XLib/TeamX/TeamX_Moblie/src/asset";
 			}
 			else if(Singleton.platform.Platform == Constants.PLATFORM_WINDOW)
 			{
-				_resRoot = "F:/workpath/work/XLib/TeamX/TeamX_Moblie/src/Resouce";
+				// home 开发环境
+				_resRoot = "F:/workpath/work/XLib/TeamX/TeamX_Moblie/sr/asset";
+				// MF开发环境
+				_resRoot = "F:/workPath/work/TeamX/trunk/TeamX_Moblie/src/asset";
 			}
 			else  if(Singleton.platform.Platform == Constants.PLATFORM_IOS)
 			{
-				_resRoot = File.applicationDirectory.resolvePath("Resouce").nativePath;
+				_resRoot = File.applicationDirectory.resolvePath("asset").nativePath;
 			}
 			else  if(Singleton.platform.Platform == Constants.PLATFORM_ANDROID)
 			{
-				_resRoot = File.applicationDirectory.resolvePath("Resouce").nativePath;
+				_resRoot = File.applicationDirectory.resolvePath("asset").nativePath;
 			}
 			return _resRoot;
 		}

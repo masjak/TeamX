@@ -1,7 +1,6 @@
 package com.Game.Common
 {
-	import com.Game.Common.DataStruct.SceneStruct;
-	import com.core.Map.XScene;
+	import com.core.Basic.XScene;
 	import com.core.Utils.File.OpenFile;
 	
 	import flash.filesystem.File;

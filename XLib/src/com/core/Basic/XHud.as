@@ -1,4 +1,4 @@
-package com.Game
+package com.core.Basic
 {
 	import com.Game.Common.Constants;
 	import com.Game.Common.Singleton;

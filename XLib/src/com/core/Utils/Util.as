@@ -1,8 +1,5 @@
 package com.core.Utils
 {
-	import com.byxb.utils.angleModulus;
-	import com.byxb.utils.ease;
-	import com.byxb.utils.nearEquals;
 	import com.core.Utils.File.OpenFile;
 	
 	import flash.display.Bitmap;

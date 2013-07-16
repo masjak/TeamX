@@ -1,6 +1,6 @@
 package
 {
-	import com.Game.XGame;
+	import com.core.Basic.XGame;
 	import com.Game.Common.Constants;
 	import com.Game.Common.Singleton;
 	

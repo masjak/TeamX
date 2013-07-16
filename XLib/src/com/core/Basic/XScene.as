@@ -1,6 +1,5 @@
-package com.core.Map
+package com.core.Basic
 {
-	import com.core.Basic.XSprite;
 	
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
@@ -27,6 +26,7 @@ package com.core.Map
 		public function setUp():void
 		{
 			tileMap = new XMap(_sceneId);
+			addChild(tileMap);
 		}
 		
 		override public function dispose():void

@@ -1,9 +1,7 @@
-package com.Game
+package com.core.Basic
 {
 	import com.Game.Common.Constants;
 	import com.Game.Common.SceneManager;
-	import com.core.Basic.XCamera;
-	import com.core.Map.XScene;
 	import com.core.Utils.File.OpenFile;
 	
 	import flash.filesystem.File;

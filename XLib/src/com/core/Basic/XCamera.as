@@ -1,18 +1,9 @@
 package com.core.Basic
 {
 
-	import com.D5Power.scene.BaseScene;
-	import com.core.Map.XScene;
-	import com.core.geom.InfiniteRectangle;
+	import com.Game.Common.Constants;
 	
-	import flash.geom.Point;
 	import flash.geom.Rectangle;
-	
-	import feathers.utils.math.clamp;
-	
-	import starling.animation.DelayedCall;
-	import starling.animation.Juggler;
-	import starling.display.Sprite;
 
 	[Event(name="cameraUpdate", type="com.byxb.extensions.starling.events.CameraUpdateEvent")]
 	/**
@@ -34,8 +25,10 @@ package com.core.Basic
 		public function XCamera(scene:XScene):void
 		{
 			_scene = scene;
-			if(_cameraView==null) _cameraView = new Rectangle();
-			_cameraView = new Rectangle();
+			if(_cameraView==null) 
+			{
+				_cameraView = new Rectangle(0,0,Constants.STAGE_WIDTH,Constants.STAGE_HEIGHT);
+			}	
 		}
 		
 		public function get viewport():Rectangle  { return _cameraView};

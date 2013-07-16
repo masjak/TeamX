@@ -1,9 +1,7 @@
 package com.Game.Common
 {
-	import com.Game.XStage;
 	import com.Game.Common.DataStruct.AtlasStruct;
 	import com.Game.Common.DataStruct.BlockStruct;
-	import com.Game.Common.DataStruct.SceneStruct;
 	import com.core.Utils.Util;
 	import com.core.Utils.File.OpenFile;
 	

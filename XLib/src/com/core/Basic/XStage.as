@@ -1,4 +1,4 @@
-package com.Game
+package com.core.Basic
 {
 	import feathers.themes.MetalWorksMobileTheme;
 	
