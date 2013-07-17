@@ -1,15 +1,20 @@
 package com.core.Basic
 {
+	import com.D5Power.core.SilzAstar;
 	import com.Game.Common.Constants;
+	import com.core.Astar.SilzAstar;
 	import com.core.Utils.File.OpenFile;
 	import com.core.loader.XLoader;
 	
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
+	import flash.display.Loader;
 	import flash.display.LoaderInfo;
+	import flash.events.ErrorEvent;
 	import flash.events.Event;
 	import flash.events.IOErrorEvent;
 	import flash.filesystem.File;
+	import flash.geom.Point;
 	import flash.net.URLRequest;
 	import flash.system.System;
 	import flash.utils.ByteArray;
@@ -55,12 +60,26 @@ package com.core.Basic
 		private var _loadList:Vector.<XLoader> = new Vector.<XLoader>;
 		/*** 地图数组 */ 
 		private var _arry:Array;	
-		/** * 地图缓冲区（源地图） */
-//		protected var buffer:BitmapData;
 		/*** 地图绘制区*/ 
 		protected var _dbuffer:Image;
 		/** * 循环背景数据 */ 
 		protected var _loop_bg_data:BitmapData;
+		
+		
+		/*** 用于返回数据的点对象，已防止转换坐标的时候重复进行new操作*/ 
+		private var _turnResult:Point;
+		/*** 常量 寻路格子宽度*/
+		public static var pathTileWidth:uint = 15;
+		/*** 常量 寻路格子高度 */ 
+		public static var pathTileHeight:uint = 15;
+		/*** 寻路*/ 
+		private static var _AStar:SilzAstar;
+		/*** 摄像机范围扩展*/ 
+		public static var cameraAdd:uint = 100;
+		/*** 路点位图与地图总尺寸的比例*/  
+		private var _roadK:Number;
+		/*** 路点位图*/ 
+		private var _roadMap:BitmapData;
 		
 		public function XMap(mapId:String)
 		{
@@ -91,8 +110,94 @@ package com.core.Basic
 			// 释放XML资源
 			System.disposeXML(xml);
 			makeData();
+			loadRoadMap();
 		}
 				
+		/*** 获取寻路对象 */ 
+		public static function get AStar():SilzAstar {return _AStar;}
+		protected function flushAstar():void{_AStar = new SilzAstar(_arry);}
+		
+		private function updateAstar():void
+		{
+			var h:int = int(mapHeight/pathTileHeight);
+			var w:int = int(mapWidth/pathTileWidth);
+			
+			for(var y:uint = 0;y<h;y++)
+			{
+				for(var x:uint = 0;x<w;x++)
+				{
+					_arry[y][x] = _roadMap.getPixel(int(tileWidth*x*_roadK),int(tileHeight*y*_roadK))==0 ? 1 : 0;
+				}
+			}
+			_AStar = new SilzAstar(_arry);
+		}
+		
+		/*** 读取地图路点图 */ 
+		protected function loadRoadMap():void
+		{
+			// 根据宽高自动计算所能容纳的最大地图数
+			var loader:Loader = new Loader();
+			loader.contentLoaderInfo.addEventListener(Event.COMPLETE,configRoadMap);
+			loader.contentLoaderInfo.addEventListener(IOErrorEvent.IO_ERROR,RoadLoadError);
+			loader.load(new URLRequest(LIB_DIR+"RoadMap/map"+_mapid+".png"));
+		}
+		
+		/*** 重置地图数据*/ 
+		protected function resetRoad():void
+		{
+			_arry=[];
+			// 定义临时地图数据
+			var h:int =int(mapHeight/pathTileHeight);
+			var w:int = int(mapWidth/pathTileWidth);
+			for(var y:uint = 0;y<h;y++)
+			{
+				var arr:Array = new Array();
+				for(var x:uint = 0;x<w;x++)
+				{
+					arr.push(0);
+				}
+				_arry.push(arr);
+			}
+		}
+	
+		/*** 路点加载完成，更新路点*/ 
+		private function configRoadMap(e:Event):void
+		{
+			var loadinfo:LoaderInfo = e.target as LoaderInfo;
+			
+			loadinfo.removeEventListener(Event.COMPLETE,configRoadMap);
+			loadinfo.removeEventListener(IOErrorEvent.IO_ERROR,RoadLoadError);
+			
+			resetRoad();
+			_roadMap = (loadinfo.content as Bitmap).bitmapData;
+			_roadK =  _roadMap.width/mapHeight;
+			
+			loadinfo.loader.unload();
+			updateAstar();
+			
+//			dispatchEvent(new Event(Event.COMPLETE));
+//			if(_mapComplate!=null) _mapComplate();
+		}
+		
+		/*** 路点不存在，设置路点可行 */ 
+		private function RoadLoadError(e:ErrorEvent):void
+		{
+			var loadinfo:LoaderInfo = e.target as LoaderInfo;
+			
+			loadinfo.removeEventListener(Event.COMPLETE,configRoadMap);
+			loadinfo.removeEventListener(IOErrorEvent.IO_ERROR,RoadLoadError);
+			
+			resetRoad();
+			
+			_roadMap = new BitmapData(int(mapWidth*.1),int(mapHeight*.1),false,0xffffff);
+			_roadK =  _roadMap.width/mapWidth;
+			
+			updateAstar();
+			
+//			dispatchEvent(new Event(Event.COMPLETE));
+//			if(_mapComplate!=null) _mapComplate();
+		}
+		
 		public function recut():void
 		{
 			makeData();
@@ -279,6 +384,31 @@ package com.core.Basic
 			}
 			trace("加载出错:"+l.loader.name);
 		}
+		
+		/*** 根据世界坐标获取在屏幕内的坐标 */ 
+		public function getScreenPostion(x:Number,y:Number):Point
+		{			
+			_turnResult.x = x - XWorld.instance.camera.zeroX;
+			_turnResult.y = y - XWorld.instance.camera.zeroY;
+			return _turnResult;
+		}
+		
+		/*** 根据路点获得世界（全地图）内的坐标*/ 
+		public function tile2WorldPostion(x:Number,y:Number):Point
+		{
+			_turnResult.x = x*pathTileWidth+pathTileWidth*.5;
+			_turnResult.y = y*pathTileHeight+pathTileHeight*.5;
+			return _turnResult;
+		}
+		
+		/*** 世界地图到路点的转换*/ 
+		public function Postion2Tile(px:uint,py:uint):Point
+		{
+			_turnResult.x = int(px/pathTileWidth);
+			_turnResult.y = int(py/pathTileHeight);
+			return _turnResult;
+		}
+		
 		
 		/*** 清空内存*/ 
 		private function clear():void
