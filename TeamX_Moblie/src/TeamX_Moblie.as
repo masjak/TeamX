@@ -38,8 +38,11 @@ package
 		
 		private function starlingInit():void 
 		{	
-			Starling.handleLostContext = !(Singleton.platform.Platform == Constants.PLATFORM_IOS);
+			// 调整舞台宽高
+			Constants.STAGE_WIDTH = this.stage.stageWidth;
+			Constants.STAGE_HEIGHT = this.stage.stageHeight;
 			
+			Starling.handleLostContext = !(Singleton.platform.Platform == Constants.PLATFORM_IOS);
 			Starling.multitouchEnabled = true;
 			
 			_starling = new Starling(XGame,stage);

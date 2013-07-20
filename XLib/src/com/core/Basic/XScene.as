@@ -39,8 +39,8 @@ package com.core.Basic
 		{
 			_tileMap = new XMap(_sceneId);
 			addChild(_tileMap);
-//			this.touchable = false;
-//			this.
+			XWorld.instance.camera.lookAt(0,0);
+			
 			_tileMap.addEventListener(TouchEvent.TOUCH,ontouch);
 		}
 		
@@ -76,8 +76,10 @@ package com.core.Basic
 				{
 					_tileMap.y = -(_tileMap.mapHeight - Constants.STAGE_HEIGHT);
 				}
+
+				XWorld.instance.camera.setZero(-_tileMap.x,-_tileMap.y );
 				
-				p = _tileMap.globalToLocal(new Point(touchEnd.globalX,touchEnd.globalY));
+				XWorld.instance.camera.update();
 				recut();
 				trace("touch end: x = " + touchEnd.globalX + ",Y = " + touchEnd.globalY);
 			}
@@ -85,7 +87,7 @@ package com.core.Basic
 			{
 				trace("touch Move: x = " + touchMove.globalX + ",Y = " + touchMove.globalY);
 				p = _tileMap.globalToLocal(new Point(touchMove.globalX,touchMove.globalY));
-				XWorld.instance.camera.setZero((p.x - bakPoint.x),(p.y - bakPoint.y));
+				
 				_tileMap.x += p.x - bakPoint.x;
 				_tileMap.y += p.y - bakPoint.y;
 				trace("touch Move globalToLocal: x = " + p.x + ",Y = " + p.y);

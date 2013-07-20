@@ -3,6 +3,7 @@ package com.core.Basic
 	import com.D5Power.core.SilzAstar;
 	import com.Game.Common.Constants;
 	import com.core.Astar.SilzAstar;
+	import com.core.Math.FastRectangleTools;
 	import com.core.Utils.File.OpenFile;
 	import com.core.loader.XLoader;
 	
@@ -15,12 +16,14 @@ package com.core.Basic
 	import flash.events.IOErrorEvent;
 	import flash.filesystem.File;
 	import flash.geom.Point;
+	import flash.geom.Rectangle;
 	import flash.net.URLRequest;
 	import flash.system.System;
 	import flash.utils.ByteArray;
 	
 	import starling.display.Image;
 	import starling.textures.Texture;
+	import starling.utils.RectangleUtil;
 
 	public class XMap extends XSprite
 	{
@@ -60,8 +63,6 @@ package com.core.Basic
 		private var _loadList:Vector.<XLoader> = new Vector.<XLoader>;
 		/*** 地图数组 */ 
 		private var _arry:Array;	
-		/*** 地图绘制区*/ 
-		protected var _dbuffer:Image;
 		/** * 循环背景数据 */ 
 		protected var _loop_bg_data:BitmapData;
 		
@@ -91,7 +92,7 @@ package com.core.Basic
 		
 		public function praseData():void
 		{
-			var f:File = new File(Constants.resRoot + "/" + _mapid +".d5"); 
+			var f:File = new File(Constants.resRoot + "/tiles/" + _mapid +"/" + _mapid +".d5"); 
 			var ba:ByteArray = OpenFile.open(f);
 			ba.uncompress();
 			var str:String = ba.readUTFBytes(ba.bytesAvailable);
@@ -201,6 +202,20 @@ package com.core.Basic
 		public function recut():void
 		{
 			makeData();
+			draw();
+		}
+		
+		public function draw():void
+		{
+			var cameraView:Rectangle = XWorld.instance.camera.cameraCutView;
+			var num:int = this.numChildren;
+			for(var i:int = 0; i < num; i++)
+			{
+				var img:Image = this.getChildAt(i) as Image;
+				if(img == null) continue;
+				var bDraw:Boolean = FastRectangleTools.intersects(cameraView,new Rectangle(img.x,img.y,img.width,img.height));
+				img.visible = bDraw;
+			}
 		}
 		
 		public function reset():void
@@ -244,8 +259,14 @@ package com.core.Basic
 				var temp:Array = new Array;
 				
 				for(var x:int=startx;x<maxX;x++)
-				{
-					temp.push(y + "_" + x);
+				{	
+					var name:String = y + "_" + x;
+//					// 先判断是否是重复加载
+//					if( casheMap.tiles)
+//					{
+//						
+//					}
+					temp.push(name);
 				}
 				posFlush.push(temp);
 			}
@@ -274,10 +295,19 @@ package com.core.Basic
 						arr = _data[s].split('_');
 						
 						if(_data[s]==null) continue;
+						var name:String = LIB_DIR+"tiles/"+_mapid+"/"+_data[s]+"."+_tileFormat;
+						var bInList:Boolean = false;
+						for each(var l:XLoader in _loadList)
+						{
+							if(l.name == name) bInList = true;
+						}
+						if(bInList) continue;
+						
+						
 						if( casheMap.tiles[_data[s]]==null)
 						{
 							var load:XLoader=new XLoader();
-							load.name = LIB_DIR+"tiles/"+_mapid+"/"+_data[s]+"."+_tileFormat;
+							load.name = name;
 							load.data = _data[s];
 							_loadList.push(load);
 						}
@@ -415,6 +445,8 @@ package com.core.Basic
 		{
 			while(posFlush.length) posFlush.shift();
 			while(_arry.length) _arry.shift();
+			this.removeChildren();
+			this.removeFromParent();
 //			Global.CLEAR();
 		}
 		

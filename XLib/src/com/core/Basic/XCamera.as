@@ -72,6 +72,12 @@ package com.core.Basic
 			value = _scene.tileMap.mapHeight - Constants.STAGE_HEIGHT;
 			_zeroY = _zeroY<0 ? 0 : _zeroY;
 			_zeroY = _zeroY>value ? value : _zeroY;
+			
+		}
+		
+		public function moveZero(x:int,y:int):void
+		{
+			setZero(_zeroX + x,_zeroY + y);
 		}
 		
 		public function update():void
@@ -120,8 +126,8 @@ package com.core.Basic
 			var zero_x:int = _zeroX;
 			var zero_y:int = _zeroY;
 			
-			zero_x-=_scene.tileMap.tileWidth*2;
-			zero_y-=zero_y-_scene.tileMap.tileHeight*2;
+//			zero_x-=_scene.tileMap.tileWidth*2;
+//			zero_y-=zero_y-_scene.tileMap.tileHeight*2;
 			
 			zero_x = zero_x<0 ? 0 : zero_x;
 			zero_y = zero_y<0 ? 0 : zero_y;
@@ -129,8 +135,8 @@ package com.core.Basic
 			
 			_cameraCutView.x = zero_x;
 			_cameraCutView.y = zero_y;
-			_cameraCutView.width = Constants.STAGE_WIDTH+_scene.tileMap.tileWidth*2;
-			_cameraCutView.height = Constants.STAGE_HEIGHT+_scene.tileMap.tileHeight*2;
+			_cameraCutView.width = Constants.STAGE_WIDTH/*+_scene.tileMap.tileWidth*1*/;
+			_cameraCutView.height = Constants.STAGE_HEIGHT/*+_scene.tileMap.tileHeight*1*/;
 			
 			return _cameraCutView;
 		}
@@ -187,7 +193,7 @@ package com.core.Basic
 		/*** 镜头观察某点*/ 
 		public function lookAt(x:uint,y:uint):void
 		{
-//			this.focus(null);
+			this.focus(null);
 			setZero(x-(Constants.STAGE_WIDTH>>1),y-(Constants.STAGE_HEIGHT>>1));
 			recut();
 		}
