@@ -41,7 +41,7 @@ package com.Game.Common
 			}
 			else  if(Singleton.platform.Platform == Constants.PLATFORM_ANDROID)
 			{
-				_resRoot = File.applicationDirectory.resolvePath("asset").nativePath;
+				_resRoot = File.applicationDirectory.resolvePath("asset").url;
 			}
 			return _resRoot;
 		}
