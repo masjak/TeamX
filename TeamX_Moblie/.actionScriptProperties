@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<actionScriptProperties analytics="false" mainApplicationPath="TeamX_Moblie.as" projectUUID="1caf4326-d8be-4939-869e-b56b9d50430d" version="11">
+<actionScriptProperties analytics="false" mainApplicationPath="TeamX_Test.as" projectUUID="1caf4326-d8be-4939-869e-b56b9d50430d" version="11">
   <compiler additionalCompilerArguments="-locale en_US -swf-version=17" advancedTelemetry="true" autoRSLOrdering="true" copyDependentFiles="true" fteInMXComponents="false" generateAccessible="false" htmlExpressInstall="true" htmlGenerate="false" htmlHistoryManagement="false" htmlPlayerVersionCheck="true" includeNetmonSwc="false" outputFolderPath="bin-debug" removeUnusedRSL="true" sourceFolderPath="src" strict="true" targetPlayerVersion="0.0.0" useApolloConfig="true" useDebugRSLSwfs="true" useFlashSDK="true" verifyDigests="true" warn="true">
     <compilerSourcePath/>
     <libraryPath defaultLinkType="0">
@@ -42,6 +42,9 @@
     <application path="TeamX_Moblie.as">
       <airExcludes/>
     </application>
+    <application path="TeamX_Test.as">
+      <airExcludes/>
+    </application>
   </applications>
   <modules/>
   <workers/>
@@ -49,7 +52,6 @@
   <flashCatalyst validateFlashCatalystCompatibility="false"/>
   <buildTargets>
     <buildTarget buildTargetName="device" iosSettingsVersion="2" isCurrent="true" platformId="com.adobe.flexide.multiplatform.ios.platform" provisioningFile="Certificate/GODTest.mobileprovision" releasePackageType="ipa-ad-hoc">
-      <multiPlatformSettings enabled="true" hideAneLibSymbols="0" includePlatformLibs="false" platformID="com.adobe.flexide.multiplatform.ios.platform" reducedSizePackaging="false" version="1"/>
       <airSettings airCertificatePath="Certificate/GODTest.p12" airTimestamp="true" anePathSet="true" version="1">
         <airExcludes/>
         <anePaths/>
@@ -58,10 +60,10 @@
         <newPackagingParams/>
         <modifiedPackagingParams/>
       </airSettings>
+      <multiPlatformSettings enabled="true" hideAneLibSymbols="0" includePlatformLibs="false" platformID="com.adobe.flexide.multiplatform.ios.platform" reducedSizePackaging="false" version="1"/>
       <actionScriptSettings version="1"/>
     </buildTarget>
     <buildTarget airDownloadURL="https://market.android.com/details?id=com.adobe.air" androidSettingsVersion="2" buildTargetName="device" isCurrent="true" platformId="com.adobe.flexide.multiplatform.android.platform">
-      <multiPlatformSettings enabled="true" hideAneLibSymbols="0" includePlatformLibs="false" platformID="com.adobe.flexide.multiplatform.android.platform" reducedSizePackaging="false" version="1"/>
       <airSettings airCertificatePath="Certificate/haog.p12" airTimestamp="true" anePathSet="true" version="1">
         <airExcludes/>
         <anePaths/>
@@ -70,10 +72,10 @@
         <newPackagingParams/>
         <modifiedPackagingParams/>
       </airSettings>
+      <multiPlatformSettings enabled="true" hideAneLibSymbols="0" includePlatformLibs="false" platformID="com.adobe.flexide.multiplatform.android.platform" reducedSizePackaging="false" version="1"/>
       <actionScriptSettings version="1"/>
     </buildTarget>
     <buildTarget buildTargetName="default" isCurrent="true" platformId="default">
-      <multiPlatformSettings enabled="false" hideAneLibSymbols="0" includePlatformLibs="false" platformID="default" reducedSizePackaging="false" version="1"/>
       <airSettings airCertificatePath="" airTimestamp="true" anePathSet="false" version="1">
         <airExcludes/>
         <anePaths/>
@@ -82,6 +84,7 @@
         <newPackagingParams/>
         <modifiedPackagingParams/>
       </airSettings>
+      <multiPlatformSettings enabled="false" hideAneLibSymbols="0" includePlatformLibs="false" platformID="default" reducedSizePackaging="false" version="1"/>
       <actionScriptSettings version="1"/>
     </buildTarget>
   </buildTargets>
