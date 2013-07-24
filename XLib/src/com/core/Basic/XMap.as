@@ -92,7 +92,7 @@ package com.core.Basic
 		
 		public function praseData():void
 		{
-			var f:File = new File(Constants.resRoot + "/tiles/" + _mapid +"/" + _mapid +".d5"); 
+			var f:File = new File(Constants.resRoot + "/tiles/" + _mapid +"/mapconf.d5"); 
 			var ba:ByteArray = OpenFile.open(f);
 			ba.uncompress();
 			var str:String = ba.readUTFBytes(ba.bytesAvailable);
@@ -110,7 +110,7 @@ package com.core.Basic
 			
 			// 释放XML资源
 			System.disposeXML(xml);
-			makeData();
+//			makeData();
 			loadRoadMap();
 		}
 				
@@ -202,7 +202,7 @@ package com.core.Basic
 		public function recut():void
 		{
 			makeData();
-			draw();
+//			draw();
 		}
 		
 		public function draw():void
@@ -261,11 +261,6 @@ package com.core.Basic
 				for(var x:int=startx;x<maxX;x++)
 				{	
 					var name:String = y + "_" + x;
-//					// 先判断是否是重复加载
-//					if( casheMap.tiles)
-//					{
-//						
-//					}
 					temp.push(name);
 				}
 				posFlush.push(temp);
@@ -286,6 +281,7 @@ package com.core.Basic
 			{
 				var _data:Array = posFlush[k];
 				var x:uint = 0;
+				var atf:ByteArray;
 				
 				for(var s:String in _data)
 				{
@@ -294,22 +290,17 @@ package com.core.Basic
 						// 先复制循环背景图名字
 						arr = _data[s].split('_');
 						
-						if(_data[s]==null) continue;
-						var name:String = LIB_DIR+"tiles/"+_mapid+"/"+_data[s]+"."+_tileFormat;
-						var bInList:Boolean = false;
-						for each(var l:XLoader in _loadList)
-						{
-							if(l.name == name) bInList = true;
-						}
-						if(bInList) continue;
-						
-						
+						var name:String = Constants.resRoot+"/tiles/"+_mapid+"/"+_data[s]+".atf";
 						if( casheMap.tiles[_data[s]]==null)
 						{
-							var load:XLoader=new XLoader();
-							load.name = name;
-							load.data = _data[s];
-							_loadList.push(load);
+							atf = OpenFile.open(new File(name));
+							var tex:Texture = Texture.fromAtfData(atf);
+							var img:Image = new Image(tex);
+							casheMap.tiles[_data[s]]= img;			
+
+							img.x = arr[1]*tileWidth;
+							img.y = arr[0]*tileHeight;
+							addChild(img);
 						}
 						else if(casheMap.tiles[_data[s]]!=null)
 						{		
@@ -317,7 +308,7 @@ package com.core.Basic
 						}
 						
 					}catch(e:Error){
-						
+						trace(e.message);
 					}
 					x++;
 				}
@@ -325,49 +316,8 @@ package com.core.Basic
 			}
 			
 //			drawLoopGround();
-			startLoad();
+//			startLoad();
 		}
-		
-		private function startLoad():void
-		{
-			if(_loadList.length==0) return;
-			var loader:XLoader = _loadList[0];
-			loader.contentLoaderInfo.addEventListener(Event.COMPLETE,tilesCompele);
-			loader.contentLoaderInfo.addEventListener(IOErrorEvent.IO_ERROR,error);
-			loader.load(new URLRequest(loader.name));
-			
-			_loadList.splice(0,1);
-		}
-		
-		/**
-		 * 数据加载结束后入库 */ 
-		private function tilesCompele(e:Event):void
-		{
-			var l:LoaderInfo=e.target as LoaderInfo;
-			var loader:XLoader = l.loader as XLoader;
-			
-			var tex:Texture = Texture.fromBitmap((l.content as Bitmap));
-			var img:Image = new Image(tex);
-			casheMap.tiles[loader.data]= img;
-			
-			l.removeEventListener(Event.COMPLETE,tilesCompele);
-			l.removeEventListener(IOErrorEvent.IO_ERROR,error);
-			loader.unload();
-			
-			var pos:Array = loader.data.split('_');		
-			img.x = pos[1]*tileWidth;
-			img.y = pos[0]*tileHeight;
-			addChild(img);
-
-			if(_loadList.length>0)
-			{
-				startLoad();
-			}
-			else
-			{
-//				_dbuffer.cacheAsBitmap=true;
-			}
-		}		
 		
 //		private function updateLoopBg(e:Event):void
 //		{
@@ -402,18 +352,6 @@ package com.core.Basic
 //			}
 //		}
 //		
-		private function error(e:IOErrorEvent):void
-		{
-			try
-			{
-				var l:LoaderInfo=e.target as LoaderInfo;
-				l.removeEventListener(Event.COMPLETE,tilesCompele);
-				l.removeEventListener(IOErrorEvent.IO_ERROR,error);
-			}catch(e:Error){
-				
-			}
-			trace("加载出错:"+l.loader.name);
-		}
 		
 		/*** 根据世界坐标获取在屏幕内的坐标 */ 
 		public function getScreenPostion(x:Number,y:Number):Point

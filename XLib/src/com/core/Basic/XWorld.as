@@ -30,7 +30,7 @@ package com.core.Basic
 		
 		public function init():void
 		{
-			_scene = SceneManager.createTileScene("485");
+			_scene = SceneManager.createTileScene("1");
 			addChild(scene);
 			_camera = new XCamera(_scene);
 			_scene.setUp();

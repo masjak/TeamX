@@ -33,7 +33,7 @@ package com.Game.Common
 				// home 开发环境
 				_resRoot = "F:/workpath/work/XLib/TeamX/TeamX_Moblie/src/asset";
 				// MF开发环境
-//				_resRoot = "F:/workPath/work/TeamX/trunk/TeamX_Moblie/src/asset";
+				_resRoot = "F:/workPath/work/TeamX/trunk/TeamX_Moblie/src/asset";
 			}
 			else  if(Singleton.platform.Platform == Constants.PLATFORM_IOS)
 			{

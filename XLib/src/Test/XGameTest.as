@@ -2,10 +2,13 @@ package Test
 {
 	import com.Game.Common.Constants;
 	import com.core.Utils.UtilImage;
+	import com.core.Utils.File.OpenFile;
 	
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
+	import flash.filesystem.File;
 	import flash.geom.Point;
+	import flash.utils.ByteArray;
 	import flash.utils.getTimer;
 	
 	import starling.display.Image;
@@ -41,7 +44,10 @@ package Test
 //			randerTex256quadBatch();
 			
 			// 测试单张256图 bitmapdata拼成的2048*2048规格
-			randerTex256bitmapData();
+//			randerTex256bitmapData();
+			
+			// 测试2048*2048 单ATF纹理 渲染速度
+//			randerSingleATF2048();			
 		}
 		
 		/**
@@ -197,6 +203,37 @@ package Test
 				trace("渲染用时：" + (nowTime- lastTime));
 				lastTime = nowTime;
 			}
+			
+		}
+		
+		/**
+		 *测试结果 DEBUG 版本 单张2048*2048atf纹理 加载时间 转换纹理时间 和 渲染时间
+		 * PC一般配置上 分别为
+		 * 4S上分别为189，63,6 帧率60
+		 * 
+		 */	
+		private function randerSingleATF2048():void 
+		{
+			var lastTime:uint = getTimer();
+			var path:String = Constants.resRoot + "/testRes/0_0.atf";
+			
+			var atfData:ByteArray = OpenFile.open(new File(path));
+			var nowTime:uint = getTimer();
+			trace("加载用时：" + (nowTime- lastTime));
+			lastTime = nowTime;
+				
+			var tex:Texture = Texture.fromAtfData(atfData);
+				nowTime = getTimer() ;
+				trace("转换用时：" + (nowTime- lastTime));
+				lastTime = nowTime;
+				
+				var img:Image = new Image(tex);
+				img.scaleX = img.scaleY = 1.5;
+				addChild(img);
+				
+				nowTime = getTimer() ;
+				trace("渲染用时：" + (nowTime- lastTime));
+				lastTime = nowTime;
 			
 		}
 		

@@ -88,8 +88,31 @@ package com.core.Basic
 				trace("touch Move: x = " + touchMove.globalX + ",Y = " + touchMove.globalY);
 				p = _tileMap.globalToLocal(new Point(touchMove.globalX,touchMove.globalY));
 				
-				_tileMap.x += p.x - bakPoint.x;
-				_tileMap.y += p.y - bakPoint.y;
+				var xoff:Number = (_tileMap.x + p.x - bakPoint.x);
+				var yoff:Number = (_tileMap.y + p.y - bakPoint.y);
+				
+				
+				if(xoff > 0)
+				{
+					xoff = 0;
+				}
+				else if(xoff < -(_tileMap.mapWidth - Constants.STAGE_WIDTH))
+				{
+					xoff = -(_tileMap.mapWidth - Constants.STAGE_WIDTH);
+				}
+				
+				if(yoff > 0)
+				{
+					yoff = 0;
+				}
+				else if(yoff < -(_tileMap.mapHeight - Constants.STAGE_HEIGHT))
+				{
+					yoff = -(_tileMap.mapHeight - Constants.STAGE_HEIGHT);
+				}
+				
+				
+				_tileMap.x = xoff;
+				_tileMap.y = yoff;
 				trace("touch Move globalToLocal: x = " + p.x + ",Y = " + p.y);
 			}
 		}
