@@ -48,6 +48,12 @@ package
 			_starling = new Starling(XGame,stage);
 			_starling.enableErrorChecking = false;
 			_starling.showStats = true;
+			
+			//DEBUG开启触碰模拟器，便于PC测试
+			if(Singleton.platform.Debug)
+			{
+				_starling.simulateMultitouch = true;
+			}
 			_starling.start();
 			
 			this.stage.addEventListener(Event.RESIZE, stage_resizeHandler, false, int.MAX_VALUE, true);

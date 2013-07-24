@@ -15,6 +15,9 @@ package com.Game.Common
 		//抽象类 不用具化
 		public function Constants(){ throw new AbstractClassError(); }
 		
+		/***********************可配置变量****************/
+		public static var ZOOM_MAX_X:Number  = 1.5;// 场景X方向最大缩放
+		public static var ZOOM_MAX_Y:Number  = 1.5;// 场景Y方向最大缩放
 		
 		/**舞台宽*/		
 		public static var STAGE_WIDTH:int  = 800;
@@ -46,13 +49,23 @@ package com.Game.Common
 			return _resRoot;
 		}
 		
+		/**初始化常量配置*/		
 		public static function  init():void
 		{
+			loadConfig();
+			
 			ScreenManager.screenNavigator;
 			ScreenManager.addScreen(SCREEN_WELCOME,new ScreenNavigatorItem(WelcomeScreen));
 			ScreenManager.addScreen(SCREEN_PHOTO_TEST,new ScreenNavigatorItem(PhotoTestScreen));
 			ScreenManager.addScreen(SCREEN_HEAD_TEST,new ScreenNavigatorItem(HeaderScreenTest));
 		}
+		
+		/**加载全局配置表*/
+		public static function  loadConfig():void
+		{
+			
+		}
+		
 		/***********************静态常量配置 UISCREEN屏幕*****************/
 		public static const SCREEN_WELCOME:String = "Welcome";
 		public static const SCREEN_PHOTO_TEST:String = "PhotoTest";

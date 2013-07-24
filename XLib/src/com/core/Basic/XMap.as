@@ -55,8 +55,6 @@ package com.core.Basic
 		private var _areaX:uint;	
 		/** *	显示区域Y数量*/ 
 		private var _areaY:uint;
-		/*** 当前屏幕正在渲染的坐标记录*/ 
-		private var posFlush:Array;
 		/*** 保存已经加载完成的资源*/ 
 		protected var casheMap:Object;
 		/*** 加载队列*/ 
@@ -227,96 +225,34 @@ package com.core.Basic
 		 * 更新当前需要读取的地图数据
 		 * @param	mustFlush	强制刷新
 		 */ 
-		protected function makeData(startx:int=-1,starty:int=-1):void
+		protected function makeData():void
 		{
-			// 根据00点坐标，计算地图渲染的开始区块坐标
-			if(startx==-1)
+			var maxY:uint = mapHeight/tileHeight;
+			var maxX:uint = mapWidth/tileWidth;
+			for(var y:int=0;y<maxY;y++)
 			{
-				startx = XWorld.instance.camera.zeroX/tileHeight;
-				starty = XWorld.instance.camera.zeroY/tileWidth;
-			}
-						
-			_nowStartX = startx;
-			_nowStartY = starty;
-			
-			if(posFlush!=null)
-			{
-				posFlush.splice(0,posFlush.length);
-			}else{
-				posFlush = new Array();
-			}
-			
-//			fillSmallMap(startx,starty);
-			
-			_areaX = Math.ceil(XWorld.instance.camera.viewport.width/tileWidth)+1;
-			_areaY = Math.ceil(XWorld.instance.camera.viewport.height/tileHeight)+1;
-			
-			var maxY:uint = Math.min(starty+_areaY,int(mapHeight/tileHeight));
-			var maxX:uint = Math.min(startx+_areaX,int(mapWidth/tileWidth));
-			
-			for(var y:int=starty;y<maxY;y++)
-			{
-				var temp:Array = new Array;
-				
-				for(var x:int=startx;x<maxX;x++)
+				for(var x:int=0;x<maxX;x++)
 				{	
 					var name:String = y + "_" + x;
-					temp.push(name);
-				}
-				posFlush.push(temp);
-			}
-			loadTites();
-			
-		}
-		
-		/**
-		 * 加载当前需要渲染的地图素材
-		 */ 
-		protected function loadTites():void
-		{
-			var arr:Array;
-			
-			var y:uint = 0;
-			for(var k:String in posFlush)
-			{
-				var _data:Array = posFlush[k];
-				var x:uint = 0;
-				var atf:ByteArray;
-				
-				for(var s:String in _data)
-				{
-					try
+					var path:String = Constants.resRoot+"/tiles/"+_mapid+"/"+name+".atf";
+					if( casheMap.tiles[name]==null)
 					{
-						// 先复制循环背景图名字
-						arr = _data[s].split('_');
-						
-						var name:String = Constants.resRoot+"/tiles/"+_mapid+"/"+_data[s]+".atf";
-						if( casheMap.tiles[_data[s]]==null)
-						{
-							atf = OpenFile.open(new File(name));
-							var tex:Texture = Texture.fromAtfData(atf);
-							var img:Image = new Image(tex);
-							casheMap.tiles[_data[s]]= img;			
-
-							img.x = arr[1]*tileWidth;
-							img.y = arr[0]*tileHeight;
-							addChild(img);
-						}
-						else if(casheMap.tiles[_data[s]]!=null)
-						{		
-							addChild(casheMap.tiles[_data[s]]);
-						}
-						
-					}catch(e:Error){
-						trace(e.message);
+						var atf:ByteArray = OpenFile.open(new File(path));
+						var tex:Texture = Texture.fromAtfData(atf);
+						var img:Image = new Image(tex);
+						casheMap.tiles[name]= img;			
+						img.x = x*tileWidth;
+						img.y = y*tileHeight;
+						addChild(img);
 					}
-					x++;
+					else if(casheMap.tiles[name]!=null)
+					{		
+						addChild(casheMap.tiles[name]);
+					}
 				}
-				y++;
 			}
+//			loadTites();
 			
-//			drawLoopGround();
-//			startLoad();
 		}
 		
 //		private function updateLoopBg(e:Event):void
@@ -381,7 +317,6 @@ package com.core.Basic
 		/*** 清空内存*/ 
 		private function clear():void
 		{
-			while(posFlush.length) posFlush.shift();
 			while(_arry.length) _arry.shift();
 			this.removeChildren();
 			this.removeFromParent();
