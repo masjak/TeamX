@@ -16,8 +16,8 @@ package com.Game.Common
 		public function Constants(){ throw new AbstractClassError(); }
 		
 		/***********************可配置变量****************/
-		public static var ZOOM_MAX_X:Number  = 1.5;// 场景X方向最大缩放
-		public static var ZOOM_MAX_Y:Number  = 1.5;// 场景Y方向最大缩放
+		public static var ZOOM_MAX:Number  = 1.5;// 场景X方向最大缩放
+//		public static var ZOOM_MAX_Y:Number  = 1.5;// 场景Y方向最大缩放
 		
 		/**舞台宽*/		
 		public static var STAGE_WIDTH:int  = 800;

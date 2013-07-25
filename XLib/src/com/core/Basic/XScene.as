@@ -38,7 +38,7 @@ package com.core.Basic
 			addChild(_tileMap);
 			XWorld.instance.camera.lookAt(0,0);
 			
-			_tileMap.addEventListener(TouchEvent.TOUCH,ontouch);
+			this.addEventListener(TouchEvent.TOUCH,ontouch);
 		}
 		
 		public function ontouch(te:TouchEvent):void
@@ -61,39 +61,41 @@ package com.core.Basic
 //					trace ( distance );
 					
 					//A点的当前和上一个坐标
-					var currentPosA:Point  = finger1.getLocation(_tileMap);
-					var previousPosA:Point = finger1.getPreviousLocation(_tileMap);
+					var currentPosA:Point  = finger1.getLocation(this);
+					var previousPosA:Point = finger1.getPreviousLocation(this);
 					//B点的当前和上一个坐标
-					var currentPosB:Point  = finger2.getLocation(_tileMap);
-					var previousPosB:Point = finger2.getPreviousLocation(_tileMap);
+					var currentPosB:Point  = finger2.getLocation(this);
+					var previousPosB:Point = finger2.getPreviousLocation(this);
 					//计算两个点之间的距离
 					var currentVector:Point  = currentPosA.subtract(currentPosB);
 					var previousVector:Point = previousPosA.subtract(previousPosB);
 					//缩放
 					var sizeDiff:Number = currentVector.length / previousVector.length;
-					var sx:Number = _tileMap.scaleX * sizeDiff;
-					var sy:Number = _tileMap.scaleY * sizeDiff;
+					var sx:Number = this.scaleX * sizeDiff;
+					// 约束比例
+					var scaleMode:Number = _tileMap.mapWidth/_tileMap.mapHeight;
+					var sy:Number = sx * scaleMode*(Constants.STAGE_HEIGHT/Constants.STAGE_WIDTH);
 					
 					// 约束缩放比例
 					if(_tileMap.mapWidth*sx < Constants.STAGE_WIDTH )
 					{
-						_tileMap.scaleX =  Constants.STAGE_WIDTH/_tileMap.mapWidth;
+						this.scaleX =  Constants.STAGE_WIDTH/_tileMap.mapWidth;
 					}
-					else if(sx > Constants.ZOOM_MAX_X)
+					else if(sx > Constants.ZOOM_MAX)
 					{	
-						_tileMap.scaleX = Constants.ZOOM_MAX_X;
+						this.scaleX = Constants.ZOOM_MAX;
 					}
-					else{_tileMap.scaleX = sx;}
+					else{this.scaleX = sx;}
 					
 					if(_tileMap.mapHeight*sy < Constants.STAGE_HEIGHT)
 					{
-						_tileMap.scaleY =  Constants.STAGE_HEIGHT/_tileMap.mapHeight;
+						this.scaleY =  Constants.STAGE_HEIGHT/_tileMap.mapHeight;
 					}
-					else if(sy > Constants.ZOOM_MAX_Y)
+					else if(sy >  Constants.ZOOM_MAX*scaleMode)
 					{
-						_tileMap.scaleY = Constants.ZOOM_MAX_Y;
+						this.scaleY = Constants.ZOOM_MAX*scaleMode;
 					}
-					else{_tileMap.scaleY = sy;}
+					else{this.scaleY = sy;}
 				}
 				
 				adjustMapPos();
@@ -103,9 +105,9 @@ package com.core.Basic
 			
 			
 			// 再判定触控响应
-			var touchBegin:Touch = te.getTouch(_tileMap,TouchPhase.BEGAN);
-			var touchEnd:Touch = te.getTouch(_tileMap,TouchPhase.ENDED);
-			var touchMove:Touch = te.getTouch(_tileMap,TouchPhase.MOVED);
+			var touchBegin:Touch = te.getTouch(this,TouchPhase.BEGAN);
+			var touchEnd:Touch = te.getTouch(this,TouchPhase.ENDED);
+			var touchMove:Touch = te.getTouch(this,TouchPhase.MOVED);
 			var p:Point;
 			var bp:Point;
 			
@@ -136,33 +138,33 @@ package com.core.Basic
 			{
 				trace("touch Move: x = " + touchMove.globalX + ",Y = " + touchMove.globalY);
 //				p = _tileMap.globalToLocal(new Point(touchMove.globalX,touchMove.globalY));
-				p = touchMove.getLocation(_tileMap);
-				bp = touchMove.getPreviousLocation(_tileMap);
-				var xoff:Number = (_tileMap.x + p.x - bp.x);
-				var yoff:Number = (_tileMap.y + p.y - bp.y);
+				p = touchMove.getLocation(this);
+				bp = touchMove.getPreviousLocation(this);
+				var xoff:Number = (this.x + p.x - bp.x);
+				var yoff:Number = (this.y + p.y - bp.y);
 				
 				
 				if(xoff > 0)
 				{
 					xoff = 0;
 				}
-				else if(xoff < -(_tileMap.mapWidth*_tileMap.scaleX - Constants.STAGE_WIDTH))
+				else if(xoff < -(_tileMap.mapWidth*this.scaleX - Constants.STAGE_WIDTH))
 				{
-					xoff = -(_tileMap.mapWidth*_tileMap.scaleX - Constants.STAGE_WIDTH);
+					xoff = -(_tileMap.mapWidth*this.scaleX - Constants.STAGE_WIDTH);
 				}
 				
 				if(yoff > 0)
 				{
 					yoff = 0;
 				}
-				else if(yoff < -(_tileMap.mapHeight*_tileMap.scaleY - Constants.STAGE_HEIGHT))
+				else if(yoff < -(_tileMap.mapHeight*this.scaleY - Constants.STAGE_HEIGHT))
 				{
-					yoff = -(_tileMap.mapHeight*_tileMap.scaleY - Constants.STAGE_HEIGHT);
+					yoff = -(_tileMap.mapHeight*this.scaleY - Constants.STAGE_HEIGHT);
 				}
 				
 				
-				_tileMap.x = xoff;
-				_tileMap.y = yoff;
+				this.x = xoff;
+				this.y = yoff;
 				trace("touch Move globalToLocal: x = " + p.x + ",Y = " + p.y);
 			}
 		}
@@ -170,22 +172,22 @@ package com.core.Basic
 		private function adjustMapPos():void
 		{
 			// 设置地图位置
-			if(_tileMap.x > 0)
+			if(this.x > 0)
 			{
-				_tileMap.x = 0;
+				this.x = 0;
 			}
-			else if(_tileMap.x < -(_tileMap.mapWidth*_tileMap.scaleX - Constants.STAGE_WIDTH))
+			else if(this.x < -(_tileMap.mapWidth*this.scaleX - Constants.STAGE_WIDTH))
 			{
-				_tileMap.x = -(_tileMap.mapWidth*_tileMap.scaleX - Constants.STAGE_WIDTH);
+				this.x = -(_tileMap.mapWidth*this.scaleX - Constants.STAGE_WIDTH);
 			}
 			
-			if(_tileMap.y > 0)
+			if(this.y > 0)
 			{
-				_tileMap.y = 0;
+				this.y = 0;
 			}
-			else if(_tileMap.y < -(_tileMap.mapHeight*_tileMap.scaleY - Constants.STAGE_HEIGHT))
+			else if(this.y < -(_tileMap.mapHeight*this.scaleY - Constants.STAGE_HEIGHT))
 			{
-				_tileMap.y = -(_tileMap.mapHeight*_tileMap.scaleY - Constants.STAGE_HEIGHT);
+				this.y = -(_tileMap.mapHeight*this.scaleY - Constants.STAGE_HEIGHT);
 			}
 		}
 		

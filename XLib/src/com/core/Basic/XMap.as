@@ -108,7 +108,7 @@ package com.core.Basic
 			
 			// 释放XML资源
 			System.disposeXML(xml);
-//			makeData();
+			makeData();
 			loadRoadMap();
 		}
 				
@@ -199,7 +199,7 @@ package com.core.Basic
 		
 		public function recut():void
 		{
-			makeData();
+//			makeData();
 //			draw();
 		}
 		
@@ -250,9 +250,7 @@ package com.core.Basic
 						addChild(casheMap.tiles[name]);
 					}
 				}
-			}
-//			loadTites();
-			
+			}	
 		}
 		
 //		private function updateLoopBg(e:Event):void
