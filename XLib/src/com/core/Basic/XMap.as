@@ -138,7 +138,9 @@ package com.core.Basic
 			var loader:Loader = new Loader();
 			loader.contentLoaderInfo.addEventListener(Event.COMPLETE,configRoadMap);
 			loader.contentLoaderInfo.addEventListener(IOErrorEvent.IO_ERROR,RoadLoadError);
-			loader.load(new URLRequest(LIB_DIR+"RoadMap/map"+_mapid+".png"));
+			var path:String = Constants.resRoot+"/tiles/roadmap.png";
+			
+			loader.load(new URLRequest(path));
 		}
 		
 		/*** 重置地图数据*/ 
