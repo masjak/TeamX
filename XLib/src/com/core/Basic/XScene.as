@@ -5,6 +5,7 @@ package com.core.Basic
 	
 	import flash.geom.Point;
 	
+	import starling.display.Quad;
 	import starling.events.Touch;
 	import starling.events.TouchEvent;
 	import starling.events.TouchPhase;
@@ -15,6 +16,9 @@ package com.core.Basic
 		protected var atlas:TextureAtlas;
 		protected var _tileMap:XMap;
 		protected var _sceneId:String;
+		
+		// 测试数据
+		protected var _testQuad:Quad;
 		
 		public function XScene(sceneId:String)
 		{
@@ -39,6 +43,20 @@ package com.core.Basic
 			XWorld.instance.camera.lookAt(0,0);
 			
 			this.addEventListener(TouchEvent.TOUCH,ontouch);
+			
+			// 测试寻路
+			testAstar();
+		}
+		
+		public function testAstar():void
+		{
+			if(_testQuad == null)
+			{
+				_testQuad = new Quad(100,100,0xff0000);
+			}
+			_testQuad.x = 718;
+			_testQuad.y = 387;
+			this.addChild(_testQuad);
 		}
 		
 		public function ontouch(te:TouchEvent):void
@@ -114,9 +132,15 @@ package com.core.Basic
 			// 触摸开始
 			if(touchBegin != null)
 			{
-//				bakPoint = _tileMap.globalToLocal(new Point(touchBegin.globalX,touchBegin.globalY));
+				p = touchBegin.getLocation(this);
+				var aPath:Array = XMap.AStar.find(_testQuad.x,_testQuad.y,p.x,p.y);
+				if(aPath != null)
+				{
+					_testQuad.x = p.x;
+					_testQuad.y = p.y;
+				}
 				
-				trace("touch begin: x = " + touchBegin.globalX + ",Y = " + touchBegin.globalY);
+				
 			}
 			// 触摸结束
 			if(touchEnd != null)
@@ -131,13 +155,11 @@ package com.core.Basic
 //				_tileMap.pivotX = _tileMap.x + Constants.STAGE_WIDTH >>1;
 //				_tileMap.pivotY = _tileMap.y + Constants.STAGE_HEIGHT >>1;
 				
-				trace("touch end: x = " + touchEnd.globalX + ",Y = " + touchEnd.globalY);
+
 			}
 			// 触摸滑动
 			if(touchMove != null)
 			{
-				trace("touch Move: x = " + touchMove.globalX + ",Y = " + touchMove.globalY);
-//				p = _tileMap.globalToLocal(new Point(touchMove.globalX,touchMove.globalY));
 				p = touchMove.getLocation(this);
 				bp = touchMove.getPreviousLocation(this);
 				var xoff:Number = (this.x + p.x - bp.x);

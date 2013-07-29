@@ -63,7 +63,7 @@ package com.Game.Common
 		/**加载全局配置表*/
 		public static function  loadConfig():void
 		{
-			
+			// 加载全局配置xml
 		}
 		
 		/***********************静态常量配置 UISCREEN屏幕*****************/

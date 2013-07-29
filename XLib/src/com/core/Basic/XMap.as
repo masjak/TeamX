@@ -125,7 +125,7 @@ package com.core.Basic
 			{
 				for(var x:uint = 0;x<w;x++)
 				{
-					_arry[y][x] = _roadMap.getPixel(int(tileWidth*x*_roadK),int(tileHeight*y*_roadK))==0 ? 1 : 0;
+					_arry[y][x] = _roadMap.getPixel(int(pathTileWidth*x*_roadK),int(pathTileHeight*y*_roadK))==0 ? 1 : 0;
 				}
 			}
 			_AStar = new SilzAstar(_arry);
@@ -138,9 +138,11 @@ package com.core.Basic
 			var loader:Loader = new Loader();
 			loader.contentLoaderInfo.addEventListener(Event.COMPLETE,configRoadMap);
 			loader.contentLoaderInfo.addEventListener(IOErrorEvent.IO_ERROR,RoadLoadError);
-			var path:String = Constants.resRoot+"/tiles/roadmap.png";
-			
-			loader.load(new URLRequest(path));
+			var path:String = Constants.resRoot+"/tiles/" + _mapid +"/roadmap.png";
+			var f:File = new File(path);
+			var ba:ByteArray = OpenFile.open(f);
+			loader.loadBytes(ba);//读取ByteArray    
+//			loader.load(new URLRequest(path));
 		}
 		
 		/*** 重置地图数据*/ 
