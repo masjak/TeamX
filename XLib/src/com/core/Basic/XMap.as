@@ -1,6 +1,5 @@
 package com.core.Basic
 {
-	import com.D5Power.core.SilzAstar;
 	import com.Game.Common.Constants;
 	import com.core.Astar.SilzAstar;
 	import com.core.Math.FastRectangleTools;
@@ -17,13 +16,11 @@ package com.core.Basic
 	import flash.filesystem.File;
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
-	import flash.net.URLRequest;
 	import flash.system.System;
 	import flash.utils.ByteArray;
 	
 	import starling.display.Image;
 	import starling.textures.Texture;
-	import starling.utils.RectangleUtil;
 
 	public class XMap extends XSprite
 	{
@@ -63,8 +60,6 @@ package com.core.Basic
 		private var _arry:Array;	
 		/** * 循环背景数据 */ 
 		protected var _loop_bg_data:BitmapData;
-		
-		
 		/*** 用于返回数据的点对象，已防止转换坐标的时候重复进行new操作*/ 
 		private var _turnResult:Point;
 		/*** 常量 寻路格子宽度*/
@@ -80,11 +75,18 @@ package com.core.Basic
 		/*** 路点位图*/ 
 		private var _roadMap:BitmapData;
 		
+		//////////////////////////////////////////////////////////////////////////
+		/*** 场景底图层*/ 
+		private var mapLayer:XSprite;
+		
 		public function XMap(mapId:String)
 		{
 			_mapid = mapId;
 			casheMap = {tiles:new Object()};
 			_arry = new Array;
+			
+			mapLayer = new XSprite;
+			addChild(mapLayer);
 			praseData();
 		}
 		
@@ -247,11 +249,11 @@ package com.core.Basic
 						casheMap.tiles[name]= img;			
 						img.x = x*tileWidth;
 						img.y = y*tileHeight;
-						addChild(img);
+						mapLayer.addChild(img);
 					}
 					else if(casheMap.tiles[name]!=null)
 					{		
-						addChild(casheMap.tiles[name]);
+						mapLayer.addChild(casheMap.tiles[name]);
 					}
 				}
 			}	
@@ -328,6 +330,8 @@ package com.core.Basic
 		override public function dispose():void
 		{
 			clear();
+			mapLayer.dispose();
+			mapLayer = null;
 			casheMap = null;
 		}
 		

@@ -17,7 +17,8 @@ package com.Game.Common
 		
 		/***********************可配置变量****************/
 		public static var ZOOM_MAX:Number  = 1.5;// 场景X方向最大缩放
-//		public static var ZOOM_MAX_Y:Number  = 1.5;// 场景Y方向最大缩放
+		public static var SCENE_MASK_COLOR:uint  = 0x0b0c18;// 场景夜晚遮罩颜色
+		public static var SCENE_MASK_APHLA:Number  = 0.55;// 场景夜晚遮罩透明度
 		
 		/**舞台宽*/		
 		public static var STAGE_WIDTH:int  = 800;

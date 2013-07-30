@@ -2,13 +2,21 @@ package com.core.Basic
 {
 	
 	import com.Game.Common.Constants;
+	import com.core.Utils.File.OpenFile;
 	
+	import flash.display.BitmapData;
+	import flash.display.Shape;
+	import flash.filesystem.File;
 	import flash.geom.Point;
+	import flash.utils.ByteArray;
 	
+	import starling.display.BlendMode;
+	import starling.display.Image;
 	import starling.display.Quad;
 	import starling.events.Touch;
 	import starling.events.TouchEvent;
 	import starling.events.TouchPhase;
+	import starling.textures.Texture;
 	import starling.textures.TextureAtlas;
 
 	public class XScene extends XSprite
@@ -17,18 +25,37 @@ package com.core.Basic
 		protected var _tileMap:XMap;
 		protected var _sceneId:String;
 		
+		/**地图层*/	
+		protected var mapLayer:XSprite = new XSprite;
+		/**建筑层*/
+		protected var builderLayer:XSprite = new XSprite;
+		/**特殊场合蒙层*/	
+		protected var maskLayer:XSprite = new XSprite;
+		/**单位层*/	
+		protected var uintLayer:XSprite = new XSprite;
+		/**光效层*/	
+		protected var lightLayer:XSprite = new XSprite;
+		
+		/**场景额外的遮罩层*/		
+		protected var maskLayerTex:Texture;
+		protected var maskLayerImg:Image;
+		
+		/**建筑*/	
+		protected var builders:Object = new Object;
+		/**光影*/	
+		protected var lights:Object = new Object;
+		
 		// 测试数据
 		protected var _testQuad:Quad;
 		
 		public function XScene(sceneId:String)
 		{
 			_sceneId = sceneId;
-			init();
-		}
-		
-		public function init():void
-		{
-			
+			addChild(mapLayer);
+			addChild(builderLayer);
+			addChild(maskLayer);
+			addChild(uintLayer);
+			addChild(lightLayer);
 		}
 		
 		public function get tileMap():XMap
@@ -39,13 +66,69 @@ package com.core.Basic
 		public function setUp():void
 		{
 			_tileMap = new XMap(_sceneId);
-			addChild(_tileMap);
+			mapLayer.addChild(_tileMap);
 			XWorld.instance.camera.lookAt(0,0);
 			
 			this.addEventListener(TouchEvent.TOUCH,ontouch);
 			
+			// 创建建筑
+			createbuilders();
+			
+			// 生成遮罩
+			createMaskLayer();
+			
+			// 光影
+			createlights();
+			
 			// 测试寻路
-			testAstar();
+//			testAstar();
+		}
+		
+		/** 创建光影*/		
+		public function createlights():void
+		{
+			var path:String = Constants.resRoot+"/tiles/1/light.atf";
+			var ba:ByteArray = OpenFile.open(new File(path));
+			var tex:Texture = Texture.fromAtfData(ba);
+			var img:Image = new Image(tex);
+			img.x = 430;
+			img.y = 0;
+			
+			lights["house_light"] = img;
+			lightLayer.addChild(img);
+		}
+		
+		/** 创建建筑*/		
+		public function createbuilders():void
+		{
+			var path:String = Constants.resRoot+"/tiles/1/house_day.atf";
+			var ba:ByteArray = OpenFile.open(new File(path));
+			var tex:Texture = Texture.fromAtfData(ba);
+			var img:Image = new Image(tex);
+			img.x = 430;
+			img.y = 0;
+			
+			builders["house_light"] = img;
+			builderLayer.addChild(img);
+			
+		}
+		
+		/** 创建场景蒙层 比如夜晚*/		
+		public function createMaskLayer():void
+		{
+			// 生成遮罩
+			var s:Shape = new Shape();
+			s.graphics.beginFill(Constants.SCENE_MASK_COLOR,Constants.SCENE_MASK_APHLA);
+			s.graphics.drawRect(0,0,_tileMap.mapWidth,_tileMap.mapHeight);
+			s.graphics.endFill();
+			var bd:BitmapData = new BitmapData(_tileMap.mapWidth,_tileMap.mapHeight,true,0);
+			bd.draw(s);
+			
+			maskLayerTex = Texture.fromBitmapData(bd);
+			maskLayerImg = new Image(maskLayerTex);
+//			maskLayerImg.blendMode = BlendMode.ADD;
+			
+			maskLayer.addChild(maskLayerImg);
 		}
 		
 		public function testAstar():void
@@ -56,6 +139,7 @@ package com.core.Basic
 			}
 			_testQuad.x = 718;
 			_testQuad.y = 387;
+			_testQuad.blendMode = BlendMode.ADD;
 			this.addChild(_testQuad);
 		}
 		
@@ -132,13 +216,13 @@ package com.core.Basic
 			// 触摸开始
 			if(touchBegin != null)
 			{
-				p = touchBegin.getLocation(this);
-				var aPath:Array = XMap.AStar.find(_testQuad.x,_testQuad.y,p.x,p.y);
-				if(aPath != null)
-				{
-					_testQuad.x = p.x;
-					_testQuad.y = p.y;
-				}
+//				p = touchBegin.getLocation(this);
+//				var aPath:Array = XMap.AStar.find(_testQuad.x,_testQuad.y,p.x,p.y);
+//				if(aPath != null)
+//				{
+//					_testQuad.x = p.x;
+//					_testQuad.y = p.y;
+//				}
 				
 				
 			}
@@ -147,7 +231,7 @@ package com.core.Basic
 			{
 				adjustMapPos();
 				
-				XWorld.instance.camera.setZero(-_tileMap.x,-_tileMap.y );
+				XWorld.instance.camera.setZero(-this.x,-this.y );
 				XWorld.instance.camera.update();
 				recut();
 				

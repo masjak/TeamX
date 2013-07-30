@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 被2011 rel. 2 sp1 (haog) 使用XMLSpy vmf编辑的 (http://www.altova.com) by -->
+<Root>
+	<Scene Id="1" mapconf="/tiles/1/mapconf.d5" roadmap="/tiles/1/roadmap.png" atf="/tiles/1/{0}.atf"/>
+</Root>
