@@ -173,31 +173,73 @@ package com.core.Basic
 					var previousVector:Point = previousPosA.subtract(previousPosB);
 					//缩放
 					var sizeDiff:Number = currentVector.length / previousVector.length;
-					var sx:Number = this.scaleX * sizeDiff;
-					// 约束比例
-					var scaleMode:Number = _tileMap.mapWidth/_tileMap.mapHeight;
-					var sy:Number = sx * scaleMode*(Constants.STAGE_HEIGHT/Constants.STAGE_WIDTH);
+					// 按照最小的缩放比例约束
+					// 如果分辨率长大于高 以较小的高作为缩放标准
+					if((_tileMap.mapWidth/Constants.STAGE_WIDTH) > (_tileMap.mapHeight/Constants.STAGE_HEIGHT))
+					{
+						var sy:Number = this.scaleY * sizeDiff;		
+						if(sy < Constants.STAGE_HEIGHT/_tileMap.mapHeight)
+						{
+							this.scaleY =  Constants.STAGE_HEIGHT/_tileMap.mapHeight;
+						}
+						else if(sy >  Constants.ZOOM_MAX)
+						{
+							this.scaleY = Constants.ZOOM_MAX;
+						}
+						else
+						{
+							this.scaleY = sy;
+						}
+						this.scaleX = this.scaleY;
+					}
+					else
+					{
+						var sx:Number = this.scaleX * sizeDiff;	
+						if(_tileMap.mapWidth*sx < Constants.STAGE_WIDTH )
+						{
+							this.scaleX =  Constants.STAGE_WIDTH/_tileMap.mapWidth;
+						}
+						else if(sx > Constants.ZOOM_MAX)
+						{	
+							this.scaleX = Constants.ZOOM_MAX;
+						}
+						else
+						{
+							this.scaleX = sx;
+						}
+						this.scaleY =this.scaleX;
+					}
 					
-					// 约束缩放比例
-					if(_tileMap.mapWidth*sx < Constants.STAGE_WIDTH )
-					{
-						this.scaleX =  Constants.STAGE_WIDTH/_tileMap.mapWidth;
-					}
-					else if(sx > Constants.ZOOM_MAX)
-					{	
-						this.scaleX = Constants.ZOOM_MAX;
-					}
-					else{this.scaleX = sx;}
 					
-					if(_tileMap.mapHeight*sy < Constants.STAGE_HEIGHT)
-					{
-						this.scaleY =  Constants.STAGE_HEIGHT/_tileMap.mapHeight;
-					}
-					else if(sy >  Constants.ZOOM_MAX*scaleMode)
-					{
-						this.scaleY = Constants.ZOOM_MAX*scaleMode;
-					}
-					else{this.scaleY = sy;}
+					
+					
+//					var sx:Number = this.scaleX * sizeDiff;
+//					// 约束比例
+//					var scaleMode:Number = _tileMap.mapWidth/_tileMap.mapHeight;
+//					
+//					
+//					// 约束缩放比例
+//					if(_tileMap.mapWidth*sx < Constants.STAGE_WIDTH )
+//					{
+//						this.scaleX =  Constants.STAGE_WIDTH/_tileMap.mapWidth;
+//					}
+//					else if(sx > Constants.ZOOM_MAX)
+//					{	
+//						this.scaleX = Constants.ZOOM_MAX;
+//					}
+//					else{this.scaleX = sx;}
+//					
+//					var sy:Number = this.scaleX * sizeDiff * scaleMode*(Constants.STAGE_HEIGHT/Constants.STAGE_WIDTH);
+//					
+//					if(_tileMap.mapHeight*sy < Constants.STAGE_HEIGHT)
+//					{
+//						this.scaleY =  Constants.STAGE_HEIGHT/_tileMap.mapHeight;
+//					}
+//					else if(sy >  this.scaleX*scaleMode)
+//					{
+//						this.scaleY = this.scaleX*scaleMode;
+//					}
+//					else{this.scaleY = sy;}
 				}
 				
 				adjustMapPos();
@@ -271,7 +313,7 @@ package com.core.Basic
 				
 				this.x = xoff;
 				this.y = yoff;
-				trace("touch Move globalToLocal: x = " + p.x + ",Y = " + p.y);
+				trace("touch : x = " + xoff + ",Y = " + yoff);
 			}
 		}
 		
