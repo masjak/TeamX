@@ -1,8 +1,8 @@
 package
 {
 	import com.core.Basic.XGame;
-	import com.Game.Common.Constants;
-	import com.Game.Common.Singleton;
+	import com.core.Common.Constants;
+	import com.core.Common.Singleton;
 	
 	import flash.display.Sprite;
 	import flash.display.StageAlign;

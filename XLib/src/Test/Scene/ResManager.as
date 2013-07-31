@@ -1,8 +1,8 @@
 package Test.Scene
 {
-	import com.Game.Common.Constants;
-	import com.Game.Common.PlatformManager;
-	import com.Game.Common.Singleton;
+	import com.core.Common.Constants;
+	import com.core.Common.PlatformManager;
+	import com.core.Common.Singleton;
 	import com.core.Utils.File.OpenFile;
 	
 	import flash.filesystem.File;

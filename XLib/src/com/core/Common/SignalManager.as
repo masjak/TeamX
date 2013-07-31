@@ -1,4 +1,4 @@
-package com.Game.Common
+package com.core.Common
 {
 	import org.osflash.signals.DeluxeSignal;
 	import org.osflash.signals.events.GenericEvent;

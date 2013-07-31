@@ -1,14 +1,11 @@
 package com.Game.GameScreen
 {
-	import com.Game.Common.Constants;
-	import com.Game.Common.SceneManager;
-	import com.Game.Common.ScreenManager;
-	import com.core.Basic.XScene;
+	import com.core.Common.Constants;
+	import com.core.Common.ScreenManager;
 	
 	import feathers.controls.Button;
 	import feathers.controls.Screen;
 	
-	import starling.display.Image;
 	import starling.events.Event;
 	
 	public class WelcomeScreen extends Screen

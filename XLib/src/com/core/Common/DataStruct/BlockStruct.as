@@ -1,4 +1,4 @@
-package com.Game.Common.DataStruct
+package com.core.Common.DataStruct
 {
 	public class BlockStruct
 	{

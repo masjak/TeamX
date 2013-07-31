@@ -1,7 +1,7 @@
 package com.core.Basic
 {
 
-	import com.Game.Common.Constants;
+	import com.core.Common.Constants;
 	
 	import flash.events.TimerEvent;
 	import flash.geom.Point;
@@ -65,11 +65,11 @@ package com.core.Basic
 			_zeroX = x;
 			_zeroY = y;
 			
-			var value:Number = _scene.tileMap.mapWidth - Constants.STAGE_WIDTH;
+			var value:Number = _scene.sceneData.mapWidth - Constants.STAGE_WIDTH;
 			_zeroX = _zeroX<0 ? 0 : _zeroX;
 			_zeroX = _zeroX>value ? value : _zeroX;
 			
-			value = _scene.tileMap.mapHeight - Constants.STAGE_HEIGHT;
+			value = _scene.sceneData.mapHeight - Constants.STAGE_HEIGHT;
 			_zeroY = _zeroY<0 ? 0 : _zeroY;
 			_zeroY = _zeroY>value ? value : _zeroY;
 			
@@ -87,11 +87,11 @@ package com.core.Basic
 				_zeroX = _focus.PosX - (Constants.STAGE_WIDTH>>1);
 				_zeroY = _focus.PosY - (Constants.STAGE_HEIGHT>>1);
 				
-				var value:Number = _scene.tileMap.mapWidth - Constants.STAGE_WIDTH;
+				var value:Number = _scene.sceneData.mapWidth - Constants.STAGE_WIDTH;
 				_zeroX = _zeroX<0 ? 0 : _zeroX;
 				_zeroX = _zeroX>value ? value : _zeroX;
 				
-				value = _scene.tileMap.mapHeight - Constants.STAGE_HEIGHT;
+				value = _scene.sceneData.mapHeight - Constants.STAGE_HEIGHT;
 				_zeroY = _zeroY<0 ? 0 : _zeroY;
 				_zeroY = _zeroY>value ? value : _zeroY;
 			}

@@ -1,4 +1,4 @@
-package com.Game.Common
+package com.core.Common
 {
 	public interface IDispose
 	{

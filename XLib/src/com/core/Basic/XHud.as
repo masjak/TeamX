@@ -1,7 +1,7 @@
 package com.core.Basic
 {
-	import com.Game.Common.Constants;
-	import com.Game.Common.Singleton;
+	import com.core.Common.Constants;
+	import com.core.Common.Singleton;
 	import com.Game.GameScreen.MainScreen;
 	
 	import starling.display.Sprite;

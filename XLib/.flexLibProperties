@@ -9,12 +9,14 @@
     <classEntry path="com.Game.GameSceneLayer"/>
     <classEntry path="com.Game.GameScreen.HeaderScreenTest"/>
     <classEntry path="com.core.Utils.UtilImage"/>
-    <classEntry path="com.Game.Common.SceneManager"/>
     <classEntry path="com.Game.Common.DataStruct.SceneStruct"/>
     <classEntry path="com.Game.GameScreen.MainScreen"/>
     <classEntry path="com.Game.Common.DataStruct.AtlasStruct"/>
     <classEntry path="com.Game.Common.DataStruct.BlockStruct"/>
     <classEntry path="com.core.Utils.Util"/>
+    <classEntry path="com.core.Common.DataStruct.IDataStruct"/>
+    <classEntry path="com.core.Common.DataStruct.SceneDataStruct"/>
+    <classEntry path="com.core.Common.DataStruct.buildersDataStruct"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

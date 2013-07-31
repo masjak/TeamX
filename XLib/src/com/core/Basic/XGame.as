@@ -1,9 +1,9 @@
 package com.core.Basic
 {
-	import com.Game.Common.Constants;
-	import com.Game.Common.SceneManager;
-	import com.Game.Common.ScreenManager;
-	import com.Game.Common.Singleton;
+	import com.core.Common.Constants;
+	import com.core.Common.SceneManager;
+	import com.core.Common.ScreenManager;
+	import com.core.Common.Singleton;
 	
 	import feathers.themes.MetalWorksMobileTheme;
 	

@@ -1,7 +1,8 @@
-package com.Game.Common
+package com.core.Common
 {
 	import com.Game.GameScreen.HeaderScreenTest;
 	import com.Game.GameScreen.PhotoTestScreen;
+	import com.Game.GameScreen.SceneStateTest;
 	import com.Game.GameScreen.WelcomeScreen;
 	
 	import flash.filesystem.File;
@@ -59,6 +60,7 @@ package com.Game.Common
 			ScreenManager.addScreen(SCREEN_WELCOME,new ScreenNavigatorItem(WelcomeScreen));
 			ScreenManager.addScreen(SCREEN_PHOTO_TEST,new ScreenNavigatorItem(PhotoTestScreen));
 			ScreenManager.addScreen(SCREEN_HEAD_TEST,new ScreenNavigatorItem(HeaderScreenTest));
+			ScreenManager.addScreen(SCREEN_SCENE_STATE_TEST,new ScreenNavigatorItem(SceneStateTest));
 		}
 		
 		/**加载全局配置表*/
@@ -71,23 +73,23 @@ package com.Game.Common
 		public static const SCREEN_WELCOME:String = "Welcome";
 		public static const SCREEN_PHOTO_TEST:String = "PhotoTest";
 		public static const SCREEN_HEAD_TEST:String = "HeadTest";
-		
+		public static const SCREEN_SCENE_STATE_TEST:String = "SceneStateTest";
 		
 		/***********************游戏运行平台类型*****************/
 		public static const PLATFORM_UNKNOW:int = 0;
-		public static const PLATFORM_ANDROID:int = 1;
-		public static const PLATFORM_IOS:int = 2;
-		public static const PLATFORM_WINDOW:int = 3;
-		public static const PLATFORM_MAC:int = 4;
+		public static const PLATFORM_ANDROID:int = 1;// 安卓平台
+		public static const PLATFORM_IOS:int = 2;			// IOS平台
+		public static const PLATFORM_WINDOW:int = 3;// window平台
+		public static const PLATFORM_MAC:int = 4;		// mac平台
 		
 		
 		/***********************静态常量配置 信号事件*****************/
 		public static const SIGNAL_STARLING_INIT:String = "StarlingInit";
 		
 		
-		
-		
-		
+		/***********************场景的状态*****************/
+		public static const SCENE_STATE_DAY:int = 1;			// 白天
+		public static const SCENE_STATE_NIGHT:int = 2;			// 晚上
 		
 		
 	}

@@ -1,7 +1,7 @@
 package Welcome
 {
-	import com.Game.Common.Constants;
-	import com.Game.Common.Singleton;
+	import com.core.Common.Constants;
+	import com.core.Common.Singleton;
 	
 	import flash.display.Bitmap;
 	import flash.display.Sprite;

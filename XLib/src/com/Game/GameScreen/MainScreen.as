@@ -1,7 +1,7 @@
 package com.Game.GameScreen
 {
-	import com.Game.Common.Constants;
-	import com.Game.Common.ScreenManager;
+	import com.core.Common.Constants;
+	import com.core.Common.ScreenManager;
 	import com.core.Utils.UtilImage;
 	
 	import flash.display.Bitmap;
@@ -49,20 +49,22 @@ package com.Game.GameScreen
 			btnMainMenu.label = "主菜单";
 			btnMainMenu.validate();
 			btnMainMenu.addEventListener(Event.TRIGGERED, onTriggeredMain);
+			btnMainMenu.x = (Constants.STAGE_WIDTH - Constants.STAGE_WIDTH*0.15);
+			btnMainMenu.y = (Constants.STAGE_HEIGHT - Constants.STAGE_HEIGHT*0.1);
 			addChild(btnMainMenu);
-			ScreenManager.getTextureByBLock("Dog",getTextureByBLockCompl);
+//			ScreenManager.getTextureByBLock("Dog",getTextureByBLockCompl);
 		}
 		
-		private function getTextureByBLockCompl(t:Texture):void
-		{
-			btnMainMenu.defaultIcon = new Image(t);
-			btnMainMenu.x = (Constants.STAGE_WIDTH - btnMainMenu.defaultIcon.width);
-			btnMainMenu.y = (Constants.STAGE_HEIGHT - btnMainMenu.defaultIcon.height);
-		}
+//		private function getTextureByBLockCompl(t:Texture):void
+//		{
+//			btnMainMenu.defaultIcon = new Image(t);
+//			btnMainMenu.x = (Constants.STAGE_WIDTH - btnMainMenu.defaultIcon.width);
+//			btnMainMenu.y = (Constants.STAGE_HEIGHT - btnMainMenu.defaultIcon.height);
+//		}
 		
 		private function onTriggeredMain(event:Event):void
 		{
-			ScreenManager.showScreen(Constants.SCREEN_WELCOME);
+			ScreenManager.showScreen(Constants.SCREEN_SCENE_STATE_TEST);
 		}
 		
 		override public function dispose():void

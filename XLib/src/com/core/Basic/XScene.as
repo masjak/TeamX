@@ -1,14 +1,20 @@
 package com.core.Basic
 {
 	
-	import com.Game.Common.Constants;
+	import com.core.Common.Constants;
+	import com.core.Common.DataStruct.SceneDataStruct;
+	import com.core.Common.DataStruct.buildersDataStruct;
+	import com.core.Common.DataStruct.lightsDataStruct;
 	import com.core.Utils.File.OpenFile;
 	
 	import flash.display.BitmapData;
 	import flash.display.Shape;
+	import flash.events.TimerEvent;
 	import flash.filesystem.File;
 	import flash.geom.Point;
 	import flash.utils.ByteArray;
+	import flash.utils.Timer;
+	import flash.utils.getTimer;
 	
 	import starling.display.BlendMode;
 	import starling.display.Image;
@@ -22,8 +28,9 @@ package com.core.Basic
 	public class XScene extends XSprite
 	{		
 		protected var atlas:TextureAtlas;
+		protected var state:int;
 		protected var _tileMap:XMap;
-		protected var _sceneId:String;
+		protected var _sds:SceneDataStruct;
 		
 		/**地图层*/	
 		protected var mapLayer:XSprite = new XSprite;
@@ -48,9 +55,10 @@ package com.core.Basic
 		// 测试数据
 		protected var _testQuad:Quad;
 		
-		public function XScene(sceneId:String)
+		public function XScene(sds:SceneDataStruct)
 		{
-			_sceneId = sceneId;
+			_sds = sds;
+			state = _sds.initState;
 			addChild(mapLayer);
 			addChild(builderLayer);
 			addChild(maskLayer);
@@ -58,77 +66,203 @@ package com.core.Basic
 			addChild(lightLayer);
 		}
 		
-		public function get tileMap():XMap
+		public function get sceneData():SceneDataStruct{return _sds;}
+		public function get sceneState():int{ return state; }
+		public function set sceneState(s:int):void
 		{
-			return _tileMap;
+			if(s == state)
+			{
+				return;
+			}
+			state = s;
+			init();
 		}
 		
 		public function setUp():void
 		{
-			_tileMap = new XMap(_sceneId);
+			_tileMap = new XMap(_sds);
 			mapLayer.addChild(_tileMap);
 			XWorld.instance.camera.lookAt(0,0);
-			
 			this.addEventListener(TouchEvent.TOUCH,ontouch);
 			
-			// 创建建筑
-			createbuilders();
-			
-			// 生成遮罩
-			createMaskLayer();
-			
-			// 光影
-			createlights();
-			
+			init();
+		}
+		
+		protected function init():void
+		{
+//			createbuilders();// 创建建筑
+			createMaskLayer();// 生成遮罩
+//			createlights();// 光影
 			// 测试寻路
-//			testAstar();
+			//			testAstar();
+		}
+		
+		/** 创建光影组*/		
+		protected function createlights():void
+		{
+			var lo:Object = _sds.lights;
+			for (var s:String in lo)
+			{
+				createlight(lo[s]);
+			}
 		}
 		
 		/** 创建光影*/		
-		public function createlights():void
+		protected function createlight(los:lightsDataStruct):void
 		{
-			var path:String = Constants.resRoot+"/tiles/1/light.atf";
-			var ba:ByteArray = OpenFile.open(new File(path));
-			var tex:Texture = Texture.fromAtfData(ba);
-			var img:Image = new Image(tex);
-			img.x = 430;
-			img.y = 0;
+			var img:Image = lights[los.name];
+			if(img != null)
+			{
+				if((los.State & this.state))
+				{
+					if(!lightLayer.contains(img))
+					{
+						lightLayer.addChild(img);
+					}
+				}
+				else
+				{
+					lightLayer.removeChild(img);
+				}
+			}
+			else
+			{
+				var path:String = Constants.resRoot+los.path;
+				var ba:ByteArray = OpenFile.open(new File(path));
+				var tex:Texture = Texture.fromAtfData(ba);
+				img = new Image(tex);
+				img.x = los.PosX;
+				img.y = los.PosY;
+				lights[los.name] = img;
+				if((los.State & this.state))
+				{
+					if(!lightLayer.contains(img))
+					{
+						lightLayer.addChild(img);
+					}
+				}
+				else
+				{
+					lightLayer.removeChild(img);
+				}
+			}
 			
-			lights["house_light"] = img;
-			lightLayer.addChild(img);
+			
 		}
 		
-		/** 创建建筑*/		
-		public function createbuilders():void
+		/** 创建建筑群*/		
+		protected function createbuilders():void
 		{
-			var path:String = Constants.resRoot+"/tiles/1/house_day.atf";
-			var ba:ByteArray = OpenFile.open(new File(path));
-			var tex:Texture = Texture.fromAtfData(ba);
-			var img:Image = new Image(tex);
-			img.x = 430;
-			img.y = 0;
-			
-			builders["house_light"] = img;
-			builderLayer.addChild(img);
+			var bo:Object = _sds.builders;
+			for (var s:String in bo)
+			{
+				createbuilder(bo[s]);
+			}
+		}
+		
+		/** 创建建筑*/
+		public function createbuilder(bds:buildersDataStruct):void
+		{
+			var img:Image = builders[bds.name];
+			if(img != null)
+			{
+				if((bds.State & this.state))
+				{
+					if(!builderLayer.contains(img))
+					{
+						builderLayer.addChild(img);
+					}
+				}
+				else
+				{
+					builderLayer.removeChild(img);
+				}
+			}
+			else
+			{
+				var path:String = Constants.resRoot+bds.path;
+				var ba:ByteArray = OpenFile.open(new File(path));
+				var tex:Texture = Texture.fromAtfData(ba);
+				img = new Image(tex);
+				img.x = bds.PosX;
+				img.y = bds.PosY;
+				builders[bds.name] = img;
+				if((bds.State & this.state))
+				{
+					if(!builderLayer.contains(img))
+					{
+						builderLayer.addChild(img);
+					}
+				}
+				else
+				{
+					builderLayer.removeChild(img);
+				}
+			}
 			
 		}
 		
 		/** 创建场景蒙层 比如夜晚*/		
-		public function createMaskLayer():void
+		protected function createMaskLayer():void
 		{
+			// 晚上变白天 遮罩要去掉
+			var bDay:Boolean = false;
+			if(this.state == Constants.SCENE_STATE_DAY)
+			{
+//				createbuilders();// 创建建筑
+//				createlights();// 光影
+//				return;
+				bDay = true;
+			}
+			
 			// 生成遮罩
-			var s:Shape = new Shape();
-			s.graphics.beginFill(Constants.SCENE_MASK_COLOR,Constants.SCENE_MASK_APHLA);
-			s.graphics.drawRect(0,0,_tileMap.mapWidth,_tileMap.mapHeight);
-			s.graphics.endFill();
-			var bd:BitmapData = new BitmapData(_tileMap.mapWidth,_tileMap.mapHeight,true,0);
-			bd.draw(s);
+			if(maskLayerImg == null)
+			{
+				var s:Shape = new Shape();
+				s.graphics.beginFill(Constants.SCENE_MASK_COLOR,Constants.SCENE_MASK_APHLA);
+				s.graphics.drawRect(0,0,_sds.mapWidth,_sds.mapHeight);
+				s.graphics.endFill();
+				var bd:BitmapData = new BitmapData(_sds.mapWidth,_sds.mapHeight,true,0);
+				bd.draw(s);
+				maskLayerTex = Texture.fromBitmapData(bd);
+				maskLayerImg = new Image(maskLayerTex);
+				maskLayerImg.alpha = 0;
+			}
+			if(!maskLayer.contains(maskLayerImg))
+			{
+				maskLayer.addChild(maskLayerImg);
+			}
+
+			var ter:Timer = new Timer(50,10);
+			ter.addEventListener(TimerEvent.TIMER,ontimer);
+			ter.addEventListener(TimerEvent.TIMER_COMPLETE,oncomplete);
+			ter.start();
 			
-			maskLayerTex = Texture.fromBitmapData(bd);
-			maskLayerImg = new Image(maskLayerTex);
-//			maskLayerImg.blendMode = BlendMode.ADD;
+			function ontimer(te:TimerEvent):void
+			{
+				if(bDay)
+				{
+					maskLayerImg.alpha -= .1;
+				}
+				else
+				{
+					maskLayerImg.alpha += .1;
+				}
+			}
 			
-			maskLayer.addChild(maskLayerImg);
+			function oncomplete(te:TimerEvent):void
+			{
+				ter.removeEventListener(TimerEvent.TIMER,ontimer);
+				ter.removeEventListener(TimerEvent.TIMER_COMPLETE,oncomplete);
+				if(bDay)
+				{
+					removeChild(maskLayerImg);
+				}
+				createbuilders();// 创建建筑
+				createlights();// 光影
+			}
+			
+			
 		}
 		
 		public function testAstar():void
@@ -173,14 +307,17 @@ package com.core.Basic
 					var previousVector:Point = previousPosA.subtract(previousPosB);
 					//缩放
 					var sizeDiff:Number = currentVector.length / previousVector.length;
-					// 按照最小的缩放比例约束
+
+					var bakScaleX:Number = this.scaleX;
+					var bakScaleY:Number = this.scaleY;
+					
 					// 如果分辨率长大于高 以较小的高作为缩放标准
-					if((_tileMap.mapWidth/Constants.STAGE_WIDTH) > (_tileMap.mapHeight/Constants.STAGE_HEIGHT))
+					if((_sds.mapWidth/Constants.STAGE_WIDTH) > (_sds.mapHeight/Constants.STAGE_HEIGHT))
 					{
 						var sy:Number = this.scaleY * sizeDiff;		
-						if(sy < Constants.STAGE_HEIGHT/_tileMap.mapHeight)
+						if(sy < Constants.STAGE_HEIGHT/_sds.mapHeight)
 						{
-							this.scaleY =  Constants.STAGE_HEIGHT/_tileMap.mapHeight;
+							this.scaleY =  Constants.STAGE_HEIGHT/_sds.mapHeight;
 						}
 						else if(sy >  Constants.ZOOM_MAX)
 						{
@@ -195,9 +332,9 @@ package com.core.Basic
 					else
 					{
 						var sx:Number = this.scaleX * sizeDiff;	
-						if(_tileMap.mapWidth*sx < Constants.STAGE_WIDTH )
+						if(_sds.mapWidth*sx < Constants.STAGE_WIDTH )
 						{
-							this.scaleX =  Constants.STAGE_WIDTH/_tileMap.mapWidth;
+							this.scaleX =  Constants.STAGE_WIDTH/_sds.mapWidth;
 						}
 						else if(sx > Constants.ZOOM_MAX)
 						{	
@@ -210,111 +347,83 @@ package com.core.Basic
 						this.scaleY =this.scaleX;
 					}
 					
+					// 缩放后对坐标进行补偿 看起来是按照中心点缩放的
+					var offerX:Number = (this.scaleX - bakScaleX)*_sds.mapWidth/2;
+					var offerY:Number = (this.scaleY - bakScaleY)*_sds.mapHeight/2;
+					trace("offerX:" + offerX + ",offerY:" + offerY);
+					
+					this.x -= offerX;
+					this.y -= offerY;
+					adjustMapPos();			
+				}
+			}
+			else if ( touches.length == 1 )
+			{
+				// 再判定触控响应
+				var touchBegin:Touch = te.getTouch(this,TouchPhase.BEGAN);
+				var touchEnd:Touch = te.getTouch(this,TouchPhase.ENDED);
+				var touchMove:Touch = te.getTouch(this,TouchPhase.MOVED);
+				var p:Point;
+				var bp:Point;
+				
+				// 触摸开始
+				if(touchBegin != null)
+				{
+					//				p = touchBegin.getLocation(this);
+					//				var aPath:Array = XMap.AStar.find(_testQuad.x,_testQuad.y,p.x,p.y);
+					//				if(aPath != null)
+					//				{
+					//					_testQuad.x = p.x;
+					//					_testQuad.y = p.y;
+					//				}
 					
 					
+				}
+				// 触摸结束
+				if(touchEnd != null)
+				{
+					adjustMapPos();
 					
-//					var sx:Number = this.scaleX * sizeDiff;
-//					// 约束比例
-//					var scaleMode:Number = _tileMap.mapWidth/_tileMap.mapHeight;
-//					
-//					
-//					// 约束缩放比例
-//					if(_tileMap.mapWidth*sx < Constants.STAGE_WIDTH )
-//					{
-//						this.scaleX =  Constants.STAGE_WIDTH/_tileMap.mapWidth;
-//					}
-//					else if(sx > Constants.ZOOM_MAX)
-//					{	
-//						this.scaleX = Constants.ZOOM_MAX;
-//					}
-//					else{this.scaleX = sx;}
-//					
-//					var sy:Number = this.scaleX * sizeDiff * scaleMode*(Constants.STAGE_HEIGHT/Constants.STAGE_WIDTH);
-//					
-//					if(_tileMap.mapHeight*sy < Constants.STAGE_HEIGHT)
-//					{
-//						this.scaleY =  Constants.STAGE_HEIGHT/_tileMap.mapHeight;
-//					}
-//					else if(sy >  this.scaleX*scaleMode)
-//					{
-//						this.scaleY = this.scaleX*scaleMode;
-//					}
-//					else{this.scaleY = sy;}
+					XWorld.instance.camera.setZero(-this.x,-this.y );
+					XWorld.instance.camera.update();
+					recut();
 				}
-				
-				adjustMapPos();
-				return;
+				// 触摸滑动
+				if(touchMove != null)
+				{
+					p = touchMove.getLocation(this);
+					bp = touchMove.getPreviousLocation(this);
+					var xoff:Number = (this.x + p.x - bp.x);
+					var yoff:Number = (this.y + p.y - bp.y);
+					
+					
+					if(xoff > 0)
+					{
+						xoff = 0;
+					}
+					else if(xoff < -(_sds.mapWidth*this.scaleX - Constants.STAGE_WIDTH))
+					{
+						xoff = -(_sds.mapWidth*this.scaleX - Constants.STAGE_WIDTH);
+					}
+					
+					if(yoff > 0)
+					{
+						yoff = 0;
+					}
+					else if(yoff < -(_sds.mapHeight*this.scaleY - Constants.STAGE_HEIGHT))
+					{
+						yoff = -(_sds.mapHeight*this.scaleY - Constants.STAGE_HEIGHT);
+					}
+					
+					
+					this.x = xoff;
+					this.y = yoff;
+					trace("touch : x = " + xoff + ",Y = " + yoff);
+				}
 			}
 			
 			
 			
-			// 再判定触控响应
-			var touchBegin:Touch = te.getTouch(this,TouchPhase.BEGAN);
-			var touchEnd:Touch = te.getTouch(this,TouchPhase.ENDED);
-			var touchMove:Touch = te.getTouch(this,TouchPhase.MOVED);
-			var p:Point;
-			var bp:Point;
-			
-			// 触摸开始
-			if(touchBegin != null)
-			{
-//				p = touchBegin.getLocation(this);
-//				var aPath:Array = XMap.AStar.find(_testQuad.x,_testQuad.y,p.x,p.y);
-//				if(aPath != null)
-//				{
-//					_testQuad.x = p.x;
-//					_testQuad.y = p.y;
-//				}
-				
-				
-			}
-			// 触摸结束
-			if(touchEnd != null)
-			{
-				adjustMapPos();
-				
-				XWorld.instance.camera.setZero(-this.x,-this.y );
-				XWorld.instance.camera.update();
-				recut();
-				
-				// 注册点变更
-//				_tileMap.pivotX = _tileMap.x + Constants.STAGE_WIDTH >>1;
-//				_tileMap.pivotY = _tileMap.y + Constants.STAGE_HEIGHT >>1;
-				
-
-			}
-			// 触摸滑动
-			if(touchMove != null)
-			{
-				p = touchMove.getLocation(this);
-				bp = touchMove.getPreviousLocation(this);
-				var xoff:Number = (this.x + p.x - bp.x);
-				var yoff:Number = (this.y + p.y - bp.y);
-				
-				
-				if(xoff > 0)
-				{
-					xoff = 0;
-				}
-				else if(xoff < -(_tileMap.mapWidth*this.scaleX - Constants.STAGE_WIDTH))
-				{
-					xoff = -(_tileMap.mapWidth*this.scaleX - Constants.STAGE_WIDTH);
-				}
-				
-				if(yoff > 0)
-				{
-					yoff = 0;
-				}
-				else if(yoff < -(_tileMap.mapHeight*this.scaleY - Constants.STAGE_HEIGHT))
-				{
-					yoff = -(_tileMap.mapHeight*this.scaleY - Constants.STAGE_HEIGHT);
-				}
-				
-				
-				this.x = xoff;
-				this.y = yoff;
-				trace("touch : x = " + xoff + ",Y = " + yoff);
-			}
 		}
 		
 		private function adjustMapPos():void
@@ -324,18 +433,18 @@ package com.core.Basic
 			{
 				this.x = 0;
 			}
-			else if(this.x < -(_tileMap.mapWidth*this.scaleX - Constants.STAGE_WIDTH))
+			else if(this.x < -(_sds.mapWidth*this.scaleX - Constants.STAGE_WIDTH))
 			{
-				this.x = -(_tileMap.mapWidth*this.scaleX - Constants.STAGE_WIDTH);
+				this.x = -(_sds.mapWidth*this.scaleX - Constants.STAGE_WIDTH);
 			}
 			
 			if(this.y > 0)
 			{
 				this.y = 0;
 			}
-			else if(this.y < -(_tileMap.mapHeight*this.scaleY - Constants.STAGE_HEIGHT))
+			else if(this.y < -(_sds.mapHeight*this.scaleY - Constants.STAGE_HEIGHT))
 			{
-				this.y = -(_tileMap.mapHeight*this.scaleY - Constants.STAGE_HEIGHT);
+				this.y = -(_sds.mapHeight*this.scaleY - Constants.STAGE_HEIGHT);
 			}
 		}
 		

@@ -1,15 +1,9 @@
 package com.Game.GameScreen
 {
-	import com.Game.Common.Constants;
+	import com.core.Common.Constants;
 	import com.core.Utils.UtilImage;
-	import com.core.Utils.File.OpenFile;
 	
 	import flash.display.Bitmap;
-	import flash.display.Loader;
-	import flash.display.LoaderInfo;
-	import flash.events.Event;
-	import flash.filesystem.File;
-	import flash.utils.ByteArray;
 	
 	import feathers.controls.Header;
 	import feathers.controls.Screen;

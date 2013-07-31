@@ -1,6 +1,6 @@
 package com.core.Utils
 {
-	import com.Game.Common.Constants;
+	import com.core.Common.Constants;
 	import com.core.Utils.File.OpenFile;
 	
 	import flash.display.Bitmap;

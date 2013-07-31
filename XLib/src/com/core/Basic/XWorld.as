@@ -1,7 +1,7 @@
 package com.core.Basic
 {
-	import com.Game.Common.Constants;
-	import com.Game.Common.SceneManager;
+	import com.core.Common.Constants;
+	import com.core.Common.SceneManager;
 	import com.core.Utils.File.OpenFile;
 	
 	import flash.filesystem.File;
@@ -28,12 +28,23 @@ package com.core.Basic
 			init();
 		}
 		
+		public function enterScene(id:String):void
+		{
+			var s:XScene = SceneManager.enterScene(id);
+			
+			if(s != null)
+			{
+				_scene = s;
+				addChild(scene);
+				_camera = new XCamera(_scene);
+				_scene.setUp();
+			}
+			
+		}
+		
 		public function init():void
 		{
-			_scene = SceneManager.createTileScene("1");
-			addChild(scene);
-			_camera = new XCamera(_scene);
-			_scene.setUp();
+//			enterScene("1");
 		}
 		
 	

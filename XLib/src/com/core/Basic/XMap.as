@@ -1,10 +1,10 @@
 package com.core.Basic
 {
-	import com.Game.Common.Constants;
 	import com.core.Astar.SilzAstar;
+	import com.core.Common.Constants;
+	import com.core.Common.DataStruct.SceneDataStruct;
 	import com.core.Math.FastRectangleTools;
 	import com.core.Utils.File.OpenFile;
-	import com.core.loader.XLoader;
 	
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
@@ -16,46 +16,26 @@ package com.core.Basic
 	import flash.filesystem.File;
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
-	import flash.system.System;
 	import flash.utils.ByteArray;
 	
 	import starling.display.Image;
 	import starling.textures.Texture;
+	import starling.utils.formatString;
 
 	public class XMap extends XSprite
 	{
 		public static var LIB_DIR:String = '/asset/';
 		
-		/**地图ID*/
-		public var _mapid:String;
-		/**tile 背景*/
-		public var loopBg:String;
-		/**tile*/
-		public var _hasTile:uint;
-		/*** 大地图循环块的格式 */ 
-		private var _tileFormat:String = 'png';
-		/**tile Map横向的宽度*/
-		public var mapWidth:Number;
-		/**tile Map纵向的高度*/
-		public var mapHeight:Number;
-		/**tile 的宽*/
-		public var tileWidth:Number;
 		/**tile 的高*/
-		public var tileHeight:Number;	
-		//////////////////////////////////////////////////////////////////////////
+		public var _sds:SceneDataStruct;	
 		
-		/** * 缓存起始X位置，在makeData中放置多次生成占用过多CPU*/ 
-		protected var _nowStartX:uint;
-		/** * 缓存起始Y位置，在makeData中放置多次生成占用过多CPU*/
-		protected var _nowStartY:uint;
+		//////////////////////////////////////////////////////////////////////////
 		/** * 显示区域X数量*/
 		private var _areaX:uint;	
 		/** *	显示区域Y数量*/ 
 		private var _areaY:uint;
 		/*** 保存已经加载完成的资源*/ 
 		protected var casheMap:Object;
-		/*** 加载队列*/ 
-		private var _loadList:Vector.<XLoader> = new Vector.<XLoader>;
 		/*** 地图数组 */ 
 		private var _arry:Array;	
 		/** * 循环背景数据 */ 
@@ -76,52 +56,24 @@ package com.core.Basic
 		private var _roadMap:BitmapData;
 		
 		//////////////////////////////////////////////////////////////////////////
-		/*** 场景底图层*/ 
-		private var mapLayer:XSprite;
-		
-		public function XMap(mapId:String)
+		public function XMap(sds:SceneDataStruct)
 		{
-			_mapid = mapId;
+			_sds = sds;
 			casheMap = {tiles:new Object()};
 			_arry = new Array;
 			
-			mapLayer = new XSprite;
-			addChild(mapLayer);
-			praseData();
-		}
-		
-		public function praseData():void
-		{
-			var f:File = new File(Constants.resRoot + "/tiles/" + _mapid +"/mapconf.d5"); 
-			var ba:ByteArray = OpenFile.open(f);
-			ba.uncompress();
-			var str:String = ba.readUTFBytes(ba.bytesAvailable);
-			var xml:XML = new XML(str);
-			trace(xml.toXMLString());
-			
-			_mapid =  xml.id;
-			_hasTile = xml.hasTile;
-			_tileFormat =  xml.tileFormat;
-			loopBg = xml.loopbg;
-			mapWidth = xml.mapW;
-			mapHeight = xml.mapH;
-			tileWidth = xml.tileX;
-			tileHeight = xml.tileY;
-			
-			// 释放XML资源
-			System.disposeXML(xml);
 			makeData();
 			loadRoadMap();
 		}
-				
+		
 		/*** 获取寻路对象 */ 
 		public static function get AStar():SilzAstar {return _AStar;}
 		protected function flushAstar():void{_AStar = new SilzAstar(_arry);}
 		
 		private function updateAstar():void
 		{
-			var h:int = int(mapHeight/pathTileHeight);
-			var w:int = int(mapWidth/pathTileWidth);
+			var h:int = int(_sds.mapHeight/pathTileHeight);
+			var w:int = int(_sds.mapWidth/pathTileWidth);
 			
 			for(var y:uint = 0;y<h;y++)
 			{
@@ -140,7 +92,7 @@ package com.core.Basic
 			var loader:Loader = new Loader();
 			loader.contentLoaderInfo.addEventListener(Event.COMPLETE,configRoadMap);
 			loader.contentLoaderInfo.addEventListener(IOErrorEvent.IO_ERROR,RoadLoadError);
-			var path:String = Constants.resRoot+"/tiles/" + _mapid +"/roadmap.png";
+			var path:String = Constants.resRoot+_sds.roadmap;
 			var f:File = new File(path);
 			var ba:ByteArray = OpenFile.open(f);
 			loader.loadBytes(ba);//读取ByteArray    
@@ -152,8 +104,8 @@ package com.core.Basic
 		{
 			_arry=[];
 			// 定义临时地图数据
-			var h:int =int(mapHeight/pathTileHeight);
-			var w:int = int(mapWidth/pathTileWidth);
+			var h:int =int(_sds.mapHeight/pathTileHeight);
+			var w:int = int(_sds.mapWidth/pathTileWidth);
 			for(var y:uint = 0;y<h;y++)
 			{
 				var arr:Array = new Array();
@@ -175,13 +127,10 @@ package com.core.Basic
 			
 			resetRoad();
 			_roadMap = (loadinfo.content as Bitmap).bitmapData;
-			_roadK =  _roadMap.width/mapHeight;
+			_roadK =  _roadMap.width/_sds.mapHeight;
 			
 			loadinfo.loader.unload();
 			updateAstar();
-			
-//			dispatchEvent(new Event(Event.COMPLETE));
-//			if(_mapComplate!=null) _mapComplate();
 		}
 		
 		/*** 路点不存在，设置路点可行 */ 
@@ -194,8 +143,8 @@ package com.core.Basic
 			
 			resetRoad();
 			
-			_roadMap = new BitmapData(int(mapWidth*.1),int(mapHeight*.1),false,0xffffff);
-			_roadK =  _roadMap.width/mapWidth;
+			_roadMap = new BitmapData(int(_sds.mapWidth*.1),int(_sds.mapHeight*.1),false,0xffffff);
+			_roadK =  _roadMap.width/_sds.mapWidth;
 			
 			updateAstar();
 			
@@ -233,27 +182,29 @@ package com.core.Basic
 		 */ 
 		protected function makeData():void
 		{
-			var maxY:uint = mapHeight/tileHeight;
-			var maxX:uint = mapWidth/tileWidth;
+			var maxY:uint = _sds.mapHeight/_sds.tileHeight;
+			var maxX:uint = _sds.mapWidth/_sds.tileWidth;
 			for(var y:int=0;y<maxY;y++)
 			{
 				for(var x:int=0;x<maxX;x++)
 				{	
 					var name:String = y + "_" + x;
-					var path:String = Constants.resRoot+"/tiles/"+_mapid+"/"+name+".atf";
+					var f:String = Constants.resRoot+_sds.atfFormat;
+					var path:String = formatString(f,name);
+					
 					if( casheMap.tiles[name]==null)
 					{
 						var atf:ByteArray = OpenFile.open(new File(path));
 						var tex:Texture = Texture.fromAtfData(atf);
 						var img:Image = new Image(tex);
 						casheMap.tiles[name]= img;			
-						img.x = x*tileWidth;
-						img.y = y*tileHeight;
-						mapLayer.addChild(img);
+						img.x = x*_sds.tileWidth;
+						img.y = y*_sds.tileHeight;
+						addChild(img);
 					}
 					else if(casheMap.tiles[name]!=null)
 					{		
-						mapLayer.addChild(casheMap.tiles[name]);
+						addChild(casheMap.tiles[name]);
 					}
 				}
 			}	
@@ -330,8 +281,6 @@ package com.core.Basic
 		override public function dispose():void
 		{
 			clear();
-			mapLayer.dispose();
-			mapLayer = null;
 			casheMap = null;
 		}
 		

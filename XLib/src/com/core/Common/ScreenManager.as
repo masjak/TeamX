@@ -1,7 +1,7 @@
-package com.Game.Common
+package com.core.Common
 {
-	import com.Game.Common.DataStruct.AtlasStruct;
-	import com.Game.Common.DataStruct.BlockStruct;
+	import com.core.Common.DataStruct.AtlasStruct;
+	import com.core.Common.DataStruct.BlockStruct;
 	import com.core.Utils.Util;
 	import com.core.Utils.File.OpenFile;
 	

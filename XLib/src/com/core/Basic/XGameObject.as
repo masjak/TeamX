@@ -6,7 +6,7 @@
  */ 
 package com.core.Basic
 {
-	import com.Game.Common.Constants;
+	import com.core.Common.Constants;
 	import com.core.Controler.BaseControler;
 	import com.core.Math.QTree;
 	import com.core.Objects.Direction;
@@ -237,8 +237,8 @@ package com.core.Basic
 			
 			var targetx:Number;
 			var targety:Number;
-			var maxX:uint = XWorld.instance.scene.tileMap.mapWidth;
-			var maxY:uint = XWorld.instance.scene.tileMap.mapHeight;
+			var maxX:uint = XWorld.instance.scene.sceneData.mapWidth;
+			var maxY:uint = XWorld.instance.scene.sceneData.mapHeight;
 			
 			if(XWorld.instance.camera.focusObject==this)
 			{
@@ -248,10 +248,10 @@ package com.core.Basic
 				targetx = pos.x>maxX-(Constants.STAGE_WIDTH>>1) ? pos.x-(maxX-Constants.STAGE_WIDTH) : targetx;
 				targety = pos.y>maxY-(Constants.STAGE_HEIGHT>>1) ? pos.y-(maxY-Constants.STAGE_HEIGHT) : targety;
 			}else{
-				var target:Point = XWorld.instance.scene.tileMap.getScreenPostion(pos.x,pos.y);
+//				var target:Point = XWorld.instance.scene.tileMap.getScreenPostion(pos.x,pos.y);
 //					WorldMap.me.getScreenPostion(pos.x,pos.y);
-				targetx = target.x;
-				targety = target.y;
+//				targetx = target.x;
+//				targety = target.y;
 			}
 			x = Number(targetx.toFixed(1));
 			y = Number(targety.toFixed(1));
