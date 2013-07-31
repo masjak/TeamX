@@ -24,7 +24,7 @@ package com.core.Common
 
 		public static function init():void
 		{
-			var f:File = new File(Constants.resRoot + "/Config/SceneConfig.xml");
+			var f:File = new File(Constants.resRoot + "/Config/sceneConfig.xml");
 			var xml:XML = new XML(OpenFile.open(f));
 			var len:int = xml.scene.length();
 			_data = new Array;
