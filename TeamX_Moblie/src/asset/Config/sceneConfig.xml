@@ -4,7 +4,7 @@
 	<scene sceneId="1" mapWidth="2048" mapHeight="2048" tileWidth="512" tileHeight="512" roadmap="/tiles/1/roadmap.png" atfFormat="/tiles/1/{0}.atf" initState="1">
 		<!--state标识出现的场景类型 1为白天 2为晚上 4为下雪之类。。。。如果白天和晚上用同一个则是1+2 = 3-->
 		<buliders name="house_day" path="/tiles/1/house_day.atf" PosX="430" PosY="0" State="3"/>
-		<buliders name="house_night" path="/tiles/1/house_nolight.atf" PosX="430" PosY="0" State="5"/>
+<!-- 		<buliders name="house_night" path="/tiles/1/house_nolight.atf" PosX="430" PosY="0" State="5"/> -->
 		<lights name="light" path="/tiles/1/light.atf" PosX="430" PosY="0" State="2"/>
 	</scene>
 </Root>
