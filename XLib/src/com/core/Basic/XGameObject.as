@@ -6,7 +6,7 @@
  */ 
 package com.core.Basic
 {
-	import com.core.Common.Constants;
+	import com.Game.Globel.Constants;
 	import com.core.Controler.BaseControler;
 	import com.core.Math.QTree;
 	import com.core.Objects.Direction;

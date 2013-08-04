@@ -1,7 +1,7 @@
 package com.core.Basic
 {
 	import com.core.Astar.SilzAstar;
-	import com.core.Common.Constants;
+	import com.Game.Globel.Constants;
 	import com.core.Common.DataStruct.SceneDataStruct;
 	import com.core.Math.FastRectangleTools;
 	import com.core.Utils.File.OpenFile;
@@ -182,8 +182,8 @@ package com.core.Basic
 		 */ 
 		protected function makeData():void
 		{
-			var maxY:uint = _sds.mapHeight/_sds.tileHeight;
-			var maxX:uint = _sds.mapWidth/_sds.tileWidth;
+			var maxY:uint = _sds.heightNum;
+			var maxX:uint = _sds.widthNum;
 			for(var y:int=0;y<maxY;y++)
 			{
 				for(var x:int=0;x<maxX;x++)

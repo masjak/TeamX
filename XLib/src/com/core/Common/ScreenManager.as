@@ -12,6 +12,7 @@ package com.core.Common
 	import feathers.controls.ScreenNavigatorItem;
 	
 	import starling.textures.TextureAtlas;
+	import com.Game.Globel.Constants;
 
 	public class ScreenManager 
 	{

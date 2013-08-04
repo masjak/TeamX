@@ -1,7 +1,7 @@
 package com.Game.GameScreen
 {
 	import com.core.Common.CameraManager;
-	import com.core.Common.Constants;
+	import com.Game.Globel.Constants;
 	import com.core.Common.ScreenManager;
 	import com.core.Common.Singleton;
 	

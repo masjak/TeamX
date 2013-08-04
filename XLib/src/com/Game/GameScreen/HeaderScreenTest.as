@@ -1,6 +1,6 @@
 package com.Game.GameScreen
 {
-	import com.core.Common.Constants;
+	import com.Game.Globel.Constants;
 	import com.core.Utils.UtilImage;
 	
 	import flash.display.Bitmap;

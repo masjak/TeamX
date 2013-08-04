@@ -1,6 +1,6 @@
 package Welcome
 {
-	import com.core.Common.Constants;
+	import com.Game.Globel.Constants;
 	import com.core.Common.Singleton;
 	
 	import flash.display.Bitmap;

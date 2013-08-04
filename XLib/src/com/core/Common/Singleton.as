@@ -6,6 +6,7 @@ package com.core.Common
 	
 	import starling.utils.AssetManager;
 	import starling.utils.ScaleMode;
+	import com.Game.Globel.Constants;
 
 	/**
 	 * 单例管理器

@@ -1,7 +1,7 @@
 package com.core.Basic
 {
 
-	import com.core.Common.Constants;
+	import com.Game.Globel.Constants;
 	
 	import flash.events.TimerEvent;
 	import flash.geom.Point;

@@ -1,4 +1,4 @@
-package com.core.Common
+package com.Game.Globel
 {
 	import com.Game.GameScreen.HeaderScreenTest;
 	import com.Game.GameScreen.PhotoTestScreen;
@@ -10,6 +10,8 @@ package com.core.Common
 	import feathers.controls.ScreenNavigatorItem;
 	
 	import starling.errors.AbstractClassError;
+	import com.core.Common.ScreenManager;
+	import com.core.Common.Singleton;
 
 	public class Constants
 	{
@@ -17,7 +19,7 @@ package com.core.Common
 		public function Constants(){ throw new AbstractClassError(); }
 		
 		/***********************可配置变量****************/
-		public static var ZOOM_MAX:Number  = 1.5;// 场景X方向最大缩放
+		public static var SCENE_ZOOM_MAX:Number  = 1.5;// 场景X方向最大缩放
 		public static var SCENE_MASK_COLOR:uint  = 0x0b0c18;// 场景夜晚遮罩颜色
 		public static var SCENE_MASK_APHLA:Number  = 0.55;// 场景夜晚遮罩透明度
 		
@@ -36,9 +38,9 @@ package com.core.Common
 			else if(Singleton.platform.Platform == Constants.PLATFORM_WINDOW)
 			{
 				// home 开发环境
-				_resRoot = "F:/workpath/work/XLib/TeamX/TeamX_Moblie/src/asset";
+				_resRoot = "E:/workpath/work/XLib/TeamX/TeamX_Moblie/src/asset";
 				// MF开发环境
-				_resRoot = "F:/workPath/work/TeamX/trunk/TeamX_Moblie/src/asset";
+//				_resRoot = "F:/workPath/work/TeamX/trunk/TeamX_Moblie/src/asset";
 			}
 			else  if(Singleton.platform.Platform == Constants.PLATFORM_IOS)
 			{

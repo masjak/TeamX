@@ -1,5 +1,6 @@
 package com.core.Common
 {
+	import com.Game.Globel.Constants;
 	import com.core.Basic.XScene;
 	import com.core.Common.DataStruct.SceneDataStruct;
 	import com.core.Common.DataStruct.buildersDataStruct;
@@ -7,6 +8,7 @@ package com.core.Common
 	import com.core.Utils.File.OpenFile;
 	
 	import flash.filesystem.File;
+	import flash.geom.Rectangle;
 	import flash.system.System;
 
 	public class SceneManager
@@ -36,6 +38,14 @@ package com.core.Common
 				sd.mapHeight = xml.scene[i].@mapHeight;
 				sd.tileWidth = xml.scene[i].@tileWidth;
 				sd.tileHeight = xml.scene[i].@tileHeight;
+				sd.widthNum = xml.scene[i].@widthNum;
+				sd.heightNum = xml.scene[i].@heightNum;
+				var rectx:int = xml.scene[i].@initAreoX;
+				var recty:int = xml.scene[i].@initAreoY;
+				var rectw:int = xml.scene[i].@initAreoWidth;
+				var recth:int = xml.scene[i].@initAreoHeight;
+				sd.initRect = new Rectangle(rectx,recty,rectw,recth);
+				
 				sd.roadmap = xml.scene[i].@roadmap;
 				sd.atfFormat = xml.scene[i].@atfFormat;
 				sd.initState = xml.scene[i].@initState;

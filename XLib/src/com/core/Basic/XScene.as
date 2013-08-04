@@ -1,7 +1,7 @@
 package com.core.Basic
 {
 	
-	import com.core.Common.Constants;
+	import com.Game.Globel.Constants;
 	import com.core.Common.DataStruct.SceneDataStruct;
 	import com.core.Common.DataStruct.buildersDataStruct;
 	import com.core.Common.DataStruct.lightsDataStruct;
@@ -16,9 +16,12 @@ package com.core.Basic
 	import flash.utils.Timer;
 	import flash.utils.getTimer;
 	
+	import mx.core.mx_internal;
+	
 	import starling.display.BlendMode;
 	import starling.display.Image;
 	import starling.display.Quad;
+	import starling.display.QuadBatch;
 	import starling.events.Touch;
 	import starling.events.TouchEvent;
 	import starling.events.TouchPhase;
@@ -34,18 +37,15 @@ package com.core.Basic
 		
 		/**地图层*/	
 		protected var mapLayer:XSprite = new XSprite;
-		/**建筑层*/
-		protected var builderLayer:XSprite = new XSprite;
 		/**特殊场合蒙层*/	
 		protected var maskLayer:XSprite = new XSprite;
-		/**单位层*/	
-		protected var uintLayer:XSprite = new XSprite;
+		/**建筑层*/
+		protected var builderLayer:XSprite = new XSprite;
 		/**光效层*/	
 		protected var lightLayer:XSprite = new XSprite;
 		
 		/**场景额外的遮罩层*/		
-		protected var maskLayerTex:Texture;
-		protected var maskLayerImg:Image;
+		protected var maskImg:QuadBatch;
 		
 		/**建筑*/	
 		protected var builders:Object = new Object;
@@ -60,9 +60,10 @@ package com.core.Basic
 			_sds = sds;
 			state = _sds.initState;
 			addChild(mapLayer);
+			addChild(maskLayer);	
 			addChild(builderLayer);
-			addChild(maskLayer);
-			addChild(uintLayer);
+			
+			lightLayer.touchable = false;
 			addChild(lightLayer);
 		}
 		
@@ -82,9 +83,28 @@ package com.core.Basic
 		{
 			_tileMap = new XMap(_sds);
 			mapLayer.addChild(_tileMap);
+			mapLayer.flatten();
 			XWorld.instance.camera.lookAt(0,0);
 			this.addEventListener(TouchEvent.TOUCH,ontouch);
 			
+			// 完成初始化的时候显示核心区域
+			this.x -= _sds.initRect.x;
+			this.y -= _sds.initRect.y;
+			if((_sds.initRect.width/Constants.STAGE_WIDTH) > (_sds.initRect.height/Constants.STAGE_HEIGHT))
+			{
+				var scaley:Number = Constants.STAGE_HEIGHT/_sds.initRect.height;
+				Constants.SCENE_ZOOM_MAX = ((scaley > Constants.SCENE_ZOOM_MAX)?scaley:Constants.SCENE_ZOOM_MAX);
+				this.scaleX = scaley;
+				this.scaleY = this.scaleX;
+			}
+			else
+			{
+				var scalex:Number = Constants.STAGE_WIDTH/_sds.initRect.width;
+				Constants.SCENE_ZOOM_MAX = ((scalex > Constants.SCENE_ZOOM_MAX)?scalex:Constants.SCENE_ZOOM_MAX);
+				this.scaleY = scalex;
+				this.scaleX = this.scaleY;
+			}
+			adjustMapPos();
 			init();
 		}
 		
@@ -215,22 +235,29 @@ package com.core.Basic
 				bDay = true;
 			}
 			
+			
 			// 生成遮罩
-			if(maskLayerImg == null)
+			if(maskImg == null)
 			{
-				var s:Shape = new Shape();
-				s.graphics.beginFill(Constants.SCENE_MASK_COLOR,Constants.SCENE_MASK_APHLA);
-				s.graphics.drawRect(0,0,_sds.mapWidth,_sds.mapHeight);
-				s.graphics.endFill();
-				var bd:BitmapData = new BitmapData(_sds.mapWidth,_sds.mapHeight,true,0);
-				bd.draw(s);
-				maskLayerTex = Texture.fromBitmapData(bd);
-				maskLayerImg = new Image(maskLayerTex);
-				maskLayerImg.alpha = 0;
+				maskImg = new QuadBatch();
+				var q:Quad = new Quad(_sds.tileWidth,_sds.tileHeight,Constants.SCENE_MASK_COLOR,true);
+				var maxY:uint = _sds.heightNum;
+				var maxX:uint = _sds.widthNum;
+				for(var y:int=0;y<maxY;y++)
+				{
+					for(var x:int=0;x<maxX;x++)
+					{	
+						q.x = x*_sds.tileWidth;
+						q.y = y*_sds.tileHeight;
+						maskImg.addQuad(q);
+					}
+				}
+				
+				maskImg.alpha = 0;
 			}
-			if(!maskLayer.contains(maskLayerImg))
+			if(!maskLayer.contains(maskImg))
 			{
-				maskLayer.addChild(maskLayerImg);
+				maskLayer.addChild(maskImg);
 			}
 
 			var ter:Timer = new Timer(50,10);
@@ -242,11 +269,11 @@ package com.core.Basic
 			{
 				if(bDay)
 				{
-					maskLayerImg.alpha -= .1;
+					maskImg.alpha -= Constants.SCENE_MASK_APHLA/10;
 				}
 				else
 				{
-					maskLayerImg.alpha += .1;
+					maskImg.alpha += Constants.SCENE_MASK_APHLA/10;
 				}
 			}
 			
@@ -256,7 +283,7 @@ package com.core.Basic
 				ter.removeEventListener(TimerEvent.TIMER_COMPLETE,oncomplete);
 				if(bDay)
 				{
-					removeChild(maskLayerImg);
+					removeChild(maskImg);
 				}
 				createbuilders();// 创建建筑
 				createlights();// 光影
@@ -319,9 +346,9 @@ package com.core.Basic
 						{
 							this.scaleY =  Constants.STAGE_HEIGHT/_sds.mapHeight;
 						}
-						else if(sy >  Constants.ZOOM_MAX)
+						else if(sy >  Constants.SCENE_ZOOM_MAX)
 						{
-							this.scaleY = Constants.ZOOM_MAX;
+							this.scaleY = Constants.SCENE_ZOOM_MAX;
 						}
 						else
 						{
@@ -336,9 +363,9 @@ package com.core.Basic
 						{
 							this.scaleX =  Constants.STAGE_WIDTH/_sds.mapWidth;
 						}
-						else if(sx > Constants.ZOOM_MAX)
+						else if(sx > Constants.SCENE_ZOOM_MAX)
 						{	
-							this.scaleX = Constants.ZOOM_MAX;
+							this.scaleX = Constants.SCENE_ZOOM_MAX;
 						}
 						else
 						{

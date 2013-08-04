@@ -1,6 +1,6 @@
 package Test.Scene
 {
-	import com.core.Common.Constants;
+	import com.Game.Globel.Constants;
 	import com.core.Common.PlatformManager;
 	import com.core.Common.Singleton;
 	import com.core.Utils.File.OpenFile;

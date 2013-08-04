@@ -1,6 +1,6 @@
 package Test
 {
-	import com.core.Common.Constants;
+	import com.Game.Globel.Constants;
 	import com.core.Utils.UtilImage;
 	import com.core.Utils.File.OpenFile;
 	

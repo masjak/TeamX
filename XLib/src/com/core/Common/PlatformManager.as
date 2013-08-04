@@ -1,6 +1,7 @@
 package com.core.Common
 {
 	import flash.system.Capabilities;
+	import com.Game.Globel.Constants;
 
 	/**
 	 * 平台管理

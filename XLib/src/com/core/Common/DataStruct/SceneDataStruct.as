@@ -1,5 +1,7 @@
 package com.core.Common.DataStruct
 {
+	import flash.geom.Rectangle;
+
 	public class SceneDataStruct implements IDataStruct
 	{
 		/** 场景Id*/
@@ -12,12 +14,18 @@ package com.core.Common.DataStruct
 		public var tileWidth:Number;
 		/**tile 的高*/
 		public var tileHeight:Number;	
+		/**横向格子数*/
+		public var widthNum:Number;
+		/**纵向格子数*/
+		public var heightNum:Number;	
 		/**寻路点源 */
 		public var roadmap:String;	
 		/**atf的format格式*/
 		public var atfFormat:String;		
 		/**初始化场景状态*/
-		public var initState:int;	
+		public var initState:int;		
+		/**初始化显示场景的rect*/
+		public var initRect:Rectangle;	
 		
 		/**builders配置*/
 		public var builders:Object = new Object;	
