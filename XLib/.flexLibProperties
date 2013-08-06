@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <flexLibProperties includeAllClasses="true" useMultiPlatformConfig="false" version="3">
   <includeClasses>
-    <classEntry path="Test.Scene.ResManager"/>
     <classEntry path="com.core.TileMap.TileScene"/>
     <classEntry path="com.Game.Common.ScreenManager"/>
     <classEntry path="com.Game.Common.SignalManager"/>
@@ -14,6 +13,7 @@
     <classEntry path="com.Game.GameScreen.MainScreen"/>
     <classEntry path="com.Game.Common.DataStruct.AtlasStruct"/>
     <classEntry path="com.core.Utils.Util"/>
+    <classEntry path="Test.EffectTest"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>
