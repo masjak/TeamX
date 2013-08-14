@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<flexLibProperties includeAllClasses="true" useMultiPlatformConfig="false" version="3">
+  <includeClasses>
+    <classEntry path="dragonBones.factorys.BaseFactory"/>
+    <classEntry path="dragonBones.objects.DecompressedData"/>
+    <classEntry path="dragonBones.errors.UnknownDataError"/>
+    <classEntry path="dragonBones.textures.SubTextureData"/>
+    <classEntry path="dragonBones.display.StarlingDisplayBridge"/>
+    <classEntry path="dragonBones.factorys.StarlingFactory"/>
+    <classEntry path="dragonBones.objects.DisplayData"/>
+    <classEntry path="dragonBones.objects.BoneData"/>
+    <classEntry path="dragonBones.events.SoundEvent"/>
+    <classEntry path="dragonBones.events.ArmatureEvent"/>
+    <classEntry path="dragonBones.animation.Tween"/>
+    <classEntry path="dragonBones.objects.FrameData"/>
+    <classEntry path="dragonBones.display.IDisplayBridge"/>
+    <classEntry path="dragonBones.animation.WorldClock"/>
+    <classEntry path="dragonBones.Armature"/>
+    <classEntry path="dragonBones.objects.MovementFrameData"/>
+    <classEntry path="dragonBones.objects.SkeletonData"/>
+    <classEntry path="dragonBones.objects.MovementBoneData"/>
+    <classEntry path="dragonBones.events.FrameEvent"/>
+    <classEntry path="dragonBones.utils.BytesType"/>
+    <classEntry path="dragonBones.Bone"/>
+    <classEntry path="dragonBones.objects.DataList"/>
+    <classEntry path="dragonBones.animation.IAnimatable"/>
+    <classEntry path="dragonBones.objects.ArmatureData"/>
+    <classEntry path="dragonBones.utils.ConstValues"/>
+    <classEntry path="dragonBones.textures.NativeTextureAtlas"/>
+    <classEntry path="dragonBones.textures.ITextureAtlas"/>
+    <classEntry path="dragonBones.utils.TransformUtils"/>
+    <classEntry path="dragonBones.textures.StarlingTextureAtlas"/>
+    <classEntry path="dragonBones.objects.XMLDataParser"/>
+    <classEntry path="dragonBones.animation.Animation"/>
+    <classEntry path="dragonBones.events.SoundEventManager"/>
+    <classEntry path="dragonBones.utils.dragonBones_internal"/>
+    <classEntry path="dragonBones.display.NativeDisplayBridge"/>
+    <classEntry path="dragonBones.objects.MovementData"/>
+    <classEntry path="dragonBones.objects.AnimationData"/>
+    <classEntry path="dragonBones.events.AnimationEvent"/>
+    <classEntry path="dragonBones.objects.BoneTransform"/>
+  </includeClasses>
+  <includeResources/>
+  <namespaceManifests/>
+</flexLibProperties>

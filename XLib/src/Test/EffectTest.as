@@ -5,9 +5,6 @@ package Test
 	import com.core.Utils.UtilImage;
 	
 	import flash.display.Bitmap;
-	import flash.events.TimerEvent;
-	import flash.utils.Timer;
-	import flash.utils.getTimer;
 	
 	import starling.animation.Transitions;
 	import starling.animation.Tween;
@@ -22,7 +19,7 @@ package Test
 		protected var tex:Texture;
 		protected var img:Image;
 		protected var nowTime:uint;
-		var tween:Tween;
+		protected var tween:Tween;
 		
 		protected var scaleZoom:Boolean = true;
 		
