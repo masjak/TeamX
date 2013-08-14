@@ -14,6 +14,8 @@
     <classEntry path="com.Game.Common.DataStruct.AtlasStruct"/>
     <classEntry path="com.core.Utils.Util"/>
     <classEntry path="Test.EffectTest"/>
+    <classEntry path="dragonBones.Bone"/>
+    <classEntry path="dragonBones.Slot"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

@@ -11,7 +11,6 @@
     <classEntry path="dragonBones.objects.BoneData"/>
     <classEntry path="dragonBones.events.SoundEvent"/>
     <classEntry path="dragonBones.events.ArmatureEvent"/>
-    <classEntry path="dragonBones.animation.Tween"/>
     <classEntry path="dragonBones.objects.FrameData"/>
     <classEntry path="dragonBones.display.IDisplayBridge"/>
     <classEntry path="dragonBones.animation.WorldClock"/>

@@ -21,8 +21,8 @@ package com.core.Basic
 		/**UI层*/	
 		protected var _hud:XHud;
 		
-		/**feathers UI 主题 */		
-		protected var theme:MetalWorksMobileTheme;
+//		/**feathers UI 主题 */		
+//		protected var theme:MetalWorksMobileTheme; 暂时不使用主题
 		
 		public function XStage()
 		{
@@ -36,7 +36,7 @@ package com.core.Basic
 		
 		protected function addedToStageHandler(event:Event):void
 		{
-			theme = new MetalWorksMobileTheme(this);
+//			theme = new MetalWorksMobileTheme(this);
 			init();
 			this.removeEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
 		}
