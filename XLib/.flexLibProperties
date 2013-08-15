@@ -16,6 +16,7 @@
     <classEntry path="Test.EffectTest"/>
     <classEntry path="dragonBones.Bone"/>
     <classEntry path="dragonBones.Slot"/>
+    <classEntry path="Test.ParticleTest"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

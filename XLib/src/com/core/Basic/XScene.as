@@ -7,16 +7,11 @@ package com.core.Basic
 	import com.core.Common.DataStruct.lightsDataStruct;
 	import com.core.Utils.File.OpenFile;
 	
-	import flash.display.BitmapData;
-	import flash.display.Shape;
 	import flash.events.TimerEvent;
 	import flash.filesystem.File;
 	import flash.geom.Point;
 	import flash.utils.ByteArray;
 	import flash.utils.Timer;
-	import flash.utils.getTimer;
-	
-	import mx.core.mx_internal;
 	
 	import starling.display.BlendMode;
 	import starling.display.Image;
