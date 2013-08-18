@@ -93,7 +93,7 @@ package com.Game.Globel
 		
 		/***********************场景的状态*****************/
 		public static const SCENE_STATE_DAY:int = 1;			// 白天
-		public static const SCENE_STATE_NIGHT:int = 2;			// 晚上
+		public static const SCENE_STATE_NIGHT:int = 2;		// 晚上
 		
 		
 	}

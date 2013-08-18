@@ -2,11 +2,9 @@ package com.core.Common.DataStruct
 {
 	public class buildersVO implements IDataVO
 	{
-		public var name:String;
-		public var path:String;
-		public var PosX:Number;
-		public var PosY:Number;
-		public var State:int;
+		public var name:String; // 名字
+		public var path:String;// 路径
+		public var canMove:Boolean;// 是否接受点击
 		
 		public function buildersVO(){}
 		

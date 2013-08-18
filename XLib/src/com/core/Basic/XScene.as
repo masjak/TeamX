@@ -2,7 +2,9 @@ package com.core.Basic
 {
 	
 	import com.Game.Globel.Constants;
+	import com.core.Common.BuilderManager;
 	import com.core.Common.Singleton;
+	import com.core.Common.DataStruct.SceneBuildersVO;
 	import com.core.Common.DataStruct.SceneDataVO;
 	import com.core.Common.DataStruct.buildersVO;
 	import com.core.Common.DataStruct.lightsVO;
@@ -81,7 +83,6 @@ package com.core.Basic
 			_tileMap = new XMap(_sds);
 			mapLayer.addChild(_tileMap);
 			mapLayer.flatten();
-//			XWorld.instance.camera.lookAt(0,0);
 			this.addEventListener(TouchEvent.TOUCH,ontouch);
 			
 			// 完成初始化的时候显示核心区域
@@ -181,43 +182,27 @@ package com.core.Basic
 		}
 		
 		/** 创建建筑*/
-		public function createbuilder(bds:buildersVO):void
+		public function createbuilder(sbvo:SceneBuildersVO):void
 		{
-			var img:Image = builders[bds.name];
-			if(img != null)
+			var b:XBuilder = builders[sbvo.name];
+			if(b == null)
 			{
-				if((bds.State & this.state))
+				var bvo:buildersVO = BuilderManager.getBuilderVO(sbvo.builderName);
+				if(bvo == null)
 				{
-					if(!builderLayer.contains(img))
-					{
-						builderLayer.addChild(img);
-					}
+					throw new Error("不存在的建筑名字：" + sbvo.builderName);
+					return ;
 				}
-				else
-				{
-					builderLayer.removeChild(img);
-				}
+				b = new XBuilder(bvo);
+				builders[sbvo.name] = b;	
 			}
-			else
+			b.x = sbvo.PosX;
+			b.y = sbvo.PosY;
+			b.State = this.state;
+			b.Click = sbvo.bclick;
+			if(!builderLayer.contains(b))
 			{
-				var path:String = Constants.resRoot+bds.path;
-				var ba:ByteArray = OpenFile.open(new File(path));
-				var tex:Texture = Texture.fromAtfData(ba);
-				img = new Image(tex);
-				img.x = bds.PosX;
-				img.y = bds.PosY;
-				builders[bds.name] = img;
-				if((bds.State & this.state))
-				{
-					if(!builderLayer.contains(img))
-					{
-						builderLayer.addChild(img);
-					}
-				}
-				else
-				{
-					builderLayer.removeChild(img);
-				}
+				builderLayer.addChild(b);
 			}
 			
 		}
@@ -442,7 +427,7 @@ package com.core.Basic
 					
 					this.x = xoff;
 					this.y = yoff;
-					trace("touch : x = " + xoff + ",Y = " + yoff);
+					trace("touch : xoff = " + xoff + ",yoff = " + yoff);
 				}
 			}
 			

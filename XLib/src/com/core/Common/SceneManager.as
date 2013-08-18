@@ -3,6 +3,7 @@ package com.core.Common
 	import com.Game.Globel.Constants;
 	import com.core.Basic.XScene;
 	import com.core.Basic.XWorld;
+	import com.core.Common.DataStruct.SceneBuildersVO;
 	import com.core.Common.DataStruct.SceneDataVO;
 	import com.core.Common.DataStruct.SceneListVO;
 	import com.core.Common.DataStruct.buildersVO;
@@ -46,44 +47,45 @@ package com.core.Common
 		public static function readScene(xml:XML):SceneDataVO
 		{
 				var sd:SceneDataVO = new SceneDataVO;
-				sd.sceneId = xml.scene[0].@sceneId;
-				sd.mapWidth = xml.scene[0].@mapWidth;
-				sd.mapHeight = xml.scene[0].@mapHeight;
-				sd.tileWidth = xml.scene[0].@tileWidth;
-				sd.tileHeight = xml.scene[0].@tileHeight;
-				sd.widthNum = xml.scene[0].@widthNum;
-				sd.heightNum = xml.scene[0].@heightNum;
-				var rectx:int = xml.scene[0].@initAreoX;
-				var recty:int = xml.scene[0].@initAreoY;
-				var rectw:int = xml.scene[0].@initAreoWidth;
-				var recth:int = xml.scene[0].@initAreoHeight;
+				sd.sceneId = xml.@sceneId;
+				sd.mapWidth = xml.@mapWidth;
+				sd.mapHeight = xml.@mapHeight;
+				sd.tileWidth = xml.@tileWidth;
+				sd.tileHeight = xml.@tileHeight;
+				sd.widthNum = xml.@widthNum;
+				sd.heightNum = xml.@heightNum;
+				var rectx:int = xml.@initAreoX;
+				var recty:int = xml.@initAreoY;
+				var rectw:int = xml.@initAreoWidth;
+				var recth:int = xml.@initAreoHeight;
 				sd.initRect = new Rectangle(rectx,recty,rectw,recth);
 				
-				sd.roadmap = xml.scene[0].@roadmap;
-				sd.atfFormat = xml.scene[0].@atfFormat;
-				sd.initState = xml.scene[0].@initState;
+				sd.roadmap = xml.@roadmap;
+				sd.atfFormat = xml.@atfFormat;
+				sd.initState = xml.@initState;
 				// 读取建筑数据
-				var len:int = xml.scene[0].buliders.length();
+				var len:int = xml.buliders.length();
 				for(var j:int = 0; j < len; j++)
 				{
-					var bds:buildersVO = new buildersVO;
-					bds.name =  xml.scene[0].buliders[j].@name;
-					bds.path =  xml.scene[0].buliders[j].@path;
-					bds.PosX =  xml.scene[0].buliders[j].@PosX;
-					bds.PosY =  xml.scene[0].buliders[j].@PosY;
-					bds.State =  xml.scene[0].buliders[j].@State;
+					var bds:SceneBuildersVO = new SceneBuildersVO;
+					bds.name =  xml.buliders[j].@name;
+					bds.builderName =  xml.buliders[j].@builderName;
+					bds.PosX =  xml.buliders[j].@PosX;
+					bds.PosY =  xml.buliders[j].@PosY;
+					bds.State =  xml.buliders[j].@State;
+					bds.bclick =  (xml.buliders[j].@bclick == "true"); 
 					sd.builders[bds.name] = bds;
 				}			
 				// 读取光影数据
-				len = xml.scene[0].lights.length();
+				len = xml.lights.length();
 				for( j = 0; j < len; j++)
 				{
 					var lds:lightsVO = new lightsVO;
-					lds.name =  xml.scene[0].lights[j].@name;
-					lds.path =  xml.scene[0].lights[j].@path;
-					lds.PosX =  xml.scene[0].lights[j].@PosX;
-					lds.PosY =  xml.scene[0].lights[j].@PosY;
-					lds.State =  xml.scene[0].lights[j].@State;
+					lds.name =  xml.lights[j].@name;
+					lds.path =  xml.lights[j].@path;
+					lds.PosX =  xml.lights[j].@PosX;
+					lds.PosY =  xml.lights[j].@PosY;
+					lds.State =  xml.lights[j].@State;
 					sd.lights[bds.name] = lds;
 				}
 			// 释放XML资源

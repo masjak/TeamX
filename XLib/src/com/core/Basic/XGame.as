@@ -1,6 +1,7 @@
 package com.core.Basic
 {
 	import com.Game.Globel.Constants;
+	import com.core.Common.BuilderManager;
 	import com.core.Common.SceneManager;
 	import com.greensock.events.LoaderEvent;
 	import com.greensock.loading.ImageLoader;
@@ -56,9 +57,23 @@ package com.core.Basic
 			var loader:XMLLoader = LoaderMax.getLoader("Constants");
 			Constants.readXml(loader.content);
 			System.disposeXML(loader.content);
+			
 			// 加载场景列表
 			loader = LoaderMax.getLoader("sceneConfig");
 			SceneManager.readXml(loader.content);
+			
+			// 加载建筑列表
+			loader = LoaderMax.getLoader("builders");
+			BuilderManager.readXml(loader.content);
+			
+			// 加载灯光列表
+			loader = LoaderMax.getLoader("lights");
+			//			SceneManager.readXml(loader.content);
+			
+			// 加载灯光列表
+			loader = LoaderMax.getLoader("units");
+			//			SceneManager.readXml(loader.content);
+			
 			System.disposeXML(loader.content);
 			
 			// 加载配置完成之后释放所有资源
