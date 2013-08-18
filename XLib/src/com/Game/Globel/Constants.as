@@ -4,14 +4,14 @@ package com.Game.Globel
 	import com.Game.GameScreen.PhotoTestScreen;
 	import com.Game.GameScreen.SceneStateTest;
 	import com.Game.GameScreen.WelcomeScreen;
+	import com.core.Common.ScreenManager;
+	import com.core.Common.Singleton;
 	
 	import flash.filesystem.File;
 	
 	import feathers.controls.ScreenNavigatorItem;
 	
 	import starling.errors.AbstractClassError;
-	import com.core.Common.ScreenManager;
-	import com.core.Common.Singleton;
 
 	public class Constants
 	{
@@ -56,7 +56,7 @@ package com.Game.Globel
 		/**初始化常量配置*/		
 		public static function  init():void
 		{
-			loadConfig();
+//			readXml();
 			
 			ScreenManager.screenNavigator;
 			ScreenManager.addScreen(SCREEN_WELCOME,new ScreenNavigatorItem(WelcomeScreen));
@@ -66,9 +66,11 @@ package com.Game.Globel
 		}
 		
 		/**加载全局配置表*/
-		public static function  loadConfig():void
+		public static function  readXml(xml:XML):void
 		{
-			// 加载全局配置xml
+			SCENE_ZOOM_MAX  = xml.SCENE_ZOOM_MAX;
+			SCENE_MASK_COLOR  = xml.SCENE_MASK_COLOR;
+			SCENE_MASK_APHLA  =  xml.SCENE_MASK_APHLA;
 		}
 		
 		/***********************静态常量配置 UISCREEN屏幕*****************/
@@ -86,8 +88,8 @@ package com.Game.Globel
 		
 		
 		/***********************静态常量配置 信号事件*****************/
-		public static const SIGNAL_STARLING_INIT:String = "StarlingInit";
-		
+		public static const SIGNAL_STARLING_INIT:String = "StarlingInit";// starling 初始化完毕
+		public static const SIGNAL_SCENE_CREATE_COMPLETE:String = "SceneCreateCompele";// 创建场景完毕
 		
 		/***********************场景的状态*****************/
 		public static const SCENE_STATE_DAY:int = 1;			// 白天

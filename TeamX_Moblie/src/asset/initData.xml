@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2013 (http://www.altova.com) by  () -->
+<data>
+	<LoaderMax name="queue1" prependURLs="asset/" load="true">
+		<XMLLoader url="Config/Constants.xml" name="Constants" load="true"/>
+		<XMLLoader url="Config/sceneConfig.xml" name="sceneConfig" load="true"/>
+		<!--<SWFLoader url="swf/child.swf" name="child" autoPlay="false"/>
+			<VideoLoader url="video/video.flv" name="video" width="400" height="300" scaleMode="stretch" autoPlay="false"/>
+			<ImageLoader url="1.jpg" name="image1" load="true"/>-->
+	</LoaderMax>
+</data>

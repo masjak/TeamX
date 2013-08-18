@@ -1,6 +1,6 @@
 package com.core.Common.DataStruct
 {
-	public class lightsDataStruct implements IDataStruct
+	public class lightsVO implements IDataVO
 	{
 		public var name:String;
 		public var path:String;
@@ -8,9 +8,9 @@ package com.core.Common.DataStruct
 		public var PosY:Number;
 		public var State:int;
 		
-		public function lightsDataStruct(){}
+		public function lightsVO(){}
 		
-		public function clone():IDataStruct
+		public function clone():IDataVO
 		{
 			
 			

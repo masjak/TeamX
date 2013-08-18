@@ -2,9 +2,10 @@ package com.core.Basic
 {
 	
 	import com.Game.Globel.Constants;
-	import com.core.Common.DataStruct.SceneDataStruct;
-	import com.core.Common.DataStruct.buildersDataStruct;
-	import com.core.Common.DataStruct.lightsDataStruct;
+	import com.core.Common.Singleton;
+	import com.core.Common.DataStruct.SceneDataVO;
+	import com.core.Common.DataStruct.buildersVO;
+	import com.core.Common.DataStruct.lightsVO;
 	import com.core.Utils.File.OpenFile;
 	
 	import flash.events.TimerEvent;
@@ -28,7 +29,7 @@ package com.core.Basic
 		protected var atlas:TextureAtlas;
 		protected var state:int;
 		protected var _tileMap:XMap;
-		protected var _sds:SceneDataStruct;
+		protected var _sds:SceneDataVO;
 		
 		/**地图层*/	
 		protected var mapLayer:XSprite = new XSprite;
@@ -50,7 +51,7 @@ package com.core.Basic
 		// 测试数据
 		protected var _testQuad:Quad;
 		
-		public function XScene(sds:SceneDataStruct)
+		public function XScene(sds:SceneDataVO)
 		{
 			_sds = sds;
 			state = _sds.initState;
@@ -60,9 +61,10 @@ package com.core.Basic
 			
 			lightLayer.touchable = false;
 			addChild(lightLayer);
+			setUp();
 		}
 		
-		public function get sceneData():SceneDataStruct{return _sds;}
+		public function get sceneData():SceneDataVO{return _sds;}
 		public function get sceneState():int{ return state; }
 		public function set sceneState(s:int):void
 		{
@@ -74,12 +76,12 @@ package com.core.Basic
 			init();
 		}
 		
-		public function setUp():void
+		private function setUp():void
 		{
 			_tileMap = new XMap(_sds);
 			mapLayer.addChild(_tileMap);
 			mapLayer.flatten();
-			XWorld.instance.camera.lookAt(0,0);
+//			XWorld.instance.camera.lookAt(0,0);
 			this.addEventListener(TouchEvent.TOUCH,ontouch);
 			
 			// 完成初始化的时候显示核心区域
@@ -101,6 +103,9 @@ package com.core.Basic
 			}
 			adjustMapPos();
 			init();
+			
+			// 初始化完成之后 通知主屏幕
+			Singleton.signal.dispatchSignal(Constants.SIGNAL_SCENE_CREATE_COMPLETE,this);
 		}
 		
 		protected function init():void
@@ -123,7 +128,7 @@ package com.core.Basic
 		}
 		
 		/** 创建光影*/		
-		protected function createlight(los:lightsDataStruct):void
+		protected function createlight(los:lightsVO):void
 		{
 			var img:Image = lights[los.name];
 			if(img != null)
@@ -176,7 +181,7 @@ package com.core.Basic
 		}
 		
 		/** 创建建筑*/
-		public function createbuilder(bds:buildersDataStruct):void
+		public function createbuilder(bds:buildersVO):void
 		{
 			var img:Image = builders[bds.name];
 			if(img != null)
@@ -405,9 +410,6 @@ package com.core.Basic
 				if(touchEnd != null)
 				{
 					adjustMapPos();
-					
-					XWorld.instance.camera.setZero(-this.x,-this.y );
-					XWorld.instance.camera.update();
 					recut();
 				}
 				// 触摸滑动

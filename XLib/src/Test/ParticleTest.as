@@ -47,7 +47,8 @@ package Test
 			var ba:ByteArray = OpenFile.open(new File(Constants.resRoot + "/testRes/media/drugs.pex"));
 			var xml:XML = new XML(ba);
 			
-			
+			ba = OpenFile.open(new File(Constants.resRoot + "/testRes/media/drugs.png"));
+//			var particle:ParticleSystem = new ParticleSystem(xml,ba);
 				
 //			Singleton.assets.loadQueue(onProgress);
 //			function onProgress(r:Number):void

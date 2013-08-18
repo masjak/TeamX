@@ -2,10 +2,9 @@ package com.core.Basic
 {
 	import com.Game.Globel.Constants;
 	import com.core.Common.SceneManager;
-	import com.core.Utils.File.OpenFile;
+	import com.core.Common.Singleton;
 	
-	import flash.filesystem.File;
-	import flash.utils.ByteArray;
+	import org.osflash.signals.events.GenericEvent;
 	
 	import starling.display.Sprite;
 	
@@ -15,7 +14,7 @@ package com.core.Basic
 		public static var instance:XWorld;
 		
 		protected var _scene:XScene;
-		protected var _camera:XCamera;
+//		protected var _camera:XCamera;
 		
 		public function XWorld()
 		{
@@ -30,16 +29,9 @@ package com.core.Basic
 		
 		public function enterScene(id:String):void
 		{
-			var s:XScene = SceneManager.enterScene(id);
-			
-			if(s != null)
-			{
-				_scene = s;
-				addChild(scene);
-				_camera = new XCamera(_scene);
-				_scene.setUp();
-			}
-			
+			Singleton.signal.addSignal(Constants.SIGNAL_SCENE_CREATE_COMPLETE,this);
+			Singleton.signal.registerSignalListener(Constants.SIGNAL_SCENE_CREATE_COMPLETE,sceneCreateComplete);
+			SceneManager.enterScene(id);
 		}
 		
 		public function init():void
@@ -47,9 +39,21 @@ package com.core.Basic
 //			enterScene("1");
 		}
 		
+		// 引擎初始化完毕
+		private function sceneCreateComplete(e:GenericEvent,o:Object):void
+		{
+			
+			_scene = o as XScene;
+			if(_scene != null)
+			{
+				addChild(_scene);
+			}
+			Singleton.signal.removeSignal(Constants.SIGNAL_SCENE_CREATE_COMPLETE);
+		}
+		
 	
 		public function get scene():XScene{return _scene;}
-		public function get camera():XCamera{return _camera;}
+//		public function get camera():XCamera{return _camera;}
 		
 		override public function dispose():void
 		{

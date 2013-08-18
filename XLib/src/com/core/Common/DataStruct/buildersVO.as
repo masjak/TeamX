@@ -1,6 +1,6 @@
 package com.core.Common.DataStruct
 {
-	public class buildersDataStruct implements IDataStruct
+	public class buildersVO implements IDataVO
 	{
 		public var name:String;
 		public var path:String;
@@ -8,9 +8,9 @@ package com.core.Common.DataStruct
 		public var PosY:Number;
 		public var State:int;
 		
-		public function buildersDataStruct(){}
+		public function buildersVO(){}
 		
-		public function clone():IDataStruct
+		public function clone():IDataVO
 		{
 			
 			

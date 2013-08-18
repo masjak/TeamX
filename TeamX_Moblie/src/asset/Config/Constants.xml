@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2013 (http://www.altova.com) by  () -->
+<Root>
+	<!--场景默认缩放的最大倍率-->
+	<SCENE_ZOOM_MAX>1.5</SCENE_ZOOM_MAX>
+	<!--场景夜晚遮罩颜色-->
+	<SCENE_MASK_COLOR>0x0b0c18</SCENE_MASK_COLOR>
+	<!--场景夜晚遮罩的透明度-->
+	<SCENE_MASK_APHLA>0.55</SCENE_MASK_APHLA>
+</Root>

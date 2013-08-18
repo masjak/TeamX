@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2013 (http://www.altova.com) by  () -->
+<!-- 被2011 rel. 2 sp1 (haog) 使用XMLSpy vmf编辑的 (http://www.altova.com) by -->
+<Root>
+	<scene sceneId="1" mapWidth="4096" mapHeight="2560" tileWidth="512" tileHeight="512" widthNum="8" heightNum="5" roadmap="/scene/1/roadmap.png" atfFormat="/scene/1/{0}.atf" initState="1" initAreoX="500" initAreoY="500" initAreoWidth="1024" initAreoHeight="768">
+		<!--state标识出现的场景类型 1为白天 2为晚上 4为下雪之类。。。。如果白天和晚上用同一个则是1+2 = 3-->
+		<buliders name="house_day" path="/scene/1/house_day.atf" PosX="430" PosY="0" State="1"/>
+		<buliders name="house_night" path="/scene/1/house_nolight.atf" PosX="430" PosY="0" State="2"/>
+		<lights name="light" path="/scene/1/light.atf" PosX="430" PosY="0" State="2"/>
+	</scene>
+</Root>

@@ -1,9 +1,9 @@
 package com.core.Common.DataStruct
 {
-	public interface IDataStruct
+	public interface IDataVO
 	{
 	
-		function clone():IDataStruct;
+		function clone():IDataVO;
 		function dispose():void;
 		
 	}

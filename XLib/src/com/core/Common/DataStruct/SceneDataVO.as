@@ -2,7 +2,7 @@ package com.core.Common.DataStruct
 {
 	import flash.geom.Rectangle;
 
-	public class SceneDataStruct implements IDataStruct
+	public class SceneDataVO implements IDataVO
 	{
 		/** 场景Id*/
 		public var sceneId:String;
@@ -32,9 +32,9 @@ package com.core.Common.DataStruct
 		/**lights配置*/
 		public var lights:Object = new Object;	
 		
-		public function SceneDataStruct(){}
+		public function SceneDataVO(){}
 		
-		public function clone():IDataStruct
+		public function clone():IDataVO
 		{
 //			var sd:SceneDataStruct = new SceneDataStruct;
 //			sd.sceneId = this.sceneId;

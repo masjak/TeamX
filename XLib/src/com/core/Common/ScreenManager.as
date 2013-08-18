@@ -35,10 +35,10 @@ package com.core.Common
 			for(var i:int = 0; i < len; i++)
 			{
 				var ts:AtlasStruct = new AtlasStruct;
-				ts.texId = xml.Tex[i].@Id;
-				ts.texPath = xml.Tex[i].@path;
-				ts.texPngName = xml.Tex[i].@PngName;
-				ts.texXmlName = xml.Tex[i].@AtlasName;
+				ts.texId = xml.Tex[0].@Id;
+				ts.texPath = xml.Tex[0].@path;
+				ts.texPngName = xml.Tex[0].@PngName;
+				ts.texXmlName = xml.Tex[0].@AtlasName;
 				vTexs.push(ts);
 			}
 			System.disposeXML(xml);
@@ -50,8 +50,8 @@ package com.core.Common
 			for( i = 0; i < len; i++)
 			{
 				var bs:BlockStruct = new BlockStruct;
-				bs.BlockName = xml.Block[i].@Id;
-				bs.AtlasName = xml.Block[i].@AltasName;
+				bs.BlockName = xml.Block[0].@Id;
+				bs.AtlasName = xml.Block[0].@AltasName;
 				vblock.push(bs);
 			}
 			System.disposeXML(xml);
