@@ -57,8 +57,12 @@ package com.core.Basic
 		{
 			_sds = sds;
 			state = _sds.initState;
+			
+//			mapLayer.touchable = false;
 			addChild(mapLayer);
+			maskLayer.touchable = false;
 			addChild(maskLayer);	
+			
 			addChild(builderLayer);
 			
 			lightLayer.touchable = false;

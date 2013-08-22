@@ -4,7 +4,8 @@ package com.core.Common.DataStruct
 	{
 		public var name:String; // 名字
 		public var path:String;// 路径
-		public var canMove:Boolean;// 是否接受点击
+		public var canMove:Boolean;// 是否可以移动
+		public var clickEffect:int;			// 建筑的点击效果
 		
 		public function buildersVO(){}
 		

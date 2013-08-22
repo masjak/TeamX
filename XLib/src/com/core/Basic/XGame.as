@@ -45,6 +45,8 @@ package com.core.Basic
 			xStage =new XStage;
 			addChild(xStage);
 		
+			
+			
 		}
 		
 		private function progressHandler(event:LoaderEvent):void 

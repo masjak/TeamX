@@ -20,6 +20,8 @@ package com.core.Common
 				bvo.name =  xml.builder[i].@name;
 				bvo.path =    xml.builder[i].@path;
 				bvo.canMove =    (xml.builder[i].@canMove == "true" );
+				bvo.clickEffect =   xml.builder[i].@clickEffect;
+				
 				// 保存数据
 				_data[bvo.name] = bvo;
 			}

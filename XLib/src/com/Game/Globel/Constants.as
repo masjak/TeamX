@@ -37,14 +37,11 @@ package com.Game.Globel
 			}
 			else if(Singleton.platform.Platform == Constants.PLATFORM_WINDOW)
 			{
-				// home 开发环境
-				_resRoot = "E:/workpath/work/XLib/TeamX/TeamX_Moblie/src/asset";
-				// MF开发环境
-//				_resRoot = "F:/workplace/work/XLIB/trunk/TeamX_Moblie/src/asset";
+				_resRoot = File.applicationDirectory.resolvePath("asset").url;
 			}
 			else  if(Singleton.platform.Platform == Constants.PLATFORM_IOS)
 			{
-				_resRoot = File.applicationDirectory.resolvePath("asset").nativePath;
+				_resRoot = File.applicationDirectory.resolvePath("asset").url;
 			}
 			else  if(Singleton.platform.Platform == Constants.PLATFORM_ANDROID)
 			{
@@ -95,6 +92,9 @@ package com.Game.Globel
 		public static const SCENE_STATE_DAY:int = 1;			// 白天
 		public static const SCENE_STATE_NIGHT:int = 2;		// 晚上
 		
+		/***********************点击效果*****************/
+		public static const CLICK_EFFECT_SHAKE:int = 1;			// 抖动
+
 		
 	}
 }

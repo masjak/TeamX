@@ -51,13 +51,13 @@ package Test
 			// 测试2048*2048 单ATF纹理 渲染速度
 //			randerSingleATF2048();	
 			
-//			effect = new EffectTest();
-//			addChild(effect);
+			effect = new EffectTest();
+			addChild(effect);
 			
 			
 			
-			particle = new ParticleTest;
-			addChild(particle);
+//			particle = new ParticleTest;
+//			addChild(particle);
 		}
 		
 		/**

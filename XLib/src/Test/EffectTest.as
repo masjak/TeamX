@@ -13,6 +13,7 @@ package Test
 	import starling.display.Image;
 	import starling.events.TouchEvent;
 	import starling.events.TouchPhase;
+	import starling.filters.ColorMatrixFilter;
 	import starling.textures.Texture;
 
 	public class EffectTest extends XSprite implements ITest
@@ -56,6 +57,17 @@ package Test
 			img.y = 300;
 			img.pivotX = img.width>>1;
 			img.pivotY = img.height>>1;
+			
+			var colorfilter:ColorMatrixFilter = new ColorMatrixFilter();
+			colorfilter.adjustSaturation(-1);
+//			colorfilter.matrix = Vector.<Number>([
+//				1,0,0,0,0,
+//				0,1,0,0,0,
+//				0,0,1,0,0,
+//				0,0,0,1,0
+//			]);
+			img.filter = colorfilter;
+			
 			addChild(img);
 		}
 		
