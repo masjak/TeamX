@@ -1,12 +1,13 @@
 package com.core.Common
 {
+	import com.Game.Globel.Constants;
+	
 	import dragonBones.factorys.StarlingFactory;
 	
 	import feathers.controls.ScreenNavigator;
 	
 	import starling.utils.AssetManager;
 	import starling.utils.ScaleMode;
-	import com.Game.Globel.Constants;
 
 	/**
 	 * 单例管理器
@@ -31,6 +32,11 @@ package com.core.Common
 		/***信号槽管理器 */		
 		private static var _signal:SignalManager;
 		
+		/***建筑管理器 */		
+		private static var _builders:BuilderManager;
+		
+		/***帧监听 */		
+		private static var _enterFrame:EnterFrameManager;
 		
 		public function Singleton()
 		{
@@ -95,6 +101,26 @@ package com.core.Common
 			return ScreenManager.screenNavigator;
 		}
 		
+		/***建筑 对象 */
+		public static function get builders():BuilderManager
+		{
+			if(_builders == null)
+			{
+				_builders = new BuilderManager;
+			}
+			return _builders;
+		}
+		
+		/***建筑 对象 */
+		public static function get enterFrame():EnterFrameManager
+		{
+			if(_enterFrame == null)
+			{
+				_enterFrame = new EnterFrameManager;
+				_enterFrame.start();
+			}
+			return _enterFrame;
+		}
 		
 		/***销毁 */
 		public static function dispose():void
@@ -121,6 +147,25 @@ package com.core.Common
 			{
 				_camera.dispose();
 				_camera = null;
+			}
+			
+			if(_signal != null)
+			{
+				_signal.dispose();
+				_signal = null;
+			}
+			
+			if(_builders != null)
+			{
+				_builders.dispose();
+				_builders = null;
+			}
+			
+			if(_enterFrame != null)
+			{
+				_enterFrame.dispose();
+				_enterFrame.stop();
+				_enterFrame = null;
 			}
 			
 			ScreenManager.dispose();

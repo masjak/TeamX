@@ -187,7 +187,7 @@ package com.core.Basic
 			var b:XBuilder = builders[sbvo.name];
 			if(b == null)
 			{
-				var bvo:buildersVO = BuilderManager.getBuilderVO(sbvo.builderName);
+				var bvo:buildersVO = Singleton.builders.getBuilderVO(sbvo.builderName);
 				if(bvo == null)
 				{
 					throw new Error("不存在的建筑名字：" + sbvo.builderName);

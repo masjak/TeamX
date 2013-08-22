@@ -5,6 +5,7 @@ package Test
 	import com.core.Utils.UtilImage;
 	
 	import flash.display.Bitmap;
+	import flash.utils.setInterval;
 	
 	import starling.animation.Transitions;
 	import starling.animation.Tween;
@@ -56,8 +57,6 @@ package Test
 			img.pivotX = img.width>>1;
 			img.pivotY = img.height>>1;
 			addChild(img);
-			
-			
 		}
 		
 

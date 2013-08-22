@@ -2,16 +2,16 @@ package com.core.Common
 {
 	import com.core.Common.DataStruct.buildersVO;
 
-	public class BuilderManager
+	public class BuilderManager 
 	{
 		protected static var _data:Object = {};
 		
 		function BuilderManager(){}
 		
 		/**场景配置数据*/
-		protected static function get sceneData():Object {return _data;}
+		protected function get sceneData():Object {return _data;}
 
-		public static function readXml(xml:XML):void
+		public function readXml(xml:XML):void
 		{
 			var len:int = xml.builder.length();
 			for(var i:int = 0; i < len; i++)
@@ -25,13 +25,13 @@ package com.core.Common
 			}
 		}
 		
-		public static function getBuilderVO(name:String):buildersVO
+		public function getBuilderVO(name:String):buildersVO
 		{
 			return _data[name];
 		}
 		
 		/**销毁*/		
-		public static function dispose():void
+		public function dispose():void
 		{
 			_data = null;
 		}

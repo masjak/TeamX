@@ -3,6 +3,7 @@ package com.core.Basic
 	import com.Game.Globel.Constants;
 	import com.core.Common.BuilderManager;
 	import com.core.Common.SceneManager;
+	import com.core.Common.Singleton;
 	import com.greensock.events.LoaderEvent;
 	import com.greensock.loading.ImageLoader;
 	import com.greensock.loading.LoaderMax;
@@ -64,7 +65,7 @@ package com.core.Basic
 			
 			// 加载建筑列表
 			loader = LoaderMax.getLoader("builders");
-			BuilderManager.readXml(loader.content);
+			Singleton.builders.readXml(loader.content);
 			
 			// 加载灯光列表
 			loader = LoaderMax.getLoader("lights");
