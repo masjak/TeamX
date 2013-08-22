@@ -88,6 +88,16 @@ package com.core.Common
 					lds.State =  xml.lights[j].@State;
 					sd.lights[bds.name] = lds;
 				}
+				
+				// 读取可放置建筑区域
+				sd.terrainTileWidth = xml.terrain.@grid_w;
+				sd.terrainTileHeight = xml.terrain.@grid_h;
+				
+				sd.terrainWidth = (sd.mapWidth/sd.terrainTileWidth);
+				sd.terrainHeight = (sd.mapHeight/sd.terrainTileHeight);
+				sd.terrainData = (String(xml.terrain.@terrain).split(","));
+				
+				
 			// 释放XML资源
 			System.disposeXML(xml);
 			return sd;

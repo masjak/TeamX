@@ -109,6 +109,27 @@ package com.core.Basic
 			adjustMapPos();
 			init();
 			
+			// 测试可拖动区域
+			var qb:QuadBatch = new QuadBatch();
+			addChild(qb);
+			var q:Quad = new Quad(32,32,0x00ff00);
+			for(var i:int = 0; i < _sds.terrainHeight; i++)
+			{
+				for(var j:int = 0; j < _sds.terrainWidth; j++)
+				{
+					if(_sds.terrainData[j*_sds.terrainHeight + i] != 0)
+					{
+						q.x = j*_sds.terrainTileWidth;
+						q.y = i*_sds.terrainTileHeight;
+						qb.addQuad(q);
+					}
+				}
+				
+				
+				
+			}
+			
+			
 			// 初始化完成之后 通知主屏幕
 			Singleton.signal.dispatchSignal(Constants.SIGNAL_SCENE_CREATE_COMPLETE,this);
 		}

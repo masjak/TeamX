@@ -32,6 +32,18 @@ package com.core.Common.DataStruct
 		/**lights配置*/
 		public var lights:Object = new Object;	
 		
+		/**可放置建筑地形的横向tile大小*/
+		public var terrainTileWidth:int;	
+		/**可放置建筑地形的纵向tile大小*/
+		public var terrainTileHeight:int;	
+		/**可放置建筑地形的横向tile格数*/
+		public var terrainWidth:int;	
+		/**可放置建筑地形的纵向tile格数*/
+		public var terrainHeight:int;	
+		/**可放置建筑地形的数据*/
+		public var terrainData:Array = new Array;	
+		
+		
 		public function SceneDataVO(){}
 		
 		public function clone():IDataVO
