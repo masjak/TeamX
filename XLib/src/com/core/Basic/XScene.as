@@ -6,6 +6,7 @@ package com.core.Basic
 	import com.core.Common.Singleton;
 	import com.core.Common.DataStruct.SceneBuildersVO;
 	import com.core.Common.DataStruct.SceneDataVO;
+	import com.core.Common.DataStruct.SceneLightsVO;
 	import com.core.Common.DataStruct.buildersVO;
 	import com.core.Common.DataStruct.lightsVO;
 	import com.core.Utils.File.OpenFile;
@@ -154,44 +155,72 @@ package com.core.Basic
 		}
 		
 		/** 创建光影*/		
-		protected function createlight(los:lightsVO):void
+		protected function createlight(slvo:SceneLightsVO):void
 		{
-			var img:Image = lights[los.name];
-			if(img != null)
+			if(slvo.State != slvo.State)
 			{
-				if((los.State & this.state))
-				{
-					if(!lightLayer.contains(img))
-					{
-						lightLayer.addChild(img);
-					}
-				}
-				else
-				{
-					lightLayer.removeChild(img);
-				}
+				return;
 			}
-			else
+			
+			var l:XLight = builders[slvo.name];
+			if(l == null)
 			{
-				var path:String = Constants.resRoot+los.path;
-				var ba:ByteArray = OpenFile.open(new File(path));
-				var tex:Texture = Texture.fromAtfData(ba);
-				img = new Image(tex);
-				img.x = los.PosX;
-				img.y = los.PosY;
-				lights[los.name] = img;
-				if((los.State & this.state))
+				var lvo:lightsVO = Singleton.lights.getLightVO(slvo.lightsName);
+				if(lvo == null)
 				{
-					if(!lightLayer.contains(img))
-					{
-						lightLayer.addChild(img);
-					}
+					throw new Error("不存在的灯光名字：" + slvo.lightsName);
+					return ;
 				}
-				else
-				{
-					lightLayer.removeChild(img);
-				}
+				l = new XLight(lvo);
+				builders[slvo.name] = l;	
 			}
+			l.x = slvo.PosX;
+			l.y = slvo.PosY;
+
+			if(!lightLayer.contains(l))
+			{
+				lightLayer.addChild(l);
+			}
+			
+//			
+//			
+//			
+//			var img:Image = lights[los.name];
+//			if(img != null)
+//			{
+//				if((los.State & this.state))
+//				{
+//					if(!lightLayer.contains(img))
+//					{
+//						lightLayer.addChild(img);
+//					}
+//				}
+//				else
+//				{
+//					lightLayer.removeChild(img);
+//				}
+//			}
+//			else
+//			{
+//				var path:String = Constants.resRoot+los.path;
+//				var ba:ByteArray = OpenFile.open(new File(path));
+//				var tex:Texture = Texture.fromAtfData(ba);
+//				img = new Image(tex);
+//				img.x = los.PosX;
+//				img.y = los.PosY;
+//				lights[los.name] = img;
+//				if((los.State & this.state))
+//				{
+//					if(!lightLayer.contains(img))
+//					{
+//						lightLayer.addChild(img);
+//					}
+//				}
+//				else
+//				{
+//					lightLayer.removeChild(img);
+//				}
+//			}
 			
 			
 		}

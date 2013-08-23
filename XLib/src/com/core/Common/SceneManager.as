@@ -5,6 +5,7 @@ package com.core.Common
 	import com.core.Basic.XWorld;
 	import com.core.Common.DataStruct.SceneBuildersVO;
 	import com.core.Common.DataStruct.SceneDataVO;
+	import com.core.Common.DataStruct.SceneLightsVO;
 	import com.core.Common.DataStruct.SceneListVO;
 	import com.core.Common.DataStruct.buildersVO;
 	import com.core.Common.DataStruct.lightsVO;
@@ -80,9 +81,9 @@ package com.core.Common
 				len = xml.lights.length();
 				for( j = 0; j < len; j++)
 				{
-					var lds:lightsVO = new lightsVO;
+					var lds:SceneLightsVO = new SceneLightsVO;
 					lds.name =  xml.lights[j].@name;
-					lds.path =  xml.lights[j].@path;
+					lds.lightsName =  xml.lights[j].@lightName;
 					lds.PosX =  xml.lights[j].@PosX;
 					lds.PosY =  xml.lights[j].@PosY;
 					lds.State =  xml.lights[j].@State;

@@ -35,6 +35,9 @@ package com.core.Common
 		/***建筑管理器 */		
 		private static var _builders:BuilderManager;
 		
+		/***灯光管理器 */		
+		private static var _lights:LightManager;
+		
 		/***帧监听 */		
 		private static var _enterFrame:EnterFrameManager;
 		
@@ -112,6 +115,16 @@ package com.core.Common
 		}
 		
 		/***建筑 对象 */
+		public static function get lights():LightManager
+		{
+			if(_lights == null)
+			{
+				_lights = new LightManager;
+			}
+			return _lights;
+		}
+		
+		/***帧监听 对象 */
 		public static function get enterFrame():EnterFrameManager
 		{
 			if(_enterFrame == null)
@@ -159,6 +172,12 @@ package com.core.Common
 			{
 				_builders.dispose();
 				_builders = null;
+			}
+			
+			if(_lights != null)
+			{
+				_lights.dispose();
+				_lights = null;
 			}
 			
 			if(_enterFrame != null)

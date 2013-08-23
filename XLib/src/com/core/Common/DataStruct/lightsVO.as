@@ -4,8 +4,6 @@ package com.core.Common.DataStruct
 	{
 		public var name:String;
 		public var path:String;
-		public var PosX:Number;
-		public var PosY:Number;
 		public var State:int;
 		
 		public function lightsVO(){}

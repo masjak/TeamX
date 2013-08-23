@@ -17,7 +17,7 @@
     <classEntry path="dragonBones.Bone"/>
     <classEntry path="dragonBones.Slot"/>
     <classEntry path="Test.ParticleTest"/>
-    <classEntry path="com.core.Basic.XBuilder"/>
+    <classEntry path="com.core.Basic.XLight"/>
     <classEntry path="com.core.Effect.BuilderState.StateManager"/>
   </includeClasses>
   <includeResources/>

@@ -71,9 +71,9 @@ package com.core.Basic
 			
 			// 加载灯光列表
 			loader = LoaderMax.getLoader("lights");
-			//			SceneManager.readXml(loader.content);
+			Singleton.lights.readXml(loader.content);
 			
-			// 加载灯光列表
+			// 加载单位列表
 			loader = LoaderMax.getLoader("units");
 			//			SceneManager.readXml(loader.content);
 			

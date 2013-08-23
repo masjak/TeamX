@@ -9,7 +9,7 @@ package com.core.Common
 		function BuilderManager(){}
 		
 		/**场景配置数据*/
-		protected function get sceneData():Object {return _data;}
+		protected function get builderData():Object {return _data;}
 
 		public function readXml(xml:XML):void
 		{
