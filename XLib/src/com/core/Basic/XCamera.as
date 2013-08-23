@@ -201,7 +201,7 @@ package com.core.Basic
 		/**是否需要重新裁切*/		
 		public function recut():void
 		{
-			_scene.recut();
+			
 		}
 		
 		public function flyTo(x:uint,y:uint,callback:Function=null):void

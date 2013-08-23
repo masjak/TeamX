@@ -2,29 +2,23 @@ package com.core.Basic
 {
 	
 	import com.Game.Globel.Constants;
-	import com.core.Common.BuilderManager;
 	import com.core.Common.Singleton;
 	import com.core.Common.DataStruct.SceneBuildersVO;
 	import com.core.Common.DataStruct.SceneDataVO;
 	import com.core.Common.DataStruct.SceneLightsVO;
 	import com.core.Common.DataStruct.buildersVO;
 	import com.core.Common.DataStruct.lightsVO;
-	import com.core.Utils.File.OpenFile;
 	
 	import flash.events.TimerEvent;
-	import flash.filesystem.File;
 	import flash.geom.Point;
-	import flash.utils.ByteArray;
 	import flash.utils.Timer;
 	
 	import starling.display.BlendMode;
-	import starling.display.Image;
 	import starling.display.Quad;
 	import starling.display.QuadBatch;
 	import starling.events.Touch;
 	import starling.events.TouchEvent;
 	import starling.events.TouchPhase;
-	import starling.textures.Texture;
 	import starling.textures.TextureAtlas;
 
 	public class XScene extends XSprite
@@ -83,6 +77,7 @@ package com.core.Basic
 			init();
 		}
 		
+		/** 构建场景*/
 		private function setUp():void
 		{
 			_tileMap = new XMap(_sds);
@@ -125,24 +120,60 @@ package com.core.Basic
 						qb.addQuad(q);
 					}
 				}
-				
-				
-				
 			}
-			
-			
 			// 初始化完成之后 通知主屏幕
 			Singleton.signal.dispatchSignal(Constants.SIGNAL_SCENE_CREATE_COMPLETE,this);
 		}
 		
 		protected function init():void
 		{
-//			createbuilders();// 创建建筑
+			//			createbuilders();// 创建建筑
 			createMaskLayer();// 生成遮罩
-//			createlights();// 光影
+			//			createlights();// 光影
 			// 测试寻路
 			//			testAstar();
 		}
+		
+		/** 根据名字获取灯光*/		
+		public function getLightByName(s:String):XLight
+		{
+			return lights[s];
+		}
+		
+		/** 根据名字获取建筑*/
+		public function getBuilderByName(s:String):XBuilder
+		{
+			return builders[s];
+		}
+		
+		public function getSceneBuilderVO(s:String):SceneBuildersVO
+		{
+			var sbvo:SceneBuildersVO;
+			for (var str:String in _sds.builders)
+			{
+				if(s == (_sds.builders[str] as SceneBuildersVO).sceneName)
+				{
+					sbvo = _sds.builders[str];
+					break;
+				}
+			}
+			return sbvo;
+		}
+		
+		/** 根据建筑名字获取灯光*/		
+		public function getLightByBuilderSceneName(s:String):XLight
+		{
+			
+			var sbvo:SceneBuildersVO = getSceneBuilderVO(s);
+			if(sbvo != null)
+			{
+				return getLightByName(sbvo.blindLight);
+			}
+			
+			return null;
+		}
+		
+		
 		
 		/** 创建光影组*/		
 		protected function createlights():void
@@ -162,17 +193,17 @@ package com.core.Basic
 				return;
 			}
 			
-			var l:XLight = builders[slvo.name];
+			var l:XLight = lights[slvo.sceneName];
 			if(l == null)
 			{
-				var lvo:lightsVO = Singleton.lights.getLightVO(slvo.lightsName);
+				var lvo:lightsVO = Singleton.lights.getLightVO(slvo.name);
 				if(lvo == null)
 				{
-					throw new Error("不存在的灯光名字：" + slvo.lightsName);
+					throw new Error("不存在的灯光名字：" + slvo.name);
 					return ;
 				}
 				l = new XLight(lvo);
-				builders[slvo.name] = l;	
+				lights[slvo.sceneName] = l;	
 			}
 			l.x = slvo.PosX;
 			l.y = slvo.PosY;
@@ -181,47 +212,6 @@ package com.core.Basic
 			{
 				lightLayer.addChild(l);
 			}
-			
-//			
-//			
-//			
-//			var img:Image = lights[los.name];
-//			if(img != null)
-//			{
-//				if((los.State & this.state))
-//				{
-//					if(!lightLayer.contains(img))
-//					{
-//						lightLayer.addChild(img);
-//					}
-//				}
-//				else
-//				{
-//					lightLayer.removeChild(img);
-//				}
-//			}
-//			else
-//			{
-//				var path:String = Constants.resRoot+los.path;
-//				var ba:ByteArray = OpenFile.open(new File(path));
-//				var tex:Texture = Texture.fromAtfData(ba);
-//				img = new Image(tex);
-//				img.x = los.PosX;
-//				img.y = los.PosY;
-//				lights[los.name] = img;
-//				if((los.State & this.state))
-//				{
-//					if(!lightLayer.contains(img))
-//					{
-//						lightLayer.addChild(img);
-//					}
-//				}
-//				else
-//				{
-//					lightLayer.removeChild(img);
-//				}
-//			}
-			
 			
 		}
 		
@@ -238,17 +228,19 @@ package com.core.Basic
 		/** 创建建筑*/
 		public function createbuilder(sbvo:SceneBuildersVO):void
 		{
-			var b:XBuilder = builders[sbvo.name];
+			var b:XBuilder = builders[sbvo.sceneName];
 			if(b == null)
 			{
-				var bvo:buildersVO = Singleton.builders.getBuilderVO(sbvo.builderName);
+				var bvo:buildersVO = Singleton.builders.getBuilderVO(sbvo.name);
+				bvo.sceneName = sbvo.sceneName;
+				
 				if(bvo == null)
 				{
-					throw new Error("不存在的建筑名字：" + sbvo.builderName);
+					throw new Error("不存在的建筑名字：" + sbvo.name);
 					return ;
 				}
 				b = new XBuilder(bvo);
-				builders[sbvo.name] = b;	
+				builders[sbvo.sceneName] = b;	
 			}
 			b.x = sbvo.PosX;
 			b.y = sbvo.PosY;
@@ -449,7 +441,6 @@ package com.core.Basic
 				if(touchEnd != null)
 				{
 					adjustMapPos();
-					recut();
 				}
 				// 触摸滑动
 				if(touchMove != null)
@@ -511,12 +502,7 @@ package com.core.Basic
 			}
 		}
 		
-		/**是否需要重新裁切*/		
-		public function recut():void
-		{
-			_tileMap.recut();
-		}
-		
+	
 		override public function dispose():void
 		{
 			_tileMap = null;

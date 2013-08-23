@@ -2,6 +2,7 @@ package com.core.Common.DataStruct
 {
 	public class buildersVO implements IDataVO
 	{
+		public var sceneName:String; // 在场景中的名字
 		public var name:String; // 名字
 		public var path:String;// 路径
 		public var canMove:Boolean;// 是否可以移动

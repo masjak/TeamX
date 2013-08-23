@@ -23,7 +23,7 @@ package com.core.Basic
 	{
 		private var _state:int = 0;				// 建筑的状态 跟地图 白天黑夜等相匹配
 		private var _body:Image;				// 建筑生成后的显示图
-//		private var _name:String;			// 建筑的唯一标识名字
+//		private var _blindLightName:String;	// 
 		private var _vo:buildersVO;
 		
 		public function XBuilder(bds:buildersVO)
@@ -37,6 +37,12 @@ package com.core.Basic
 			_body = new Image(tex);
 			
 			addChild(_body);
+		}
+		
+		/** 获取 建筑配置*/		
+		public function get vo():buildersVO
+		{
+			return _vo;
 		}
 		
 		/** 设置建筑当前的场景状态 比如白天 黑夜 */		
