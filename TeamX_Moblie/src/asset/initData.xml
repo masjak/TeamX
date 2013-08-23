@@ -6,7 +6,7 @@
 			<VideoLoader url="video/video.flv" name="video" width="400" height="300" scaleMode="stretch" autoPlay="false"/>
 			<ImageLoader url="1.jpg" name="image1" load="true"/>-->
 		<XMLLoader url="Config/Constants.xml" name="Constants" load="true"/>
-		<XMLLoader url="Config/sceneConfig.xml" name="sceneConfig" load="true"/>
+		<XMLLoader url="Config/scenesxml" name="sceneConfig" load="true"/>
 		<XMLLoader url="Config/builders.xml" name="builders" load="true"/>
 		<XMLLoader url="Config/lights.xml" name="lights" load="true"/>
 		<XMLLoader url="Config/units.xml" name="units" load="true"/>
