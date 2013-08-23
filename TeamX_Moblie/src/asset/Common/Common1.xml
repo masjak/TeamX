@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker http://texturepacker.com-->
+<!-- $TexturePacker:SmartUpdate:e7adda949f595777b425e37444b5dcf3$ -->
+<TextureAtlas imagePath="Common1.png">
+    <SubTexture name="builderForbid" x="2" y="140" width="136" height="136"/>
+    <SubTexture name="builderAllow" x="2" y="2" width="136" height="136"/>
+</TextureAtlas>

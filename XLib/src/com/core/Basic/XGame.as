@@ -1,7 +1,6 @@
 package com.core.Basic
 {
 	import com.Game.Globel.Constants;
-	import com.core.Common.BuilderManager;
 	import com.core.Common.SceneManager;
 	import com.core.Common.Singleton;
 	import com.greensock.events.LoaderEvent;
@@ -35,18 +34,10 @@ package com.core.Basic
 		
 		private function init():void 
 		{
+			// 先加载配置数据
 			LoaderMax.activate([ImageLoader, SWFLoader, VideoLoader,XMLLoader]); 
 			xmlLoader = new XMLLoader(Constants.resRoot + "/initData.xml", { onComplete:completeHandler, estimatedBytes:50000,onProgress:progressHandler } );
 			xmlLoader.load();
-			
-//			// 始化屏幕管理	
-//			ScreenManager.init();
-			
-			xStage =new XStage;
-			addChild(xStage);
-		
-			
-			
 		}
 		
 		private function progressHandler(event:LoaderEvent):void 
@@ -64,14 +55,17 @@ package com.core.Basic
 			// 加载场景列表
 			loader = LoaderMax.getLoader("sceneConfig");
 			SceneManager.readXml(loader.content);
+			System.disposeXML(loader.content);
 			
 			// 加载建筑列表
 			loader = LoaderMax.getLoader("builders");
 			Singleton.builders.readXml(loader.content);
+			System.disposeXML(loader.content);
 			
 			// 加载灯光列表
 			loader = LoaderMax.getLoader("lights");
 			Singleton.lights.readXml(loader.content);
+			System.disposeXML(loader.content);
 			
 			// 加载单位列表
 			loader = LoaderMax.getLoader("units");
@@ -81,7 +75,28 @@ package com.core.Basic
 			
 			// 加载配置完成之后释放所有资源
 			xmlLoader.dispose();
+			
+			// 加载资源数据
+			Singleton.assets.enqueue(Constants.resRoot+"/Common/Common1.xml",Constants.resRoot+"/Common/Common1."+ Constants.GAME_RES_TYPE);
+			Singleton.assets.loadQueue(onAssetsPrograss);
+			
+			
+			// 始化屏幕管理	
+//			ScreenManager.init();
 		} 
+		
+		private function onAssetsPrograss(r:Number):void
+		{
+			if(r == 1)
+			{
+				if(xStage != null)
+				{
+					xStage.dispose();
+				}
+				xStage =new XStage;
+				addChild(xStage);
+			}
+		}
 		
 		
 	}

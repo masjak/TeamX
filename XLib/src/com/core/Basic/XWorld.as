@@ -57,6 +57,7 @@ package com.core.Basic
 		
 		override public function dispose():void
 		{
+			super.dispose();
 			if(scene != null)
 			{
 				scene.dispose();

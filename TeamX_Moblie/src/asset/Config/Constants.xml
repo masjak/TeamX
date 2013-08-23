@@ -7,4 +7,7 @@
 	<SCENE_MASK_COLOR>0x0b0c18</SCENE_MASK_COLOR>
 	<!--场景夜晚遮罩的透明度-->
 	<SCENE_MASK_APHLA>0.55</SCENE_MASK_APHLA>
+	<!--场景使用的资源类型-->
+	<GAME_RES_TYPE>atf</GAME_RES_TYPE>
+	
 </Root>

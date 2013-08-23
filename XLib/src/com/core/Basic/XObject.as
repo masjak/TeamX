@@ -17,7 +17,7 @@ package com.core.Basic
 	 * 游戏对象基类
 	 * 游戏中全部对象的根类
 	 */ 
-	public class XGameObject extends XSprite
+	public class XObject extends XSprite
 	{
 		/**
 		 * 默认方向配置
@@ -85,7 +85,7 @@ package com.core.Basic
 		/**
 		 * @param	ctrl	控制器
 		 */ 
-		public function XGameObject(ctrl:BaseControler = null)
+		public function XObject(ctrl:BaseControler = null)
 		{
 			this.touchable = false;
 			pos = new Point(0,0);

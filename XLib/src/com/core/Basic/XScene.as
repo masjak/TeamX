@@ -23,7 +23,6 @@ package com.core.Basic
 
 	public class XScene extends XSprite
 	{		
-		protected var atlas:TextureAtlas;
 		protected var state:int;
 		protected var _tileMap:XMap;
 		protected var _sds:SceneDataVO;
@@ -505,8 +504,8 @@ package com.core.Basic
 	
 		override public function dispose():void
 		{
+			super.dispose();
 			_tileMap = null;
-			atlas.dispose();
 		}
 		
 	}

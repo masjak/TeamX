@@ -48,6 +48,8 @@ package com.core.Basic
 			// 场景层在最下面 UI在最上面
 			addChild(_world);
 			addChild(_hud);
+			
+			_world.enterScene("1");
 		}
 		
 		/**获取场景层*/		
@@ -64,6 +66,7 @@ package com.core.Basic
 		/**销毁*/		
 		override public function dispose():void
 		{
+			super.dispose();
 			if(_world != null)
 			{
 				_world.dispose();

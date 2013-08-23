@@ -31,7 +31,7 @@ package com.core.Basic
 		protected var _moveSpeed:uint;
 		
 		/** * 镜头注视*/ 
-		protected var _focus:XGameObject;
+		protected var _focus:XObject;
 		
 		/*** 主场景 */ 
 		protected var _scene:XScene;
@@ -56,7 +56,7 @@ package com.core.Basic
 		/***视口左上角对应的世界坐标Y*/ 
 		public function get zeroY():uint{return _zeroY;}
 		/*** 获取镜头注释目标 */ 
-		public function get focusObject():XGameObject {return _focus;}	
+		public function get focusObject():XObject {return _focus;}	
 		/*** 镜头移动速度 */ 
 		public function set moveSpeed(s:uint):void{_moveSpeed = s;}
 		
@@ -104,7 +104,7 @@ package com.core.Basic
 		}
 		
 		/*** 镜头注视*/ 
-		public function focus(o:XGameObject=null):void
+		public function focus(o:XObject=null):void
 		{
 			_focus = o;
 			update();

@@ -1,26 +1,11 @@
 package com.core.Common
 {
-	import com.core.Common.DataStruct.AtlasStruct;
-	import com.core.Common.DataStruct.BlockStruct;
-	import com.core.Utils.Util;
-	import com.core.Utils.File.OpenFile;
-	
-	import flash.filesystem.File;
-	import flash.system.System;
-	
 	import feathers.controls.ScreenNavigator;
 	import feathers.controls.ScreenNavigatorItem;
-	
-	import starling.textures.TextureAtlas;
-	import com.Game.Globel.Constants;
 
 	public class ScreenManager 
 	{
 		protected static var _navigator:ScreenNavigator;
-		/**altas数据*/		
-		protected static var vTexs:Vector.<AtlasStruct> = new Vector.<AtlasStruct>;
-		/**altas数据*/		
-		protected static var vblock:Vector.<BlockStruct> = new Vector.<BlockStruct>;
 		
 		public function ScreenManager()
 		{
@@ -29,91 +14,9 @@ package com.core.Common
 		/** 初始化列表*/		
 		public static function init():void
 		{
-			var f:File = new File(Constants.resRoot + "/Atlas/AtlasList.xml");
-			var xml:XML = new XML(OpenFile.open(f));
-			var len:int = xml.Tex.length();
-			for(var i:int = 0; i < len; i++)
-			{
-				var ts:AtlasStruct = new AtlasStruct;
-				ts.texId = xml.Tex[0].@Id;
-				ts.texPath = xml.Tex[0].@path;
-				ts.texPngName = xml.Tex[0].@PngName;
-				ts.texXmlName = xml.Tex[0].@AtlasName;
-				vTexs.push(ts);
-			}
-			System.disposeXML(xml);
-			
-			// 解析blockz
-			f = new File(Constants.resRoot + "/Atlas/BlockMapList.xml");
-			xml = new XML(OpenFile.open(f));
-			len = xml.Block.length();
-			for( i = 0; i < len; i++)
-			{
-				var bs:BlockStruct = new BlockStruct;
-				bs.BlockName = xml.Block[0].@Id;
-				bs.AtlasName = xml.Block[0].@AltasName;
-				vblock.push(bs);
-			}
-			System.disposeXML(xml);
-			// 
-		}
-		
-		public static function getTextureByBLock(blockName:String,fun:Function):void
-		{
-			var atlasName:String = getAtlasNameByBLock(blockName);
-			if(atlasName != null)
-			{
-				var atlas:TextureAtlas = Singleton.assets.getTextureAtlas(atlasName);
-				if(atlas != null)
-				{
-					fun && fun.call(null,atlas.getTexture(blockName));
-				}
-				else
-				{
-					var ts:AtlasStruct = getAtlasData(atlasName);
-					if(ts != null)
-					{
-						Util.LoadAtlasTexture((Constants.resRoot + ts.texPath + ts.texPngName),
-							(Constants.resRoot + ts.texPath + ts.texXmlName),compl);
-						function compl(ta:TextureAtlas):void
-						{
-							fun && fun.call(null,ta.getTexture(blockName));
-						}
-						
-					}
-				}
-			}
 			
 		}
 		
-		protected static function addAtlasTex(name:String):void
-		{
-			
-		}
-		
-		protected static function getAtlasNameByBLock(blockName:String):String
-		{
-			for each(var bs:BlockStruct in vblock)
-			{
-				if(bs.BlockName == blockName)
-				{
-					return bs.AtlasName;
-				}
-			}
-			return null;
-		}
-		
-		protected static function getAtlasData(atlasName:String):AtlasStruct
-		{
-			for each(var ts:AtlasStruct in vTexs)
-			{
-				if(ts.texId == atlasName)
-				{
-					return ts;
-				}
-			}
-			return null;
-		}
 		
 		public static function addScreen(id:String, item:ScreenNavigatorItem):void
 		{

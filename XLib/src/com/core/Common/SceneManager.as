@@ -41,8 +41,6 @@ package com.core.Common
 				// 保存数据
 				_data[sd.sceneId] = sd;
 			}
-			
-			XWorld.instance.enterScene("1");
 		}
 		
 		public static function readScene(xml:XML):SceneDataVO

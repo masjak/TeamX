@@ -22,6 +22,7 @@ package com.Game.Globel
 		public static var SCENE_ZOOM_MAX:Number  = 1.5;// 场景X方向最大缩放
 		public static var SCENE_MASK_COLOR:uint  = 0x0b0c18;// 场景夜晚遮罩颜色
 		public static var SCENE_MASK_APHLA:Number  = 0.55;// 场景夜晚遮罩透明度
+		public static var GAME_RES_TYPE:String = "png";
 		
 		/**舞台宽*/		
 		public static var STAGE_WIDTH:int  = 800;
@@ -68,6 +69,7 @@ package com.Game.Globel
 			SCENE_ZOOM_MAX  = xml.SCENE_ZOOM_MAX;
 			SCENE_MASK_COLOR  = xml.SCENE_MASK_COLOR;
 			SCENE_MASK_APHLA  =  xml.SCENE_MASK_APHLA;
+			GAME_RES_TYPE =  xml.GAME_RES_TYPE;
 		}
 		
 		/***********************静态常量配置 UISCREEN屏幕*****************/
