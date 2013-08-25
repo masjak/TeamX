@@ -67,6 +67,7 @@ package com.core.Basic
 			setUp();
 			
 			addEventListener(DragDropEvent.DRAG_ENTER, onDragEnter);
+			addEventListener(DragDropEvent.DRAG_MOVE, onDragMove);
 			addEventListener(DragDropEvent.DRAG_DROP, onDragDrop);
 			addEventListener(DragDropEvent.DRAG_EXIT, onDragExit);
 			useHandCursor = true;
@@ -519,27 +520,41 @@ package com.core.Basic
 			}
 		}
 		
+		private function onDragMove(event:DragDropEvent):void
+		{
+			trace("onDragMove()");
+			if (event.dragData.hasDataForFormat("XBuilder"))
+			{
+				
+			}
+		}
+		
 		private function onDragDrop(event:DragDropEvent):void
 		{
 			trace("onDragDrop()");
 			if (event.dragData.hasDataForFormat("XBuilder"))
 			{
-				var b:XBuilder = event.dragData.getDataForFormat("XBuilder");
+				var o:Object = event.dragData.getDataForFormat("XBuilder");
+				var b:XBuilder = o.build;
+				var ox:Number = o.offerX;
+				var oy:Number = o.offerY;
+				
 				if(b)
 				{
 					if(b.parent != this.builderLayer)
 					{
-						b.x = event.localX;
-						b.y = event.localY;
+						b.x = event.localX + ox;
+						b.y =event.localY + oy;
 						builderLayer.addChild(b);
+						b.scaleX = b.scaleY =1;
 					}
 					// 移动结束后 把绑定的灯光还原回去
 					var l:XLight = getLightByBuilderSceneName(b.vo.sceneName);
 					if(l != null)
 					{
 						l.visible = true;
-						l.x = event.localX;
-						l.y = event.localY;
+						l.x = b.x;
+						l.y = b.y;
 					}
 					
 				}

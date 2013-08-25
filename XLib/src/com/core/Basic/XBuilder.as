@@ -130,8 +130,16 @@ package com.core.Basic
 				if(localPoint != null)
 				{
 					var dragData:DragData = Constants.DRAG_DATA;
-					dragData.setDataForFormat("XBuilder", this);
-					DragDropManager.startDrag(this, touchMove, dragData, this, -localPoint.x, -localPoint.y);
+					
+					// 开始拖动
+					this.scaleX = XWorld.instance.scene.scaleX;
+					this.scaleY = XWorld.instance.scene.scaleY;
+					var ox:Number = -localPoint.x*this.scaleX;
+					var oy:Number = -localPoint.y*this.scaleY;
+					
+					dragData.setDataForFormat("XBuilder", {build:this,offerX:ox,offerY:oy});
+					DragDropManager.startDrag(this, touchMove, dragData, this, ox ,oy);
+					
 				}
 				trace("touchMove! builder name is " + this._vo.name);
 			}
