@@ -7,7 +7,14 @@ package com.core.Basic
 	import com.core.Utils.File.OpenFile;
 	
 	import flash.filesystem.File;
+	import flash.geom.Point;
 	import flash.utils.ByteArray;
+	
+	import feathers.dragDrop.DragData;
+	import feathers.dragDrop.DragDropManager;
+	import feathers.dragDrop.IDragSource;
+	import feathers.dragDrop.IDropTarget;
+	import feathers.events.DragDropEvent;
 	
 	import starling.display.Image;
 	import starling.display.Sprite;
@@ -15,14 +22,13 @@ package com.core.Basic
 	import starling.events.TouchEvent;
 	import starling.events.TouchPhase;
 	import starling.textures.Texture;
-	import starling.utils.AssetManager;
 
 	/**
 	 * 
 	 * @author 场景中建筑类
 	 * 
 	 */	
-	public class XBuilder extends XSprite
+	public class XBuilder extends XPSprite implements IDragSource,IDropTarget
 	{
 		private static var allowImage:Image;
 		private static var forbidImage:Image;
@@ -34,6 +40,7 @@ package com.core.Basic
 		/**逻辑*/		
 		private var _moveLayer:Sprite;		// 移动时候底座 红色或者绿色
 		private var _body:Image;				// 建筑生成后的显示图
+		private var localPoint:Point; 
 		
 		public function XBuilder(bds:buildersVO)
 		{
@@ -92,7 +99,7 @@ package com.core.Basic
 		
 		protected function onTouch(te:TouchEvent):void
 		{
-			te.stopPropagation();
+//			te.stopPropagation();
 			var touchBegin:Touch = te.getTouch(this,TouchPhase.BEGAN);
 			if(touchBegin != null)
 			{
@@ -102,17 +109,29 @@ package com.core.Basic
 				_moveLayer.y = (this.height - _moveLayer.height);
 				ClickEffect.playEffect(this, this._vo.clickEffect);
 				trace("touchBegin! builder name is " + this._vo.name);
-//				return;
+				localPoint =touchBegin.getLocation(this);
+				
 			}
 			
+			// 移动事件
+			var l:XLight;
 			var touchMove:Touch = te.getTouch(this,TouchPhase.MOVED);
 			if(this._vo.canMove && touchMove != null )
 			{
+				te.stopPropagation();
 				// 移动的时候把绑定的灯光关掉
-				var l:XLight = XWorld.instance.scene.getLightByBuilderSceneName(_vo.sceneName);
+				l = XWorld.instance.scene.getLightByBuilderSceneName(_vo.sceneName);
 				if(l != null)
 				{
 					l.visible = false;
+				}
+				
+				
+				if(localPoint != null)
+				{
+					var dragData:DragData = Constants.DRAG_DATA;
+					dragData.setDataForFormat("XBuilder", this);
+					DragDropManager.startDrag(this, touchMove, dragData, this, -localPoint.x, -localPoint.y);
 				}
 				trace("touchMove! builder name is " + this._vo.name);
 			}
@@ -121,14 +140,29 @@ package com.core.Basic
 			if(touchEnd != null )
 			{
 				_moveLayer.removeChildren();
-				// 移动结束后 把绑定的灯光还原回去
-				var l:XLight = XWorld.instance.scene.getLightByBuilderSceneName(_vo.sceneName);
-				if(l != null)
-				{
-					l.visible = true;
-				}
+				localPoint = null;
 				trace("touchEnd! builder name is " + this._vo.name);
 			}
+		}
+		
+		public function onDragEnterHandler(value:Function):void
+		{
+//			_onDragEnter.add(value);
+		}
+		
+		public function onDragDropHandler(value:Function):void
+		{
+//			_onDragDrop.add(value);
+		}
+		
+		public function onDragStartHandler(value:Function):void
+		{
+//			_onDragStart.add(value);
+		}
+		
+		public function onDragCompletedHandler(value:Function):void
+		{
+//			_onDragComplete.add(value);
 		}
 		
 		/*** 销毁 */		
@@ -136,6 +170,7 @@ package com.core.Basic
 		{
 			_vo = null;
 			_body.dispose();
+			removeEventListener(TouchEvent.TOUCH, onTouch);
 		}
 		
 	}

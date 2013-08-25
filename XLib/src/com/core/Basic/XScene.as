@@ -13,15 +13,18 @@ package com.core.Basic
 	import flash.geom.Point;
 	import flash.utils.Timer;
 	
+	import feathers.dragDrop.DragDropManager;
+	import feathers.dragDrop.IDropTarget;
+	import feathers.events.DragDropEvent;
+	
 	import starling.display.BlendMode;
 	import starling.display.Quad;
 	import starling.display.QuadBatch;
 	import starling.events.Touch;
 	import starling.events.TouchEvent;
 	import starling.events.TouchPhase;
-	import starling.textures.TextureAtlas;
 
-	public class XScene extends XSprite
+	public class XScene extends XSprite  implements IDropTarget
 	{		
 		protected var state:int;
 		protected var _tileMap:XMap;
@@ -62,6 +65,12 @@ package com.core.Basic
 			lightLayer.touchable = false;
 			addChild(lightLayer);
 			setUp();
+			
+			addEventListener(DragDropEvent.DRAG_ENTER, onDragEnter);
+			addEventListener(DragDropEvent.DRAG_DROP, onDragDrop);
+			addEventListener(DragDropEvent.DRAG_EXIT, onDragExit);
+			useHandCursor = true;
+			
 		}
 		
 		public function get sceneData():SceneDataVO{return _sds;}
@@ -105,21 +114,21 @@ package com.core.Basic
 			init();
 			
 			// 测试可拖动区域
-			var qb:QuadBatch = new QuadBatch();
-			addChild(qb);
-			var q:Quad = new Quad(32,32,0x00ff00);
-			for(var i:int = 0; i < _sds.terrainHeight; i++)
-			{
-				for(var j:int = 0; j < _sds.terrainWidth; j++)
-				{
-					if(_sds.terrainData[j*_sds.terrainHeight + i] != 0)
-					{
-						q.x = j*_sds.terrainTileWidth;
-						q.y = i*_sds.terrainTileHeight;
-						qb.addQuad(q);
-					}
-				}
-			}
+//			var qb:QuadBatch = new QuadBatch();
+//			addChild(qb);
+//			var q:Quad = new Quad(32,32,0x00ff00);
+//			for(var i:int = 0; i < _sds.terrainHeight; i++)
+//			{
+//				for(var j:int = 0; j < _sds.terrainWidth; j++)
+//				{
+//					if(_sds.terrainData[j*_sds.terrainHeight + i] != 0)
+//					{
+//						q.x = j*_sds.terrainTileWidth;
+//						q.y = i*_sds.terrainTileHeight;
+//						qb.addQuad(q);
+//					}
+//				}
+//			}
 			// 初始化完成之后 通知主屏幕
 			Singleton.signal.dispatchSignal(Constants.SIGNAL_SCENE_CREATE_COMPLETE,this);
 		}
@@ -501,11 +510,60 @@ package com.core.Basic
 			}
 		}
 		
-	
+		private function onDragEnter(event:DragDropEvent):void
+		{
+			trace("onDragEnter()");
+			if (event.dragData.hasDataForFormat("XBuilder"))
+			{
+				DragDropManager.acceptDrag(this);
+			}
+		}
+		
+		private function onDragDrop(event:DragDropEvent):void
+		{
+			trace("onDragDrop()");
+			if (event.dragData.hasDataForFormat("XBuilder"))
+			{
+				var b:XBuilder = event.dragData.getDataForFormat("XBuilder");
+				if(b)
+				{
+					if(b.parent != this.builderLayer)
+					{
+						b.x = event.localX;
+						b.y = event.localY;
+						builderLayer.addChild(b);
+					}
+					// 移动结束后 把绑定的灯光还原回去
+					var l:XLight = getLightByBuilderSceneName(b.vo.sceneName);
+					if(l != null)
+					{
+						l.visible = true;
+						l.x = event.localX;
+						l.y = event.localY;
+					}
+					
+				}
+				
+			}
+		}
+		
+		private function onDragExit(event:DragDropEvent):void
+		{
+			trace("onDragExit()");
+			if (!event.isDropped)
+			{
+				
+			}
+		}
+		
 		override public function dispose():void
 		{
 			super.dispose();
+			_tileMap.dispose();
 			_tileMap = null;
+			removeEventListener(DragDropEvent.DRAG_ENTER, onDragEnter);
+			removeEventListener(DragDropEvent.DRAG_DROP, onDragDrop);
+			removeEventListener(DragDropEvent.DRAG_COMPLETE, onDragExit);
 		}
 		
 	}

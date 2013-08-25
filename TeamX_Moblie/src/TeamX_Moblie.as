@@ -15,6 +15,8 @@ package
 	import org.osflash.signals.events.GenericEvent;
 	
 	import starling.core.Starling;
+	import starling.utils.HAlign;
+	import starling.utils.VAlign;
 	
 //	[SWF(width="800", height="600",frameRate="60",  backgroundColor="#cccccc")]
 	[SWF(width="800", height="600",frameRate="60",  backgroundColor="#0")]
@@ -48,6 +50,7 @@ package
 			_starling = new Starling(XGame,stage);
 			_starling.enableErrorChecking = false;
 			_starling.showStats = true;
+			_starling.showStatsAt(HAlign.LEFT, VAlign.BOTTOM);
 			
 			//DEBUG开启触碰模拟器，便于PC测试
 			if(Singleton.platform.Debug)

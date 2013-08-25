@@ -19,6 +19,7 @@
     <classEntry path="Test.ParticleTest"/>
     <classEntry path="com.core.Basic.XLight"/>
     <classEntry path="com.core.Effect.BuilderState.StateManager"/>
+    <classEntry path="com.core.Basic.XPSprite"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

@@ -12,10 +12,10 @@ package com.core.Basic
 
 	/**
 	 * 
-	 * @author 场景中建筑类
+	 * @author 场景中灯光
 	 * 
 	 */	
-	public class XLight extends XSprite
+	public class XLight extends XPSprite
 	{
 	
 		private var _body:Image;				// 建筑生成后的显示图

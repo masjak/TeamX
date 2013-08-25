@@ -10,6 +10,7 @@ package com.Game.Globel
 	import flash.filesystem.File;
 	
 	import feathers.controls.ScreenNavigatorItem;
+	import feathers.dragDrop.DragData;
 	
 	import starling.errors.AbstractClassError;
 
@@ -24,6 +25,10 @@ package com.Game.Globel
 		public static var SCENE_MASK_APHLA:Number  = 0.55;// 场景夜晚遮罩透明度
 		public static var GAME_RES_TYPE:String = "png";
 		
+		
+		/***********************游戏公有的变量***************/
+		
+		public static var DRAG_DATA:DragData = new DragData();
 		/**舞台宽*/		
 		public static var STAGE_WIDTH:int  = 800;
 		/**舞台高*/
