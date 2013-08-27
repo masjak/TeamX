@@ -104,6 +104,7 @@ package com.core.Basic
 			if(touchBegin != null)
 			{
 				// 点击建筑的时候 判断可移动的底座
+				_moveLayer.removeChildren();
 				if( XWorld.instance.scene.isObjectCanBuilder(this))
 				{
 					_moveLayer.addChild(allowImage);

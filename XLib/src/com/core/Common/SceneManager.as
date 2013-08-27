@@ -98,7 +98,21 @@ package com.core.Common
 				
 				sd.terrainWidth = (sd.mapWidth/sd.terrainTileWidth);
 				sd.terrainHeight = (sd.mapHeight/sd.terrainTileHeight);
-				sd.terrainData = (String(xml.terrain.@terrain).split(","));
+				var terrainData:Array = (String(xml.terrain.@terrain).split(","));
+				
+				// 初始化二维地形数组
+				for(var i:int = 0; i<sd.terrainWidth;i++)
+				{
+					var ay:Array = new Array;
+					for( j = 0; j<sd.terrainHeight;j++)
+					{
+						ay.push(terrainData[i*sd.terrainWidth + j]);
+					}
+					sd.terrainData.push(ay);
+					
+				}
+				
+				
 				
 				
 			// 释放XML资源

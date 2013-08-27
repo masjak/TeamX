@@ -120,11 +120,11 @@ package com.core.Basic
 //			var qb:QuadBatch = new QuadBatch();
 //			addChild(qb);
 //			var q:Quad = new Quad(32,32,0x00ff00);
-//			for(var i:int = 0; i < _sds.terrainHeight; i++)
+//			for(var i:int = 0; i < _sds.terrainWidth; i++)
 //			{
-//				for(var j:int = 0; j < _sds.terrainWidth; j++)
+//				for(var j:int = 0; j < _sds.terrainHeight; j++)
 //				{
-//					if(_sds.terrainData[j*_sds.terrainHeight + i] != 0)
+//					if(_sds.terrainData[i][j] != 0)
 //					{
 //						q.x = j*_sds.terrainTileWidth;
 //						q.y = i*_sds.terrainTileHeight;
@@ -579,13 +579,13 @@ package com.core.Basic
 			// 首先把点映射到场景中配置的格子中
 			var girdX:int = p.x/_sds.terrainTileWidth;
 			var girdY:int = p.y/_sds.terrainTileHeight;
-			var pos:int = girdY*_sds.terrainWidth + girdX;
-			if(pos < _sds.terrainData.length)
-			{
-				return (_sds.terrainData[pos] != 0);
-			}
+//			var pos:int = girdY*_sds.terrainWidth + girdX;
+//			if(pos < _sds.terrainData.length)
+//			{
+				return (_sds.terrainData[girdX][girdY] != 0);
+//			}
 			
-			return false;
+//			return false;
 		}
 		
 		/**某一矩形区域是否可以建造*/		
@@ -593,8 +593,8 @@ package com.core.Basic
 		{
 			// 简略算法 判定矩形4个点是否在可建造的格子呢
 			return (isPointCanBuilder(rect.topLeft) &&
-				isPointCanBuilder(new Point(rect.x,rect.x+rect.width)) &&
-				isPointCanBuilder(new Point(rect.x,rect.y+rect.y+rect.height)) &&
+				isPointCanBuilder(new Point(rect.x+rect.width,rect.y)) &&
+				isPointCanBuilder(new Point(rect.y+rect.height,rect.x)) &&
 				isPointCanBuilder(rect.bottomRight) )
 		}
 		
