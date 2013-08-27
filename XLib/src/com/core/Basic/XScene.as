@@ -11,6 +11,7 @@ package com.core.Basic
 	
 	import flash.events.TimerEvent;
 	import flash.geom.Point;
+	import flash.geom.Rectangle;
 	import flash.utils.Timer;
 	
 	import feathers.dragDrop.DragDropManager;
@@ -18,6 +19,7 @@ package com.core.Basic
 	import feathers.events.DragDropEvent;
 	
 	import starling.display.BlendMode;
+	import starling.display.DisplayObject;
 	import starling.display.Quad;
 	import starling.display.QuadBatch;
 	import starling.events.Touch;
@@ -571,12 +573,48 @@ package com.core.Basic
 			}
 		}
 		
+		/**某一个点是否可以建造*/		
+		public function isPointCanBuilder(p:Point):Boolean
+		{
+			// 首先把点映射到场景中配置的格子中
+			var girdX:int = p.x/_sds.terrainTileWidth;
+			var girdY:int = p.y/_sds.terrainTileHeight;
+			var pos:int = girdY*_sds.terrainWidth + girdX;
+			if(pos < _sds.terrainData.length)
+			{
+				return (_sds.terrainData[pos] != 0);
+			}
+			
+			return false;
+		}
+		
+		/**某一矩形区域是否可以建造*/		
+		public function isRectCanBuilder(rect:Rectangle):Boolean
+		{
+			// 简略算法 判定矩形4个点是否在可建造的格子呢
+			return (isPointCanBuilder(rect.topLeft) &&
+				isPointCanBuilder(new Point(rect.x,rect.x+rect.width)) &&
+				isPointCanBuilder(new Point(rect.x,rect.y+rect.y+rect.height)) &&
+				isPointCanBuilder(rect.bottomRight) )
+		}
+		
+		/**某一矩形区域是否可以建造*/		
+		public function isObjectCanBuilder(o:DisplayObject):Boolean
+		{
+			var lp:Point = new Point;
+			this.globalToLocal(o.localToGlobal(lp),lp);
+			var rect:Rectangle = new Rectangle(lp.x,lp.y,o.width,o.height);
+				
+				return isRectCanBuilder(rect);
+		}
+		
 		override public function dispose():void
 		{
 			super.dispose();
 			_tileMap.dispose();
 			_tileMap = null;
 			removeEventListener(DragDropEvent.DRAG_ENTER, onDragEnter);
+			removeEventListener(DragDropEvent.DRAG_MOVE, onDragMove);
 			removeEventListener(DragDropEvent.DRAG_DROP, onDragDrop);
 			removeEventListener(DragDropEvent.DRAG_COMPLETE, onDragExit);
 		}

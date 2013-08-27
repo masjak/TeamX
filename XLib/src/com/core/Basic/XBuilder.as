@@ -104,7 +104,16 @@ package com.core.Basic
 			if(touchBegin != null)
 			{
 				// 点击建筑的时候 判断可移动的底座
-				_moveLayer.addChild(allowImage);
+				if( XWorld.instance.scene.isObjectCanBuilder(this))
+				{
+					_moveLayer.addChild(allowImage);
+				}
+				else
+				{
+					_moveLayer.addChild(forbidImage);
+				}
+				
+				
 				_moveLayer.x = (this.width - _moveLayer.width) >>1;
 				_moveLayer.y = (this.height - _moveLayer.height);
 				ClickEffect.playEffect(this, this._vo.clickEffect);
