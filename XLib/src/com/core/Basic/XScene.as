@@ -572,6 +572,7 @@ package com.core.Basic
 						l.visible = true;
 						l.x = b.x;
 						l.y = b.y;
+						l.scaleX = l.scaleY =1;
 					}
 					
 				}
