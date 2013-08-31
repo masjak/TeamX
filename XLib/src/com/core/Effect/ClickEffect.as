@@ -71,6 +71,11 @@ package com.core.Effect
 			{
 				if(list[i].o == o)
 				{
+					if(o is XBuilder)
+					{
+						var l:XLight = XWorld.instance.scene.getLightByBuilderSceneName((o as XBuilder).vo.sceneName);
+						stopPlayEffect(l);
+					}	
 					list[i].line.stop();
 					list.splice(i,1);
 				}

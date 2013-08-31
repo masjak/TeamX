@@ -10,13 +10,10 @@ package com.core.Basic
 	import flash.geom.Point;
 	import flash.utils.ByteArray;
 	
-	import mx.core.mx_internal;
-	
 	import feathers.dragDrop.DragData;
 	import feathers.dragDrop.DragDropManager;
 	import feathers.dragDrop.IDragSource;
 	import feathers.dragDrop.IDropTarget;
-	import feathers.events.DragDropEvent;
 	
 	import starling.display.Image;
 	import starling.display.Sprite;
