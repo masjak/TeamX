@@ -98,19 +98,27 @@ package com.core.Common
 				
 				sd.terrainWidth = (sd.mapWidth/sd.terrainTileWidth);
 				sd.terrainHeight = (sd.mapHeight/sd.terrainTileHeight);
-				var terrainData:Array = (String(xml.terrain.@terrain).split(","));
 				
-				// 初始化二维地形数组
+				// 初始化二维地形数组(默认都为0 不能建造)
+				sd.terrainData = new Array(sd.terrainWidth);
 				for(var i:int = 0; i<sd.terrainWidth;i++)
 				{
-					var ay:Array = new Array;
-					for( j = 0; j<sd.terrainHeight;j++)
-					{
-						ay.push(terrainData[i*sd.terrainWidth + j]);
-					}
-					sd.terrainData.push(ay);
-					
+					var ay:Array = new Array(sd.terrainHeight);
+					sd.terrainData[i] = ay;
 				}
+				
+				//				var myPattern:RegExp = /\r\n/g;
+				//				var terrainData:Array = (String(xml.terrain.@terrain).replace(myPattern,"").split("),"));
+				// 		19,92＃10,93＃10,94(地形格式)
+				var terrainData:Array = (String(xml.terrain.@terrain).split("#"));
+				len = terrainData.length;
+				for( j = 0; j < len; j++)
+				{
+					var a:Array = String(terrainData[j]).split(",");
+					sd.terrainData[a[1]][a[0]] = 1; // x,y的位置反了 是世海二货修改
+				}
+				
+				
 				
 				
 				

@@ -124,10 +124,10 @@ package com.core.Basic
 //			{
 //				for(var j:int = 0; j < _sds.terrainHeight; j++)
 //				{
-//					if(_sds.terrainData[i][j] != 0)
+//					if(_sds.terrainData[i][j] == 1)
 //					{
-//						q.x = j*_sds.terrainTileWidth;
-//						q.y = i*_sds.terrainTileHeight;
+//						q.x = i*_sds.terrainTileWidth;
+//						q.y = j*_sds.terrainTileHeight;
 //						qb.addQuad(q);
 //					}
 //				}
@@ -579,13 +579,7 @@ package com.core.Basic
 			// 首先把点映射到场景中配置的格子中
 			var girdX:int = p.x/_sds.terrainTileWidth;
 			var girdY:int = p.y/_sds.terrainTileHeight;
-//			var pos:int = girdY*_sds.terrainWidth + girdX;
-//			if(pos < _sds.terrainData.length)
-//			{
-				return (_sds.terrainData[girdX][girdY] != 0);
-//			}
-			
-//			return false;
+			return (_sds.terrainData[girdX][girdY] ==1);
 		}
 		
 		/**某一矩形区域是否可以建造*/		
