@@ -42,7 +42,8 @@ package com.core.Basic
 		/**逻辑*/		
 		private var _moveLayer:Sprite;		// 移动时候底座 红色或者绿色
 		private var _body:Image;				// 建筑生成后的显示图
-		private var localPoint:Point; 
+		private var localPoint:Point; 		// 按下去的时候 坐标
+		private var _isPlayEffect:Boolean; // 是否正在播放效果  （某些操作在播放效果时候不能操作）
 		
 		public function XBuilder(bds:buildersVO)
 		{
@@ -124,32 +125,15 @@ package com.core.Basic
 		/*** 按下去事件 */	
 		protected function onTouchBegin(te:TouchEvent):void
 		{
-			// 点击建筑的时候 判断可移动的底座
-			_moveLayer.removeChildren();
-			if( XWorld.instance.scene.isObjectCanBuilder(this))
+			ClickEffect.playEffect(this, this._vo.clickEffect,onEffectComplete);
+			_isPlayEffect = true;
+			function onEffectComplete():void
 			{
-				_moveLayer.addChild(allowImage);
+				_isPlayEffect = false;
 			}
-			else
-			{
-				_moveLayer.addChild(forbidImage);
-			}
-			_moveLayer.x = (this.width - _moveLayer.width) >>1;
-			_moveLayer.y = (this.height - _moveLayer.height);
-			ClickEffect.playEffect(this, this._vo.clickEffect);
 			
 			var touchBegin:Touch = te.getTouch(this,TouchPhase.BEGAN);
 			localPoint =touchBegin.getLocation(this);
-			var dragData:DragData = Constants.DRAG_DATA;
-			// 开始拖动
-			this.scaleX = XWorld.instance.scene.scaleX;
-			this.scaleY = XWorld.instance.scene.scaleY;
-			var ox:Number = -localPoint.x*this.scaleX;
-			var oy:Number = -localPoint.y*this.scaleY;
-			
-			dragData.setDataForFormat("XBuilder", {build:this,offerX:-localPoint.x,offerY:-localPoint.y});
-			DragDropManager.startDrag(this, touchBegin, dragData, this, ox ,oy);
-			trace("startDrag");
 		}
 		
 		/*** 移动事件 */	
@@ -158,15 +142,17 @@ package com.core.Basic
 			// 移动事件
 			var l:XLight;
 			var touchMove:Touch = te.getTouch(this,TouchPhase.MOVED);
-			te.stopPropagation();
+//			te.stopPropagation();
 			// 移动的时候把绑定的灯光关掉
 			l = XWorld.instance.scene.getLightByBuilderSceneName(_vo.sceneName);
 			if(l != null)
 			{
 				l.visible = false;
 			}
-			if(localPoint != null)
+			// 按下的点有值 并且不再播放效果 并且拖动没有开始
+			if(localPoint != null && !DragDropManager.isDragging)
 			{
+				ClickEffect.stopPlayEffect(this);
 				var dragData:DragData = Constants.DRAG_DATA;
 				// 开始拖动
 				this.scaleX = XWorld.instance.scene.scaleX;
@@ -186,6 +172,23 @@ package com.core.Basic
 		{
 			_moveLayer.removeChildren();
 			localPoint = null;
+		}
+		
+		/*** 更新底部可建筑状态 */	
+		public function upDatamoveLayer(canBuilder:Boolean):void
+		{
+			// 判断可移动的底座
+			_moveLayer.removeChildren();
+			if( canBuilder)
+			{
+				_moveLayer.addChild(allowImage);
+			}
+			else
+			{
+				_moveLayer.addChild(forbidImage);
+			}
+			_moveLayer.x = (this.width/this.scaleX - _moveLayer.width) >>1;
+			_moveLayer.y = (this.height/this.scaleY - _moveLayer.height);
 		}
 		
 		/*** 销毁 */		

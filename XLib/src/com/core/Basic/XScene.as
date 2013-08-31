@@ -456,6 +456,17 @@ package com.core.Basic
 				// 触摸滑动
 				if(touchMove != null)
 				{
+					// 判断下滑动是否是由map层发出来的
+					var target:DisplayObject = te.target as DisplayObject;
+					while(target && !(target is XMap))
+					{
+						target = target.parent;
+					}
+					if(!target)
+					{
+						return;
+					}
+					
 					p = touchMove.getLocation(this);
 					bp = touchMove.getPreviousLocation(this);
 					var xoff:Number = (this.x + p.x - bp.x);
@@ -518,16 +529,20 @@ package com.core.Basic
 			trace("onDragEnter()");
 			if (event.dragData.hasDataForFormat("XBuilder"))
 			{
+				var o:Object = event.dragData.getDataForFormat("XBuilder");
+				var b:XBuilder = o.build;
+				b.upDatamoveLayer(isObjectCanBuilder(b));
 				DragDropManager.acceptDrag(this);
 			}
 		}
 		
 		private function onDragMove(event:DragDropEvent):void
 		{
-			trace("onDragMove()");
 			if (event.dragData.hasDataForFormat("XBuilder"))
 			{
-				
+				var o:Object = event.dragData.getDataForFormat("XBuilder");
+				var b:XBuilder = o.build;
+				b.upDatamoveLayer(isObjectCanBuilder(b));
 			}
 		}
 		
