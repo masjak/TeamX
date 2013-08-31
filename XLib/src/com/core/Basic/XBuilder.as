@@ -10,6 +10,8 @@ package com.core.Basic
 	import flash.geom.Point;
 	import flash.utils.ByteArray;
 	
+	import mx.core.mx_internal;
+	
 	import feathers.dragDrop.DragData;
 	import feathers.dragDrop.DragDropManager;
 	import feathers.dragDrop.IDragSource;
@@ -103,84 +105,87 @@ package com.core.Basic
 			var touchBegin:Touch = te.getTouch(this,TouchPhase.BEGAN);
 			if(touchBegin != null)
 			{
-				// 点击建筑的时候 判断可移动的底座
-				_moveLayer.removeChildren();
-				if( XWorld.instance.scene.isObjectCanBuilder(this))
-				{
-					_moveLayer.addChild(allowImage);
-				}
-				else
-				{
-					_moveLayer.addChild(forbidImage);
-				}
-				
-				
-				_moveLayer.x = (this.width - _moveLayer.width) >>1;
-				_moveLayer.y = (this.height - _moveLayer.height);
-				ClickEffect.playEffect(this, this._vo.clickEffect);
-				trace("touchBegin! builder name is " + this._vo.name);
-				localPoint =touchBegin.getLocation(this);
-				
+				onTouchBegin(te);
 			}
 			
-			// 移动事件
-			var l:XLight;
 			var touchMove:Touch = te.getTouch(this,TouchPhase.MOVED);
 			if(this._vo.canMove && touchMove != null )
 			{
-				te.stopPropagation();
-				// 移动的时候把绑定的灯光关掉
-				l = XWorld.instance.scene.getLightByBuilderSceneName(_vo.sceneName);
-				if(l != null)
-				{
-					l.visible = false;
-				}
-				
-				
-				if(localPoint != null)
-				{
-					var dragData:DragData = Constants.DRAG_DATA;
-					
-					// 开始拖动
-					this.scaleX = XWorld.instance.scene.scaleX;
-					this.scaleY = XWorld.instance.scene.scaleY;
-					var ox:Number = -localPoint.x*this.scaleX;
-					var oy:Number = -localPoint.y*this.scaleY;
-					
-					dragData.setDataForFormat("XBuilder", {build:this,offerX:ox,offerY:oy});
-					DragDropManager.startDrag(this, touchMove, dragData, this, ox ,oy);
-					
-				}
-				trace("touchMove! builder name is " + this._vo.name);
+				onTouchMove(te);
 			}
 			
 			var touchEnd:Touch = te.getTouch(this,TouchPhase.ENDED);
 			if(touchEnd != null )
 			{
-				_moveLayer.removeChildren();
-				localPoint = null;
-				trace("touchEnd! builder name is " + this._vo.name);
+				onTouchEnd(te);
 			}
 		}
 		
-		public function onDragEnterHandler(value:Function):void
+		/*** 按下去事件 */	
+		protected function onTouchBegin(te:TouchEvent):void
 		{
-//			_onDragEnter.add(value);
+			// 点击建筑的时候 判断可移动的底座
+			_moveLayer.removeChildren();
+			if( XWorld.instance.scene.isObjectCanBuilder(this))
+			{
+				_moveLayer.addChild(allowImage);
+			}
+			else
+			{
+				_moveLayer.addChild(forbidImage);
+			}
+			_moveLayer.x = (this.width - _moveLayer.width) >>1;
+			_moveLayer.y = (this.height - _moveLayer.height);
+			ClickEffect.playEffect(this, this._vo.clickEffect);
+			
+			var touchBegin:Touch = te.getTouch(this,TouchPhase.BEGAN);
+			localPoint =touchBegin.getLocation(this);
+			var dragData:DragData = Constants.DRAG_DATA;
+			// 开始拖动
+			this.scaleX = XWorld.instance.scene.scaleX;
+			this.scaleY = XWorld.instance.scene.scaleY;
+			var ox:Number = -localPoint.x*this.scaleX;
+			var oy:Number = -localPoint.y*this.scaleY;
+			
+			dragData.setDataForFormat("XBuilder", {build:this,offerX:-localPoint.x,offerY:-localPoint.y});
+			DragDropManager.startDrag(this, touchBegin, dragData, this, ox ,oy);
+			trace("startDrag");
 		}
 		
-		public function onDragDropHandler(value:Function):void
+		/*** 移动事件 */	
+		protected function onTouchMove(te:TouchEvent):void
 		{
-//			_onDragDrop.add(value);
+			// 移动事件
+			var l:XLight;
+			var touchMove:Touch = te.getTouch(this,TouchPhase.MOVED);
+			te.stopPropagation();
+			// 移动的时候把绑定的灯光关掉
+			l = XWorld.instance.scene.getLightByBuilderSceneName(_vo.sceneName);
+			if(l != null)
+			{
+				l.visible = false;
+			}
+			if(localPoint != null)
+			{
+				var dragData:DragData = Constants.DRAG_DATA;
+				// 开始拖动
+				this.scaleX = XWorld.instance.scene.scaleX;
+				this.scaleY = XWorld.instance.scene.scaleY;
+				var ox:Number = -localPoint.x*this.scaleX;
+				var oy:Number = -localPoint.y*this.scaleY;
+				
+				dragData.setDataForFormat("XBuilder", {build:this,offerX:-localPoint.x,offerY:-localPoint.y});
+				DragDropManager.startDrag(this, touchMove, dragData, this, ox ,oy);
+				trace("startDrag");
+				
+			}
 		}
 		
-		public function onDragStartHandler(value:Function):void
+		/*** 抬起事件处理 */	
+		protected function onTouchEnd(te:TouchEvent):void
 		{
-//			_onDragStart.add(value);
-		}
-		
-		public function onDragCompletedHandler(value:Function):void
-		{
-//			_onDragComplete.add(value);
+			_moveLayer.removeChildren();
+			localPoint = null;
 		}
 		
 		/*** 销毁 */		
