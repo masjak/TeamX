@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- edited with XMLSpy v2013 (http://www.altova.com) by  () -->
 <data>
-	<LoaderMax name="queue1" prependURLs="asset/" load="true">
+	<LoaderMax name="queue1" prependURLs="" load="true">
 		<!--<SWFLoader url="swf/child.swf" name="child" autoPlay="false"/>
 			<VideoLoader url="video/video.flv" name="video" width="400" height="300" scaleMode="stretch" autoPlay="false"/>
 			<ImageLoader url="1.jpg" name="image1" load="true"/>-->

@@ -5,6 +5,7 @@ package
 	import flash.display.StageAlign;
 	import flash.display.StageScaleMode;
 	import flash.events.Event;
+	import flash.filesystem.File;
 	import flash.net.URLRequest;
 	import flash.system.ApplicationDomain;
 	import flash.system.LoaderContext;
@@ -37,7 +38,8 @@ package
 		/***加载逻辑SWF */	
 		private function loaderLogicSWF():void
 		{
-			var request:URLRequest = new URLRequest("TeamX_Moblie.swf");
+			var path:String = File.applicationDirectory.resolvePath("asset").url + "/TeamX_Moblie.swf";
+			var request:URLRequest = new URLRequest(path);
 			var context:LoaderContext = new LoaderContext();
 			context.applicationDomain = ApplicationDomain.currentDomain;
 			var loader:Loader = new Loader();
