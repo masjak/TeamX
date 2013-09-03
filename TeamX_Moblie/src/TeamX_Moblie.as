@@ -35,7 +35,8 @@ package
 				this.stage.align = StageAlign.TOP_LEFT;
 			}
 			this.mouseEnabled = this.mouseChildren = false;
-			this.loaderInfo.addEventListener(Event.COMPLETE, logo);
+//			this.loaderInfo.addEventListener(Event.COMPLETE, logo);
+			this.addEventListener(Event.ADDED_TO_STAGE, logo);
 		}
 		
 		private function starlingInit():void 
@@ -61,6 +62,8 @@ package
 			
 			this.stage.addEventListener(Event.RESIZE, stage_resizeHandler, false, int.MAX_VALUE, true);
 			this.stage.addEventListener(Event.DEACTIVATE, stage_deactivateHandler, false, 0, true);
+			
+			this.stage.dispatchEvent(new Event(Event.RESIZE));
 		}
 		
 		/** 舞台大小重置*/		
