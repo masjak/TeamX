@@ -7,7 +7,6 @@ package com.core.Common
 	import feathers.controls.ScreenNavigator;
 	
 	import starling.utils.AssetManager;
-	import starling.utils.ScaleMode;
 
 	/**
 	 * 单例管理器
@@ -15,7 +14,7 @@ package com.core.Common
 	 * 
 	 */	
 	
-	public class Singleton
+	public class Singleton 
 	{
 		/***平台管理 实例对象  */
 		private static var _platform:PlatformManager;
@@ -40,6 +39,9 @@ package com.core.Common
 		
 		/***帧监听 */		
 		private static var _enterFrame:EnterFrameManager;
+		
+		/***网络管理器 */		
+		private static var _socket:SocketManager;
 		
 		public function Singleton()
 		{
@@ -135,6 +137,16 @@ package com.core.Common
 			return _enterFrame;
 		}
 		
+	/***网络协议 对象 */
+		public static function get socket():SocketManager
+		{
+			if(_socket == null)
+			{
+				_socket = new SocketManager;
+			}
+			return _socket;
+		}	
+		
 		/***销毁 */
 		public static function dispose():void
 		{
@@ -185,6 +197,12 @@ package com.core.Common
 				_enterFrame.dispose();
 				_enterFrame.stop();
 				_enterFrame = null;
+			}
+			
+			if(_socket != null)
+			{
+				_socket.dispose();
+				_socket = null;
 			}
 			
 			ScreenManager.dispose();
