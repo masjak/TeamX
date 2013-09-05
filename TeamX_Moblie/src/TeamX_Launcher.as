@@ -1,5 +1,8 @@
 package
 {
+	import com.core.Common.Singleton;
+	import com.core.Utils.File.OpenFile;
+	
 	import flash.display.Loader;
 	import flash.display.Sprite;
 	import flash.display.StageAlign;
@@ -8,7 +11,9 @@ package
 	import flash.filesystem.File;
 	import flash.net.URLRequest;
 	import flash.system.ApplicationDomain;
+	import flash.system.Capabilities;
 	import flash.system.LoaderContext;
+	import flash.utils.ByteArray;
 	
 //	[SWF(width="800", height="600",frameRate="60",  backgroundColor="#cccccc")]
 	[SWF(width="800", height="600",frameRate="60",  backgroundColor="#0")]
@@ -26,31 +31,20 @@ package
 				this.stage.align = StageAlign.TOP_LEFT;
 			}
 			this.mouseEnabled = this.mouseChildren = false;
-			this.addEventListener(Event.ADDED_TO_STAGE, logo);
+			this.addEventListener(Event.ADDED_TO_STAGE, start);
 		}
 		
 		/***logo显示 */		
-		private function logo(event:Event):void
+		private function start(event:Event):void
 		{
-			loaderLogicSWF();
-		}
-		
-		/***加载逻辑SWF */	
-		private function loaderLogicSWF():void
-		{
-			var path:String = File.applicationDirectory.resolvePath("asset").url + "/TeamX_Moblie.swf";
-			var request:URLRequest = new URLRequest(path);
-			var context:LoaderContext = new LoaderContext();
-			context.applicationDomain = ApplicationDomain.currentDomain;
-			var loader:Loader = new Loader();
-			loader.contentLoaderInfo.addEventListener(flash.events.Event.COMPLETE , onComplete);
-			loader.load(request,context);	
-			
-			function onComplete(e:Event):void
+			// 如果是调试版本 先复制逻辑swf 正式打包版本会直接讲swf放进包里
+			Singleton.update.UpDate(onUpDate);
+			function onUpDate(cls:Class):void
 			{
-				clsGame = context.applicationDomain.getDefinition("TeamX_Moblie") as Class;
+				clsGame = cls;
 				init();
 			}
+			
 		}
 		
 		/***加载逻辑SWF */	

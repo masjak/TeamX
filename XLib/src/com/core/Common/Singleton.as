@@ -43,6 +43,9 @@ package com.core.Common
 		/***网络管理器 */		
 		private static var _socket:SocketManager;
 		
+		/***自动更新管理器 */		
+		private static var _update:UpDateManager;
+		
 		public function Singleton()
 		{
 			
@@ -137,7 +140,7 @@ package com.core.Common
 			return _enterFrame;
 		}
 		
-	/***网络协议 对象 */
+		/***网络协议 对象 */
 		public static function get socket():SocketManager
 		{
 			if(_socket == null)
@@ -146,6 +149,16 @@ package com.core.Common
 			}
 			return _socket;
 		}	
+		
+		/***自动更新管理器 */
+		public static function get update():UpDateManager
+		{
+			if(_update == null)
+			{
+				_update = new UpDateManager;
+			}
+			return _update;
+		}
 		
 		/***销毁 */
 		public static function dispose():void
@@ -203,6 +216,12 @@ package com.core.Common
 			{
 				_socket.dispose();
 				_socket = null;
+			}
+			
+			if(_update != null)
+			{
+				_update.dispose();
+				_update = null;
 			}
 			
 			ScreenManager.dispose();
