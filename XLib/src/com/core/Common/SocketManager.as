@@ -31,22 +31,15 @@ package  com.core.Common
 		private var connectIP:String;
 		private var sendHead:Boolean;
 		
-		public function SocketManager()
-		{
-			
-		}
+		public function SocketManager(){};
 		
-		/**
-		 * 关闭socket
-		 */
+		/** * 关闭socket*/
 		public function close():void
 		{
 			closeById(false, this.connID);
 		}
 		
-		/**
-		 * 关闭指定ID的socket
-		 */
+		/** * 关闭指定ID的socket*/
 		public function closeById( timeout:Boolean,connID:Number):void
 		{
 				if(this.connID == connID && this.connID != 0)
@@ -72,9 +65,7 @@ package  com.core.Common
 				}
 		}
 
-		/**
-		 * 连接网络
-		 */
+		/*** 连接网络*/
 		public function openDirect(connectIP:String,sendHead:Boolean):void
 		{
 			this.connectIP = connectIP;
@@ -230,41 +221,6 @@ package  com.core.Common
 				close();
 			}
 		}
-	
-		/**
-		 * 从服务器收到包
-		 */
-		private function receivePacket( inP:Packet):void 
-		{
-			var Ba:ByteArray = new ByteArray();
-			readBytes(Ba, 13);
-			
-			inP.setType(Encoder.readShort(0, Ba)&0xffff);// 协议类型2字节
-			var length:int = Encoder.readInt(2, Ba);			// 报文长度4字节
-			inP.setId(Encoder.readInt(6, Ba));					// 报文ID4字节
-			inP.setOption(Ba[11]);									// 报文子协议1字节
-			inP.setCallbackID(Ba[12]);								// 预留 1字节
-			
-			inP.setBody(new ByteArray());
-			if(length > 0)
-			{
-				readBytes(inP.getBody(), length);
-			}	
-		}
-		
-		/**
-		 * 读一个byte
-		 */
-		private function readBytes(bytes:ByteArray,readLength:int):void 
-		{
-			if(socket.bytesAvailable >= bytes.position + readLength)
-			{
-				socket.readBytes(bytes,0,readLength);
-			}
-			lastPingTime= new Date().time;
-			
-		}
-		
 
 		/**
 		 *  解析数据包
@@ -284,17 +240,29 @@ package  com.core.Common
 		{
 			trace( "Socket received " + socket.bytesAvailable + " byte(s) of data:" );
 			try {
-				var inPacket:Packet = new Packet(0);
-				receivePacket(inPacket);
-				
-				if (inPacket.getType() != -1)
+				// 字节至少要大于一个包头
+				if(socket.bytesAvailable < Packet.PacketHeadLength)
 				{
-					inQueue.push(inPacket);
+					return;
 				}
+				var ip:Packet = new Packet(0);
+				ip.intHead = socket.readInt();
+				
+				// 包头没对上
+				if(ip.intHead != 0xabcd)
+				{
+					return;
+				}
+				ip.intLength = socket.readInt();
+				var ba:ByteArray = new ByteArray;
+				socket.readBytes(ba,0,ip.intLength)
+				Encoder.Bytes2packet(ba,ip);
+				inQueue.push(ip);
 			}
 			catch(e:Error)
 			{
-				close();
+				trace("socket error!!!!!!!====================>" + e.message);
+//				close();
 			}
 			
 		}

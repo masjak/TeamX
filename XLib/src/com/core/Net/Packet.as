@@ -7,103 +7,85 @@ package com.core.Net
 	 */
 	public class Packet extends StreamIO
 	{
-		protected var shortType:int = -1;
-		protected var intId:int = 0;	
-		protected var byteVersion:int = 0x01;
-		protected var byteOption:int;	
-		protected var byteCallbackID:int;
+		public static const PacketHeadLength:int = 17; // 包头17个字节
+		public static const PacketLengthOffer:int = 9; // length的偏移字节数(1+1+1+4+2)
 		
-		/**
-		 * 构造函数 默认一个网络包类型参数
-		 */
-		public function Packet(type:int):void
+		protected var _intHead:int = 0xabcd; // 固定的包头 4字节
+//		length 在父类中定义	4字节		 				// 
+		protected var _byteAppType:int = 0x0001; // 应用表示 用于区分是服务器和客户端通信还是和别的服务器通信 1字节
+		protected var _byteProType:int = 0x0001; // 协议类型 1字节
+		protected var _byteEncryption:int = 1; // 是否加密     1字节
+		protected var _intReserve:int = 1; // 保留字节     4字节
+		protected var _shortProtocolNo:int = 0; // 是否加密     2字节
+// 		byte[] 协议内容体
+		
+		/** * 构造函数 默认一个网络包类型参数*/
+		public function Packet(ProtocolNo:int):void
 		{
-			byteVersion = 0x01;
-			byteOption = 0;
-			byteCallbackID = 0;
-			setType(type);	
+			_shortProtocolNo = ProtocolNo;	
 			super();
 		}
+
 		
-		/**
-		 *  获取子协议
-		 */
-		public function getOption():int
+		public function get intHead():int
 		{
-			return byteOption;
+			return _intHead;
 		}
 		
-		/**
-		 * 设置子协议
-		 */
-		public function setOption(option:int):void 
+		public function set intHead(value:int):void
 		{
-			this.byteOption = option;
+			_intHead = value;
 		}
 		
-		/**
-		 *  获取类型
-		 */
-		public function getType():int
+		public function get byteAppType():int
 		{
-			return shortType;
+			return _byteAppType;
 		}
-		
-		/**
-		 * 设置协议类型
-		 */
-		public function setType(type:int):void
+
+		public function set byteAppType(value:int):void
 		{
-			this.shortType = type;
+			_byteAppType = value;
 		}
-		
-		/**
-		 *  获取版本号
-		 */
-		public function getVersion():int 
+
+		public function get byteProType():int
 		{
-			return byteVersion;
+			return _byteProType;
 		}
-		
-		/**
-		 *  设置版本号
-		 */
-		public function setVersion(version:int):void 
+
+		public function set byteProType(value:int):void
 		{
-			this.byteVersion = version;
+			_byteProType = value;
 		}
-		
-		/**
-		 *  获取ID
-		 */
-		public function getId():int
+
+		public function get byteEncryption():int
 		{
-			return intId;
+			return _byteEncryption;
 		}
-		
-		/**
-		 *  设置
-		 */
-		public function setId(id:int) :void
+
+		public function set byteEncryption(value:int):void
 		{
-			this.intId = id;
+			_byteEncryption = value;
 		}
-		
-		/**
-		 *  获取回调ID
-		 */
-		public function getCallbackID():int
+
+		public function get intReserve():int
 		{
-			return byteCallbackID;
+			return _intReserve;
 		}
-		
-		/**
-		 *  设置回调ID
-		 */
-		public function setCallbackID(callbackID:int) :void
+
+		public function set intReserve(value:int):void
 		{
-			this.byteCallbackID = callbackID;
+			_intReserve = value;
 		}
-		
+
+		public function get shortProtocolNo():int
+		{
+			return _shortProtocolNo;
+		}
+
+		public function set shortProtocolNo(value:int):void
+		{
+			_shortProtocolNo = value;
+		}
+
 	}
 }

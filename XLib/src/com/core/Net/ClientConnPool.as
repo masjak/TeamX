@@ -1,8 +1,6 @@
 package  com.core.Net
 {
-	import Common.Net.socket.SocketConn;
-	import Common.Net.socket.WriteThread;
-	import Common.Net.Packet;
+	
 
 	/**
 	 * 链接池 网络相关模块的handle类 //  add by 卢成浩 2012-7-10
@@ -215,15 +213,6 @@ package  com.core.Net
 //		}
 		
 		/**
-		 * 解析网络包
-		 */
-		public static function parsePacket():void
-		{
-//			ClientConnPool.getGameConn().parsePacket();
-//			ClientConnPool.getGameConn().checkTimeout();
-		}
-		
-		/**
 		 * 发送网络包
 		 */
 		public static function send( out:Packet):void
@@ -262,9 +251,9 @@ package  com.core.Net
 		/**
 		 * 解析单个网络包
 		 */
-		public static function parsePacket_P( p:Packet):void
+		public static function parsePacket( p:Packet):void
 		{
-			var t:int = p.getType();
+			var t:int = p.shortProtocolNo;
 			var bt:int = t>>8;
 			switch(bt)
 			{
