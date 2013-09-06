@@ -20,6 +20,12 @@
     <classEntry path="com.core.Basic.XLight"/>
     <classEntry path="com.core.Effect.BuilderState.StateManager"/>
     <classEntry path="com.core.Basic.XPSprite"/>
+    <classEntry path="com.Game.Protocol.VO.BaseNetRequest"/>
+    <classEntry path="com.Game.Protocol.VO.BaseNetResponse"/>
+    <classEntry path="com.Game.Protocol.PingRequest"/>
+    <classEntry path="com.Game.Protocol.Data.BaseNetData"/>
+    <classEntry path="com.Game.Protocol.Data.PingData"/>
+    <classEntry path="com.core.Common.NetDataManager"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

@@ -52,6 +52,9 @@ package com.core.Common
 		/***自动更新管理器 */		
 		private static var _update:UpDateManager;
 		
+		/***自动更新管理器 */		
+		private static var _netData:NetDataManager;
+		
 		public function Singleton()
 		{
 			
@@ -186,6 +189,16 @@ package com.core.Common
 			return _update;
 		}
 		
+		/***网络数据模块 */
+		public static function get netData():NetDataManager
+		{
+			if(_netData == null)
+			{
+				_netData = new NetDataManager;
+			}
+			return _netData;
+		}
+		
 		/***销毁 */
 		public static function dispose():void
 		{
@@ -260,6 +273,12 @@ package com.core.Common
 			{
 				_update.dispose();
 				_update = null;
+			}
+			
+			if(_netData != null)
+			{
+				_netData.dispose();
+				_netData = null;
 			}
 			
 			ScreenManager.dispose();
