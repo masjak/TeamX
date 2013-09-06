@@ -1,24 +1,24 @@
 package com.core.Common
 {
-	import com.core.Common.DataStruct.UnitsVO;
-	import com.core.Common.DataStruct.buildersVO;
+	import com.core.Common.DataStruct.DecoratesVO;
+	
 
-	public class UnitManager 
+	public class DecoratesManager 
 	{
 		protected static var _data:Object = {};
 		
-		function UnitManager(){}
+		function DecoratesManager(){}
 		
 		/**场景配置数据*/
-		protected function get UnitData():Object {return _data;}
+		protected function get decoratesData():Object {return _data;}
 
 		public function readXml(xml:XML):void
 		{
-			var len:int = xml.unit.length();
+			var len:int = xml.decorates.length();
 			for(var i:int = 0; i < len; i++)
 			{
-				var bvo:UnitsVO = new UnitsVO;
-				bvo.name =  xml.unit[i].@name;
+				var bvo:DecoratesVO = new DecoratesVO;
+				bvo.name =  xml.decorate[i].@name;
 //				bvo.path =    xml.builder[i].@path;
 //				bvo.canMove =    (xml.builder[i].@canMove == "true" );
 //				bvo.clickEffect =   xml.builder[i].@clickEffect;
@@ -28,7 +28,7 @@ package com.core.Common
 			}
 		}
 		
-		public function getUnitVO(name:String):buildersVO
+		public function getDecoratesVO(name:String):DecoratesVO
 		{
 			return _data[name];
 		}

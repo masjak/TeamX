@@ -67,10 +67,14 @@ package com.core.Basic
 			Singleton.lights.readXml(loader.content);
 			System.disposeXML(loader.content);
 			
+			// 加载装饰列表
+			loader = LoaderMax.getLoader("decorates");
+			Singleton.decorates.readXml(loader.content);
+			System.disposeXML(loader.content);
+			
 			// 加载单位列表
 			loader = LoaderMax.getLoader("units");
 			Singleton.units.readXml(loader.content);
-			
 			System.disposeXML(loader.content);
 			
 			// 加载配置完成之后释放所有资源

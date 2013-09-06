@@ -34,6 +34,9 @@ package com.core.Common
 		/***建筑管理器 */		
 		private static var _builders:BuilderManager;
 		
+		/***装饰管理器 */		
+		private static var _decorates:DecoratesManager;
+		
 		/***单位管理器 */		
 		private static var _units:UnitManager;
 		
@@ -122,6 +125,16 @@ package com.core.Common
 			return _builders;
 		}
 		
+		/***装饰 对象 */
+		public static function get decorates():DecoratesManager
+		{
+			if(_decorates == null)
+			{
+				_decorates = new DecoratesManager;
+			}
+			return _decorates;
+		}
+		
 		/***单位对象 */
 		public static function get units():UnitManager
 		{
@@ -204,6 +217,12 @@ package com.core.Common
 			{
 				_signal.dispose();
 				_signal = null;
+			}
+			
+			if(_decorates != null)
+			{
+				_decorates.dispose();
+				_decorates = null;
 			}
 			
 			if(_builders != null)

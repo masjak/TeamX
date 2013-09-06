@@ -10,5 +10,7 @@
 		<XMLLoader url="Config/builders.xml" name="builders" load="true"/>
 		<XMLLoader url="Config/lights.xml" name="lights" load="true"/>
 		<XMLLoader url="Config/units.xml" name="units" load="true"/>
+		<XMLLoader url="Config/decorates.xml" name="decorates" load="true"/>
+		
 	</LoaderMax>
 </data>
