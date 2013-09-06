@@ -34,6 +34,9 @@ package com.core.Common
 		/***建筑管理器 */		
 		private static var _builders:BuilderManager;
 		
+		/***单位管理器 */		
+		private static var _units:UnitManager;
+		
 		/***灯光管理器 */		
 		private static var _lights:LightManager;
 		
@@ -119,7 +122,17 @@ package com.core.Common
 			return _builders;
 		}
 		
-		/***建筑 对象 */
+		/***单位对象 */
+		public static function get units():UnitManager
+		{
+			if(_units == null) 
+			{
+				_units = new UnitManager;
+			}
+			return _units;
+		}
+		
+		/***灯光 对象 */
 		public static function get lights():LightManager
 		{
 			if(_lights == null)
@@ -197,6 +210,12 @@ package com.core.Common
 			{
 				_builders.dispose();
 				_builders = null;
+			}
+			
+			if(_units != null)
+			{
+				_units.dispose();
+				_units = null;
 			}
 			
 			if(_lights != null)

@@ -69,7 +69,7 @@ package com.core.Basic
 			
 			// 加载单位列表
 			loader = LoaderMax.getLoader("units");
-			//			SceneManager.readXml(loader.content);
+			Singleton.units.readXml(loader.content);
 			
 			System.disposeXML(loader.content);
 			
