@@ -1,6 +1,7 @@
 package  com.core.Common
 {
 	//import com.ding.client.ui.FormLoginGUI;
+	import com.Game.Globel.Constants;
 	import com.core.Net.Encoder;
 	import com.core.Net.Packet;
 	
@@ -22,8 +23,8 @@ package  com.core.Common
 		protected 	var connID:Number;		// 连接id
 		private 		var checkPing:Boolean;
 		protected 	var lastPingTime:Number;		// 最后Ping的时间
-		protected 		var outQueue:Vector.<Packet> = new Vector.<Packet>();
-		protected var  inQueue:Vector.<Packet> = new Vector.<Packet>();
+		protected 	var outQueue:Vector.<Packet> = new Vector.<Packet>();
+		protected 	var  inQueue:Vector.<Packet> = new Vector.<Packet>();
 		
 		private static var	PING_TIME_MAX:int	= 15*1000;// 最大的ping 响应时间
 		private		var timer:Timer = new Timer(1000);		// 用来发送ping包
@@ -79,9 +80,12 @@ package  com.core.Common
 			try {
 				var colonDex:int = connectIP.indexOf(":");
 				var host:String = connectIP.substring(0, colonDex);
-				var port:String = connectIP.substring(colonDex+1, connectIP.length);
-				var portInt:int = int(port);
+				var portInt:int = int(connectIP.substring(colonDex+1, connectIP.length));
 				
+				if(socket.connected)
+				{
+					socket.close();
+				}
 				socket = new Socket();
 				socket.timeout = 8*1000;
 				socket.addEventListener(Event.CONNECT,onConnect);
@@ -104,8 +108,7 @@ package  com.core.Common
 		{
 			if(checkPing)
 			{
-				var now:Date=new Date();
-				if(now.time - lastPingTime > 60*1000)
+				if(new Date().time - lastPingTime > 60*1000)
 				{
 					this.closeById(true, this.connID);
 				}
@@ -128,15 +131,6 @@ package  com.core.Common
 			return netTimeout;
 		}
 		
-		
-		/**
-		 * 获取当前连接的ID
-		 */
-		public function getConnID():Number
-		{
-			return connID;
-		}
-		
 		public function setlastPongTime( lPongTime:int):void
 		{
 			this.lastPingTime = lPongTime;
@@ -156,8 +150,7 @@ package  com.core.Common
 			
 			trace("Connect Success!!");
 			
-			var now:Date=new Date();
-			this.lastPingTime = now.time;
+			this.lastPingTime = new Date().time;
 			this.checkPing = true;
 			
 		}
@@ -181,25 +174,19 @@ package  com.core.Common
 			sendSuccessNotify();
 		}
 		
-		/**
-		 * 发送ping包
-		 */
+		/** * 发送ping包 */
 		private function sendPing():void
 		{
-				send(new Packet(0xf2));
+			send(new Packet(0xf2));
 		}
 		
-		/**
-		 * 发送成功回调
-		 */
+		/** * 发送成功回调 */
 		protected function sendSuccessNotify():void
 		{
-			var date:Date = new Date();
-			lastPingTime = date.time;
+			lastPingTime =  new Date().time;
 		}
-		/**
-		 * 定时器发送ping包
-		 */		
+		
+		/** * 定时器发送ping包*/		
 		private function onRunWrite(te:TimerEvent):void
 		{
 			try {
@@ -212,7 +199,7 @@ package  com.core.Common
 				else
 				{	
 					sendPing();
-					timer.delay = 5000;
+					timer.delay = Constants.GAME_PING_DELAY;
 				}
 			} 
 			catch (e:Error)

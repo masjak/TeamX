@@ -1,7 +1,5 @@
 package com.core.Basic
 {
-	import feathers.themes.MetalWorksMobileTheme;
-	
 	import starling.display.Sprite;
 	import starling.events.Event;
 	

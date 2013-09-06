@@ -23,8 +23,8 @@ package com.Game.Globel
 		public static var SCENE_ZOOM_MAX:Number  = 1.5;// 场景X方向最大缩放
 		public static var SCENE_MASK_COLOR:uint  = 0x0b0c18;// 场景夜晚遮罩颜色
 		public static var SCENE_MASK_APHLA:Number  = 0.55;// 场景夜晚遮罩透明度
-		public static var GAME_RES_TYPE:String = "png";
-		
+		public static var GAME_RES_TYPE:String = "atf";		// 游戏使用的资源类型
+		public static var GAME_PING_DELAY:int = 5000;		// ping 的间隔
 		
 		/***********************游戏公有的变量***************/
 		
@@ -71,10 +71,11 @@ package com.Game.Globel
 		/**加载全局配置表*/
 		public static function  readXml(xml:XML):void
 		{
-			SCENE_ZOOM_MAX  = xml.SCENE_ZOOM_MAX;
-			SCENE_MASK_COLOR  = xml.SCENE_MASK_COLOR;
-			SCENE_MASK_APHLA  =  xml.SCENE_MASK_APHLA;
-			GAME_RES_TYPE =  xml.GAME_RES_TYPE;
+			SCENE_ZOOM_MAX  		= xml.SCENE_ZOOM_MAX;
+			SCENE_MASK_COLOR  		= xml.SCENE_MASK_COLOR;
+			SCENE_MASK_APHLA  		=  xml.SCENE_MASK_APHLA;
+			GAME_RES_TYPE 				=  xml.GAME_RES_TYPE;
+			GAME_PING_DELAY 			=  xml.GAME_PING_DELAY;
 		}
 		
 		/***********************静态常量配置 UISCREEN屏幕*****************/
