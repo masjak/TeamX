@@ -67,8 +67,8 @@ package com.core.Common
 				for(var j:int = 0; j < len; j++)
 				{
 					var bds:SceneBuildersVO = new SceneBuildersVO;
-					bds.sceneName =  xml.buliders[j].@name;
-					bds.name =  xml.buliders[j].@builderName;
+					bds.sceneId =  xml.buliders[j].@sceneId;
+					bds.tableId =  xml.buliders[j].@tableId;
 					bds.PosX =  xml.buliders[j].@PosX;
 					bds.PosY =  xml.buliders[j].@PosY;
 					bds.State =  xml.buliders[j].@State;
@@ -77,19 +77,19 @@ package com.core.Common
 					bds.blindOfferX =  xml.buliders[j].@blindOfferX;
 					bds.blindOfferY =  xml.buliders[j].@blindOfferY;
 					
-					sd.builders[bds.sceneName] = bds;
+					sd.builders[bds.sceneId] = bds;
 				}			
 				// 读取光影数据
 				len = xml.lights.length();
 				for( j = 0; j < len; j++)
 				{
 					var lds:SceneLightsVO = new SceneLightsVO;
-					lds.sceneName =  xml.lights[j].@name;
-					lds.name =  xml.lights[j].@lightName;
+					lds.sceneId =  xml.lights[j].@sceneId;
+					lds.tableId =  xml.lights[j].@tableId;
 					lds.PosX =  xml.lights[j].@PosX;
 					lds.PosY =  xml.lights[j].@PosY;
 					lds.State =  xml.lights[j].@State;
-					sd.lights[bds.sceneName] = lds;
+					sd.lights[bds.sceneId] = lds;
 				}
 				
 				// 读取可放置建筑区域

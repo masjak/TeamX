@@ -17,12 +17,12 @@ package com.core.Common
 			for(var i:int = 0; i < len; i++)
 			{
 				var lvo:LightsVO = new LightsVO;
-				lvo.name =  xml.light[i].@name;
+				lvo.tableId =  xml.light[i].@name;
 				lvo.path =    xml.light[i].@path;
 				lvo.State =   xml.light[i].@State;
 				
 				// 保存数据
-				_data[lvo.name] = lvo;
+				_data[lvo.tableId] = lvo;
 			}
 		}
 		

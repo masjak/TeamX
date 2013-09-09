@@ -162,7 +162,7 @@ package com.core.Basic
 			var sbvo:SceneBuildersVO;
 			for (var str:String in _sds.builders)
 			{
-				if(s == (_sds.builders[str] as SceneBuildersVO).sceneName)
+				if(s == (_sds.builders[str] as SceneBuildersVO).sceneId)
 				{
 					sbvo = _sds.builders[str];
 					break;
@@ -204,17 +204,17 @@ package com.core.Basic
 				return;
 			}
 			
-			var l:XLight = lights[slvo.sceneName];
+			var l:XLight = lights[slvo.sceneId];
 			if(l == null)
 			{
-				var lvo:LightsVO = Singleton.lights.getLightVO(slvo.name);
+				var lvo:LightsVO = Singleton.lights.getLightVO(slvo.tableId);
 				if(lvo == null)
 				{
-					throw new Error("不存在的灯光名字：" + slvo.name);
+					throw new Error("不存在的灯光名字：" + slvo.tableId);
 					return ;
 				}
 				l = new XLight(lvo);
-				lights[slvo.sceneName] = l;	
+				lights[slvo.sceneId] = l;	
 			}
 			l.x = slvo.PosX;
 			l.y = slvo.PosY;
@@ -239,19 +239,19 @@ package com.core.Basic
 		/** 创建建筑*/
 		public function createbuilder(sbvo:SceneBuildersVO):void
 		{
-			var b:XBuilder = builders[sbvo.sceneName];
+			var b:XBuilder = builders[sbvo.sceneId];
 			if(b == null)
 			{
-				var bvo:BuildersVO = Singleton.builders.getBuilderVO(sbvo.name);
-				bvo.sceneId = sbvo.sceneName;
+				var bvo:BuildersVO = Singleton.builders.getBuilderVO(sbvo.tableId);
+				bvo.sceneId = sbvo.sceneId;
 				
 				if(bvo == null)
 				{
-					throw new Error("不存在的建筑名字：" + sbvo.name);
+					throw new Error("不存在的建筑名字：" + sbvo.tableId);
 					return ;
 				}
 				b = new XBuilder(bvo);
-				builders[sbvo.sceneName] = b;	
+				builders[sbvo.sceneId] = b;	
 			}
 			b.x = sbvo.PosX;
 			b.y = sbvo.PosY;

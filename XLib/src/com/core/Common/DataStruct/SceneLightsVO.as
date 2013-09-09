@@ -2,8 +2,8 @@ package com.core.Common.DataStruct
 {
 	public class SceneLightsVO implements IDataVO
 	{
-		public var sceneName:String;// 在场景中的名字
-		public var name:String;// 实际的用来查找灯光配置的名字
+		public var sceneId:String;// 在场景中的名字
+		public var tableId:String;// 实际的用来查找灯光配置的名字
 		public var PosX:Number;			// 初始化场景中的坐标
 		public var PosY:Number;			// 初始化场景中的坐标
 		public var State:int;					// 建筑的状态

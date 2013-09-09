@@ -109,5 +109,28 @@ package com.Game.Globel
 		public static const BUILDER_EVENT_TYPE_DESTORY:int = 4;	// 可被攻击的
 		public static const BUILDER_EVENT_TYPE_NODESTORY:int = 8;// 不可被攻击的
 		
+		/***********************建筑类型*****************/
+		public static const BUILDER_FUNCTION_TYPE_DRAGON_FORCE:String = "dragonForce";// 龙穴
+		public static const BUILDER_FUNCTION_TYPE_MAGIC_CENTER:String = "magicCenter";			// 魔法研究所
+		public static const BUILDER_FUNCTION_TYPE_TRAIN_HP:String = "trainHp";			//耐力训练
+		public static const BUILDER_FUNCTION_TYPE_TRAIN_ATTACK:String = "trainAttack";			// 战斗训练营
+		public static const BUILDER_FUNCTION_TYPE_PRAY_CENTER:String = "prayCenter";			// 祈祷神殿
+		public static const BUILDER_FUNCTION_TYPE_HOUSE:String = "house";			// 民居
+		public static const BUILDER_FUNCTION_TYPE_PET_CENTER:String = "petCenter";			// 战争神殿
+		public static const BUILDER_FUNCTION_TYPE_SUMMON_CENTER:String = "summonCenter";			// 召唤之门
+		public static const BUILDER_FUNCTION_TYPE_INCOME_BUILD:String = "incomeBuild";			// 酒馆
+		public static const BUILDER_FUNCTION_TYPE_TOWER:String = "tower";			// 箭塔
+		public static const BUILDER_FUNCTION_TYPE_WALL:String = "wall";			// 城墙
+		public static const BUILDER_FUNCTION_TYPE_TREASURY:String = "treasury";			// 宝库
+		public static const BUILDER_FUNCTION_TYPE_SHOP:String = "shop";			// 商店
+		
+		/***********************建筑类型*****************/
+		public static const BUILDER_RESOURCE_TYPE_GOLD:String = "gold";			// 金币
+		public static const BUILDER_RESOURCE_TYPE_ENERGY:String = "magicEnergy";			// 能源
+		
+		
+		
+		
+		
 	}
 }

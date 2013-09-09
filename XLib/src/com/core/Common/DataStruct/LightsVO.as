@@ -2,7 +2,7 @@ package com.core.Common.DataStruct
 {
 	public class LightsVO implements IDataVO
 	{
-		public var name:String;
+		public var tableId:String;
 		public var path:String;
 		public var State:int;
 		
