@@ -1,7 +1,7 @@
 package com.core.Basic
 {
 	import com.Game.Globel.Constants;
-	import com.core.Common.DataStruct.lightsVO;
+	import com.core.Common.DataStruct.LightsVO;
 	import com.core.Utils.File.OpenFile;
 	
 	import flash.filesystem.File;
@@ -19,9 +19,9 @@ package com.core.Basic
 	{
 	
 		private var _body:Image;				// 建筑生成后的显示图
-		private var _lo:lightsVO;
+		private var _lo:LightsVO;
 		
-		public function XLight(lvo:lightsVO)
+		public function XLight(lvo:LightsVO)
 		{
 			super();
 			_lo = lvo;

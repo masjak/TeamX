@@ -6,8 +6,8 @@ package com.core.Basic
 	import com.core.Common.DataStruct.SceneBuildersVO;
 	import com.core.Common.DataStruct.SceneDataVO;
 	import com.core.Common.DataStruct.SceneLightsVO;
-	import com.core.Common.DataStruct.buildersVO;
-	import com.core.Common.DataStruct.lightsVO;
+	import com.core.Common.DataStruct.BuildersVO;
+	import com.core.Common.DataStruct.LightsVO;
 	
 	import flash.events.TimerEvent;
 	import flash.geom.Point;
@@ -207,7 +207,7 @@ package com.core.Basic
 			var l:XLight = lights[slvo.sceneName];
 			if(l == null)
 			{
-				var lvo:lightsVO = Singleton.lights.getLightVO(slvo.name);
+				var lvo:LightsVO = Singleton.lights.getLightVO(slvo.name);
 				if(lvo == null)
 				{
 					throw new Error("不存在的灯光名字：" + slvo.name);
@@ -242,8 +242,8 @@ package com.core.Basic
 			var b:XBuilder = builders[sbvo.sceneName];
 			if(b == null)
 			{
-				var bvo:buildersVO = Singleton.builders.getBuilderVO(sbvo.name);
-				bvo.sceneName = sbvo.sceneName;
+				var bvo:BuildersVO = Singleton.builders.getBuilderVO(sbvo.name);
+				bvo.sceneId = sbvo.sceneName;
 				
 				if(bvo == null)
 				{
@@ -566,7 +566,7 @@ package com.core.Basic
 						b.scaleX = b.scaleY =1;
 					}
 					// 移动结束后 把绑定的灯光还原回去
-					var l:XLight = getLightByBuilderSceneName(b.vo.sceneName);
+					var l:XLight = getLightByBuilderSceneName(b.vo.sceneId);
 					if(l != null)
 					{
 						l.visible = true;

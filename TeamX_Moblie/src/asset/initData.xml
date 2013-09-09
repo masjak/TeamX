@@ -7,7 +7,7 @@
 			<ImageLoader url="1.jpg" name="image1" load="true"/>-->
 		<XMLLoader url="Config/Constants.xml" name="Constants" load="true"/>
 		<XMLLoader url="Config/scenes.xml" name="sceneConfig" load="true"/>
-		<XMLLoader url="Config/builders.xml" name="builders" load="true"/>
+		<XMLLoader url="Config/buildData.xml" name="builders" load="true"/>
 		<XMLLoader url="Config/lights.xml" name="lights" load="true"/>
 		<XMLLoader url="Config/units.xml" name="units" load="true"/>
 		<XMLLoader url="Config/decorates.xml" name="decorates" load="true"/>

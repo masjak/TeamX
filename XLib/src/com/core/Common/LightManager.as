@@ -1,6 +1,6 @@
 package com.core.Common
 {
-	import com.core.Common.DataStruct.lightsVO;
+	import com.core.Common.DataStruct.LightsVO;
 
 	public class LightManager 
 	{
@@ -16,7 +16,7 @@ package com.core.Common
 			var len:int = xml.light.length();
 			for(var i:int = 0; i < len; i++)
 			{
-				var lvo:lightsVO = new lightsVO;
+				var lvo:LightsVO = new LightsVO;
 				lvo.name =  xml.light[i].@name;
 				lvo.path =    xml.light[i].@path;
 				lvo.State =   xml.light[i].@State;
@@ -26,7 +26,7 @@ package com.core.Common
 			}
 		}
 		
-		public function getLightVO(name:String):lightsVO
+		public function getLightVO(name:String):LightsVO
 		{
 			return _data[name];
 		}

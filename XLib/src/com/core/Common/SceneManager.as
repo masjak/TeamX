@@ -7,8 +7,8 @@ package com.core.Common
 	import com.core.Common.DataStruct.SceneDataVO;
 	import com.core.Common.DataStruct.SceneLightsVO;
 	import com.core.Common.DataStruct.SceneListVO;
-	import com.core.Common.DataStruct.buildersVO;
-	import com.core.Common.DataStruct.lightsVO;
+	import com.core.Common.DataStruct.BuildersVO;
+	import com.core.Common.DataStruct.LightsVO;
 	import com.core.Utils.File.OpenFile;
 	
 	import flash.filesystem.File;

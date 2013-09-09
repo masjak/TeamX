@@ -47,7 +47,7 @@ package com.core.Effect
 			// 如果是建筑 要判定绑定灯光
 			if(o is XBuilder)
 			{
-				var l:XLight = XWorld.instance.scene.getLightByBuilderSceneName((o as XBuilder).vo.sceneName);
+				var l:XLight = XWorld.instance.scene.getLightByBuilderSceneName((o as XBuilder).vo.sceneId);
 				playEffectShake(l,null);
 			}	
 			
@@ -73,7 +73,7 @@ package com.core.Effect
 				{
 					if(o is XBuilder)
 					{
-						var l:XLight = XWorld.instance.scene.getLightByBuilderSceneName((o as XBuilder).vo.sceneName);
+						var l:XLight = XWorld.instance.scene.getLightByBuilderSceneName((o as XBuilder).vo.sceneId);
 						stopPlayEffect(l);
 					}	
 					list[i].line.stop();

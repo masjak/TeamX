@@ -2,7 +2,7 @@ package com.core.Basic
 {
 	import com.Game.Globel.Constants;
 	import com.core.Common.Singleton;
-	import com.core.Common.DataStruct.buildersVO;
+	import com.core.Common.DataStruct.BuildersVO;
 	import com.core.Effect.ClickEffect;
 	import com.core.Utils.File.OpenFile;
 	
@@ -34,7 +34,7 @@ package com.core.Basic
 		
 		/**数据* */		
 		private var _state:int = 0;				// 建筑的状态 跟地图 白天黑夜等相匹配
-		private var _vo:buildersVO;
+		private var _vo:BuildersVO;
 		
 		/**逻辑*/		
 		private var _moveLayer:Sprite;		// 移动时候底座 红色或者绿色
@@ -42,7 +42,7 @@ package com.core.Basic
 		private var localPoint:Point; 		// 按下去的时候 坐标
 		private var _isPlayEffect:Boolean; // 是否正在播放效果  （某些操作在播放效果时候不能操作）
 		
-		public function XBuilder(bds:buildersVO)
+		public function XBuilder(bds:BuildersVO)
 		{
 			super();
 			_vo = bds;
@@ -70,7 +70,7 @@ package com.core.Basic
 		}
 		
 		/** 获取 建筑配置*/		
-		public function get vo():buildersVO
+		public function get vo():BuildersVO
 		{
 			return _vo;
 		}
@@ -141,7 +141,7 @@ package com.core.Basic
 			var touchMove:Touch = te.getTouch(this,TouchPhase.MOVED);
 //			te.stopPropagation();
 			// 移动的时候把绑定的灯光关掉
-			l = XWorld.instance.scene.getLightByBuilderSceneName(_vo.sceneName);
+			l = XWorld.instance.scene.getLightByBuilderSceneName(_vo.sceneId);
 			if(l != null)
 			{
 				l.visible = false;

@@ -1,7 +1,7 @@
 package com.core.Common
 {
 	import com.core.Common.DataStruct.UnitsVO;
-	import com.core.Common.DataStruct.buildersVO;
+	import com.core.Common.DataStruct.BuildersVO;
 
 	public class UnitManager 
 	{
@@ -28,7 +28,7 @@ package com.core.Common
 			}
 		}
 		
-		public function getUnitVO(name:String):buildersVO
+		public function getUnitVO(name:String):BuildersVO
 		{
 			return _data[name];
 		}

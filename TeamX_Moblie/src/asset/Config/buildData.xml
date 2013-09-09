@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!-- edited with XMLSpy v2013 (http://www.altova.com) by  () -->
+<data>
+	<StringText templetId="1" name="龙穴" level="1" eventsType="5" avatarType="build_dragon" functionType="shop" bindNpc="1" hp="100" armor="maigc" resourceType="gold" outputSpeed="150" resourceLimit="50000" buildingFormula="1" des="100"/>
+	<StringText templetId="2" name="魔法研究所" level="2" eventsType="6" avatarType="build_dragon" functionType="magicCenter" bindNpc="2" hp="500" armor="normal" resourceType="magicEnergy" outputSpeed="150" resourceLimit="50000" buildingFormula="2" des="101"/>
+	<StringText templetId="3" name="耐力训练中心" level="3" eventsType="6" avatarType="build_dragon" functionType="trainHp" bindNpc="3" hp="1000" armor="normal" resourceType="null" resourceLimit="50000" buildingFormula="3" des="102"/>
+	<StringText templetId="4" name="战斗训练营" level="1" eventsType="6" avatarType="build_dragon" functionType="trainAttack" bindNpc="3" hp="1000" armor="normal" resourceType="null" resourceLimit="50000" buildingFormula="3" des="102"/>
+	<StringText templetId="5" name="祈祷神殿" level="2" eventsType="5" avatarType="build_dragon" functionType="prayCenter" bindNpc="3" hp="1000" armor="normal" resourceType="null" resourceLimit="50000" buildingFormula="3" des="102"/>
+	<StringText templetId="6" name="民居" level="3" eventsType="6" avatarType="build_dragon" functionType="house" bindNpc="3" hp="1000" armor="normal" resourceType="null" resourceLimit="50000" buildingFormula="3" des="102"/>
+	<StringText templetId="7" name="战争神殿" level="3" eventsType="6" avatarType="build_dragon" functionType="petCenter" bindNpc="3" hp="1000" armor="normal" resourceType="null" resourceLimit="50000" buildingFormula="3" des="102"/>
+	<StringText templetId="8" name="召唤之门" level="3" eventsType="9" avatarType="build_dragon" functionType="summonCenter" bindNpc="3" hp="1000" armor="normal" resourceType="null" resourceLimit="50000" buildingFormula="3" des="102"/>
+	<StringText templetId="9" name="酒馆" level="3" eventsType="6" avatarType="build_dragon" functionType="incomeBuild" bindNpc="3" hp="1000" armor="normal" resourceType="null" outputSpeed="5000" resourceLimit="50000" buildingFormula="3" des="102"/>
+	<StringText templetId="10" name="箭塔" level="3" eventsType="6" avatarType="build_dragon" functionType="tower" bindNpc="3" hp="1000" armor="normal" resourceType="null" resourceLimit="50000" buildingFormula="3" des="102"/>
+	<StringText templetId="11" name="城墙" level="3" eventsType="5" avatarType="build_dragon" functionType="wall" bindNpc="3" hp="1000" armor="stone" resourceType="null" resourceLimit="50000" buildingFormula="3" des="102"/>
+	<StringText templetId="12" name="宝库" level="3" eventsType="6" avatarType="build_dragon" functionType="treasury" bindNpc="3" hp="1000" armor="spik" resourceType="null" resourceLimit="50000" buildingFormula="3" des="102"/>
+</data>

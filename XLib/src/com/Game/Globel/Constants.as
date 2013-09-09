@@ -103,6 +103,11 @@ package com.Game.Globel
 		/***********************点击效果*****************/
 		public static const CLICK_EFFECT_SHAKE:int = 1;			// 抖动
 
+		/***********************建筑的事件类型*****************/
+		public static const BUILDER_EVENT_TYPE_FIXED:int = 1;			// 固定的
+		public static const BUILDER_EVENT_TYPE_FREE:int = 2;			// 自由的
+		public static const BUILDER_EVENT_TYPE_DESTORY:int = 4;	// 可被攻击的
+		public static const BUILDER_EVENT_TYPE_NODESTORY:int = 8;// 不可被攻击的
 		
 	}
 }
