@@ -67,7 +67,7 @@ package  com.core.Common
 		}
 
 		/*** 连接网络*/
-		public function openDirect(connectIP:String,sendHead:Boolean):void
+		public function openDirect(connectIP:String,sendHead:Boolean = true):void
 		{
 			this.connectIP = connectIP;
 			this.sendHead = sendHead;
@@ -96,7 +96,7 @@ package  com.core.Common
 			}
 			catch (e:Error)
 			{
-				trace("Error");
+				trace("socket Error! can't find socket!" + connectIP);
 				this.closeById(true, this.connID);
 			}
 		}

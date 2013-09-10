@@ -1,5 +1,8 @@
 package com.core.Basic
 {
+	import com.Game.Globel.Constants;
+	import com.core.Common.Singleton;
+	
 	import starling.display.Sprite;
 	import starling.events.Event;
 	
@@ -47,6 +50,7 @@ package com.core.Basic
 			addChild(_world);
 			addChild(_hud);
 			
+			Singleton.socket.openDirect(Constants.GAME_IP);
 			_world.enterScene("1");
 		}
 		

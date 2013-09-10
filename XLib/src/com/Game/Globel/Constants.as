@@ -25,9 +25,9 @@ package com.Game.Globel
 		public static var SCENE_MASK_APHLA:Number  = 0.55;// 场景夜晚遮罩透明度
 		public static var GAME_RES_TYPE:String = "atf";		// 游戏使用的资源类型
 		public static var GAME_PING_DELAY:int = 5000;		// ping 的间隔
+		public static var GAME_IP:String = "192.168.0.107:21000";		// IP地址
 		
 		/***********************游戏公有的变量***************/
-		
 		public static var DRAG_DATA:DragData = new DragData();
 		/**舞台宽*/		
 		public static var STAGE_WIDTH:int  = 800;
@@ -76,6 +76,7 @@ package com.Game.Globel
 			SCENE_MASK_APHLA  		=  xml.SCENE_MASK_APHLA;
 			GAME_RES_TYPE 				=  xml.GAME_RES_TYPE;
 			GAME_PING_DELAY 			=  xml.GAME_PING_DELAY;
+			GAME_IP 							=  xml.GAME_IP;
 		}
 		
 		/***********************静态常量配置 UISCREEN屏幕*****************/
