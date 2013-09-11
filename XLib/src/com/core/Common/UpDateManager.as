@@ -1,5 +1,6 @@
 package  com.core.Common
 {
+	import com.Game.Globel.Constants;
 	import com.core.Utils.File.OpenFile;
 	
 	import flash.display.Loader;
@@ -25,7 +26,7 @@ package  com.core.Common
 			completeFun = onComplete;
 			// 如果是debug 则每次都覆盖更新逻辑swf 
 			// 后面还会添加版本比对
-			if(Singleton.platform.Debug)
+			if(Singleton.platform.Debug && !(Singleton.platform.Platform == Constants.PLATFORM_ANDROID))
 			{
 				updateLogicSWF(onSWFSaveComplete);
 			}
@@ -71,7 +72,7 @@ package  com.core.Common
 		/***更新逻辑SWF */	
 		private function updateLogicSWF(onFileOpenedToSave:Function):void
 		{
-			var path:String = File.applicationDirectory.resolvePath("asset").nativePath  + "/TeamX_Moblie.swf";
+			var path:String = File.applicationDirectory.resolvePath("asset").url  + "/TeamX_Moblie.swf";
 			var f:File = new File(path);
 			if(f.exists)
 			{

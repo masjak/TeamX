@@ -12,6 +12,6 @@
 	<!--ping的间隔时间-->
 	<GAME_PING_DELAY>5000</GAME_PING_DELAY>
 	<!--IP地址-->
-	<GAME_IP>192.168.0.107:21000</GAME_IP>
+	<GAME_IP>dingxingyue.xicp.net:21000</GAME_IP>
 	
 </Root>
