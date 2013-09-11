@@ -2,38 +2,35 @@ package com.core.Basic
 {
 	
 	import com.Game.Globel.Constants;
-	import com.core.Common.DataStruct.SceneDataStruct;
-	import com.core.Common.DataStruct.buildersDataStruct;
-	import com.core.Common.DataStruct.lightsDataStruct;
-	import com.core.Utils.File.OpenFile;
+	import com.core.Common.Singleton;
+	import com.core.Common.DataStruct.SceneBuildersVO;
+	import com.core.Common.DataStruct.SceneDataVO;
+	import com.core.Common.DataStruct.SceneLightsVO;
+	import com.core.Common.DataStruct.BuildersVO;
+	import com.core.Common.DataStruct.LightsVO;
 	
-	import flash.display.BitmapData;
-	import flash.display.Shape;
 	import flash.events.TimerEvent;
-	import flash.filesystem.File;
 	import flash.geom.Point;
-	import flash.utils.ByteArray;
+	import flash.geom.Rectangle;
 	import flash.utils.Timer;
-	import flash.utils.getTimer;
 	
-	import mx.core.mx_internal;
+	import feathers.dragDrop.DragDropManager;
+	import feathers.dragDrop.IDropTarget;
+	import feathers.events.DragDropEvent;
 	
 	import starling.display.BlendMode;
-	import starling.display.Image;
+	import starling.display.DisplayObject;
 	import starling.display.Quad;
 	import starling.display.QuadBatch;
 	import starling.events.Touch;
 	import starling.events.TouchEvent;
 	import starling.events.TouchPhase;
-	import starling.textures.Texture;
-	import starling.textures.TextureAtlas;
 
-	public class XScene extends XSprite
+	public class XScene extends XSprite  implements IDropTarget
 	{		
-		protected var atlas:TextureAtlas;
 		protected var state:int;
 		protected var _tileMap:XMap;
-		protected var _sds:SceneDataStruct;
+		protected var _sds:SceneDataVO;
 		
 		/**地图层*/	
 		protected var mapLayer:XSprite = new XSprite;
@@ -55,19 +52,31 @@ package com.core.Basic
 		// 测试数据
 		protected var _testQuad:Quad;
 		
-		public function XScene(sds:SceneDataStruct)
+		public function XScene(sds:SceneDataVO)
 		{
 			_sds = sds;
 			state = _sds.initState;
+			
+//			mapLayer.touchable = false;
 			addChild(mapLayer);
+			maskLayer.touchable = false;
 			addChild(maskLayer);	
+			
 			addChild(builderLayer);
 			
 			lightLayer.touchable = false;
 			addChild(lightLayer);
+			setUp();
+			
+			addEventListener(DragDropEvent.DRAG_ENTER, onDragEnter);
+			addEventListener(DragDropEvent.DRAG_MOVE, onDragMove);
+			addEventListener(DragDropEvent.DRAG_DROP, onDragDrop);
+			addEventListener(DragDropEvent.DRAG_EXIT, onDragExit);
+			useHandCursor = true;
+			
 		}
 		
-		public function get sceneData():SceneDataStruct{return _sds;}
+		public function get sceneData():SceneDataVO{return _sds;}
 		public function get sceneState():int{ return state; }
 		public function set sceneState(s:int):void
 		{
@@ -79,12 +88,12 @@ package com.core.Basic
 			init();
 		}
 		
-		public function setUp():void
+		/** 构建场景*/
+		private function setUp():void
 		{
 			_tileMap = new XMap(_sds);
 			mapLayer.addChild(_tileMap);
 			mapLayer.flatten();
-			XWorld.instance.camera.lookAt(0,0);
 			this.addEventListener(TouchEvent.TOUCH,ontouch);
 			
 			// 完成初始化的时候显示核心区域
@@ -106,16 +115,76 @@ package com.core.Basic
 			}
 			adjustMapPos();
 			init();
+			
+			// 测试可拖动区域
+//			var qb:QuadBatch = new QuadBatch();
+//			addChild(qb);
+//			var q:Quad = new Quad(32,32,0x00ff00);
+//			for(var i:int = 0; i < _sds.terrainWidth; i++)
+//			{
+//				for(var j:int = 0; j < _sds.terrainHeight; j++)
+//				{
+//					if(_sds.terrainData[i][j] == 1)
+//					{
+//						q.x = i*_sds.terrainTileWidth;
+//						q.y = j*_sds.terrainTileHeight;
+//						qb.addQuad(q);
+//					}
+//				}
+//			}
+			// 初始化完成之后 通知主屏幕
+			Singleton.signal.dispatchSignal(Constants.SIGNAL_SCENE_CREATE_COMPLETE,this);
 		}
 		
 		protected function init():void
 		{
-//			createbuilders();// 创建建筑
+			//			createbuilders();// 创建建筑
 			createMaskLayer();// 生成遮罩
-//			createlights();// 光影
+			//			createlights();// 光影
 			// 测试寻路
 			//			testAstar();
 		}
+		
+		/** 根据名字获取灯光*/		
+		public function getLightByName(s:String):XLight
+		{
+			return lights[s];
+		}
+		
+		/** 根据名字获取建筑*/
+		public function getBuilderByName(s:String):XBuilder
+		{
+			return builders[s];
+		}
+		
+		public function getSceneBuilderVO(s:String):SceneBuildersVO
+		{
+			var sbvo:SceneBuildersVO;
+			for (var str:String in _sds.builders)
+			{
+				if(s == (_sds.builders[str] as SceneBuildersVO).sceneId)
+				{
+					sbvo = _sds.builders[str];
+					break;
+				}
+			}
+			return sbvo;
+		}
+		
+		/** 根据建筑名字获取灯光*/		
+		public function getLightByBuilderSceneName(s:String):XLight
+		{
+			
+			var sbvo:SceneBuildersVO = getSceneBuilderVO(s);
+			if(sbvo != null)
+			{
+				return getLightByName(sbvo.blindLight);
+			}
+			
+			return null;
+		}
+		
+		
 		
 		/** 创建光影组*/		
 		protected function createlights():void
@@ -128,45 +197,32 @@ package com.core.Basic
 		}
 		
 		/** 创建光影*/		
-		protected function createlight(los:lightsDataStruct):void
+		protected function createlight(slvo:SceneLightsVO):void
 		{
-			var img:Image = lights[los.name];
-			if(img != null)
+			if(slvo.State != slvo.State)
 			{
-				if((los.State & this.state))
-				{
-					if(!lightLayer.contains(img))
-					{
-						lightLayer.addChild(img);
-					}
-				}
-				else
-				{
-					lightLayer.removeChild(img);
-				}
-			}
-			else
-			{
-				var path:String = Constants.resRoot+los.path;
-				var ba:ByteArray = OpenFile.open(new File(path));
-				var tex:Texture = Texture.fromAtfData(ba);
-				img = new Image(tex);
-				img.x = los.PosX;
-				img.y = los.PosY;
-				lights[los.name] = img;
-				if((los.State & this.state))
-				{
-					if(!lightLayer.contains(img))
-					{
-						lightLayer.addChild(img);
-					}
-				}
-				else
-				{
-					lightLayer.removeChild(img);
-				}
+				return;
 			}
 			
+			var l:XLight = lights[slvo.sceneId];
+			if(l == null)
+			{
+				var lvo:LightsVO = Singleton.lights.getLightVO(slvo.tableId);
+				if(lvo == null)
+				{
+					throw new Error("不存在的灯光名字：" + slvo.tableId);
+					return ;
+				}
+				l = new XLight(lvo);
+				lights[slvo.sceneId] = l;	
+			}
+			l.x = slvo.PosX;
+			l.y = slvo.PosY;
+
+			if(!lightLayer.contains(l))
+			{
+				lightLayer.addChild(l);
+			}
 			
 		}
 		
@@ -181,43 +237,29 @@ package com.core.Basic
 		}
 		
 		/** 创建建筑*/
-		public function createbuilder(bds:buildersDataStruct):void
+		public function createbuilder(sbvo:SceneBuildersVO):void
 		{
-			var img:Image = builders[bds.name];
-			if(img != null)
+			var b:XBuilder = builders[sbvo.sceneId];
+			if(b == null)
 			{
-				if((bds.State & this.state))
+				var bvo:BuildersVO = Singleton.builders.getBuilderVO(sbvo.tableId);
+				bvo.sceneId = sbvo.sceneId;
+				
+				if(bvo == null)
 				{
-					if(!builderLayer.contains(img))
-					{
-						builderLayer.addChild(img);
-					}
+					throw new Error("不存在的建筑名字：" + sbvo.tableId);
+					return ;
 				}
-				else
-				{
-					builderLayer.removeChild(img);
-				}
+				b = new XBuilder(bvo);
+				builders[sbvo.sceneId] = b;	
 			}
-			else
+			b.x = sbvo.PosX;
+			b.y = sbvo.PosY;
+			b.State = this.state;
+			b.Click = sbvo.bclick;
+			if(!builderLayer.contains(b))
 			{
-				var path:String = Constants.resRoot+bds.path;
-				var ba:ByteArray = OpenFile.open(new File(path));
-				var tex:Texture = Texture.fromAtfData(ba);
-				img = new Image(tex);
-				img.x = bds.PosX;
-				img.y = bds.PosY;
-				builders[bds.name] = img;
-				if((bds.State & this.state))
-				{
-					if(!builderLayer.contains(img))
-					{
-						builderLayer.addChild(img);
-					}
-				}
-				else
-				{
-					builderLayer.removeChild(img);
-				}
+				builderLayer.addChild(b);
 			}
 			
 		}
@@ -410,14 +452,21 @@ package com.core.Basic
 				if(touchEnd != null)
 				{
 					adjustMapPos();
-					
-					XWorld.instance.camera.setZero(-this.x,-this.y );
-					XWorld.instance.camera.update();
-					recut();
 				}
 				// 触摸滑动
 				if(touchMove != null)
 				{
+					// 判断下滑动是否是由map层发出来的
+					var target:DisplayObject = te.target as DisplayObject;
+					while(target && !(target is XMap))
+					{
+						target = target.parent;
+					}
+					if(!target)
+					{
+						return;
+					}
+					
 					p = touchMove.getLocation(this);
 					bp = touchMove.getPreviousLocation(this);
 					var xoff:Number = (this.x + p.x - bp.x);
@@ -445,7 +494,7 @@ package com.core.Basic
 					
 					this.x = xoff;
 					this.y = yoff;
-					trace("touch : x = " + xoff + ",Y = " + yoff);
+					trace("touch : xoff = " + xoff + ",yoff = " + yoff);
 				}
 			}
 			
@@ -475,16 +524,109 @@ package com.core.Basic
 			}
 		}
 		
-		/**是否需要重新裁切*/		
-		public function recut():void
+		private function onDragEnter(event:DragDropEvent):void
 		{
-			_tileMap.recut();
+			trace("onDragEnter()");
+			if (event.dragData.hasDataForFormat("XBuilder"))
+			{
+				var o:Object = event.dragData.getDataForFormat("XBuilder");
+				var b:XBuilder = o.build;
+				b.upDatamoveLayer(isObjectCanBuilder(b));
+				DragDropManager.acceptDrag(this);
+			}
+		}
+		
+		private function onDragMove(event:DragDropEvent):void
+		{
+			if (event.dragData.hasDataForFormat("XBuilder"))
+			{
+				var o:Object = event.dragData.getDataForFormat("XBuilder");
+				var b:XBuilder = o.build;
+				b.upDatamoveLayer(isObjectCanBuilder(b));
+			}
+		}
+		
+		private function onDragDrop(event:DragDropEvent):void
+		{
+			trace("onDragDrop()");
+			if (event.dragData.hasDataForFormat("XBuilder"))
+			{
+				var o:Object = event.dragData.getDataForFormat("XBuilder");
+				var b:XBuilder = o.build;
+				var ox:Number = o.offerX;
+				var oy:Number = o.offerY;
+				
+				if(b)
+				{
+					if(b.parent != this.builderLayer)
+					{
+						b.x = event.localX + ox;
+						b.y =event.localY + oy;
+						builderLayer.addChild(b);
+						b.scaleX = b.scaleY =1;
+					}
+					// 移动结束后 把绑定的灯光还原回去
+					var l:XLight = getLightByBuilderSceneName(b.vo.sceneId);
+					if(l != null)
+					{
+						l.visible = true;
+						l.x = b.x;
+						l.y = b.y;
+						l.scaleX = l.scaleY =1;
+					}
+					
+				}
+				
+			}
+		}
+		
+		private function onDragExit(event:DragDropEvent):void
+		{
+			trace("onDragExit()");
+			if (!event.isDropped)
+			{
+				
+			}
+		}
+		
+		/**某一个点是否可以建造*/		
+		public function isPointCanBuilder(p:Point):Boolean
+		{
+			// 首先把点映射到场景中配置的格子中
+			var girdX:int = p.x/_sds.terrainTileWidth;
+			var girdY:int = p.y/_sds.terrainTileHeight;
+			return (_sds.terrainData[girdX][girdY] ==1);
+		}
+		
+		/**某一矩形区域是否可以建造*/		
+		public function isRectCanBuilder(rect:Rectangle):Boolean
+		{
+			// 简略算法 判定矩形4个点是否在可建造的格子呢
+			return (isPointCanBuilder(rect.topLeft) &&
+				isPointCanBuilder(new Point(rect.x+rect.width,rect.y)) &&
+				isPointCanBuilder(new Point(rect.y+rect.height,rect.x)) &&
+				isPointCanBuilder(rect.bottomRight) )
+		}
+		
+		/**某一矩形区域是否可以建造*/		
+		public function isObjectCanBuilder(o:DisplayObject):Boolean
+		{
+			var lp:Point = new Point;
+			this.globalToLocal(o.localToGlobal(lp),lp);
+			var rect:Rectangle = new Rectangle(lp.x,lp.y,o.width,o.height);
+				
+				return isRectCanBuilder(rect);
 		}
 		
 		override public function dispose():void
 		{
+			super.dispose();
+			_tileMap.dispose();
 			_tileMap = null;
-			atlas.dispose();
+			removeEventListener(DragDropEvent.DRAG_ENTER, onDragEnter);
+			removeEventListener(DragDropEvent.DRAG_MOVE, onDragMove);
+			removeEventListener(DragDropEvent.DRAG_DROP, onDragDrop);
+			removeEventListener(DragDropEvent.DRAG_COMPLETE, onDragExit);
 		}
 		
 	}

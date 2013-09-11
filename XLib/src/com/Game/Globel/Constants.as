@@ -4,14 +4,15 @@ package com.Game.Globel
 	import com.Game.GameScreen.PhotoTestScreen;
 	import com.Game.GameScreen.SceneStateTest;
 	import com.Game.GameScreen.WelcomeScreen;
+	import com.core.Common.ScreenManager;
+	import com.core.Common.Singleton;
 	
 	import flash.filesystem.File;
 	
 	import feathers.controls.ScreenNavigatorItem;
+	import feathers.dragDrop.DragData;
 	
 	import starling.errors.AbstractClassError;
-	import com.core.Common.ScreenManager;
-	import com.core.Common.Singleton;
 
 	public class Constants
 	{
@@ -22,7 +23,12 @@ package com.Game.Globel
 		public static var SCENE_ZOOM_MAX:Number  = 1.5;// 场景X方向最大缩放
 		public static var SCENE_MASK_COLOR:uint  = 0x0b0c18;// 场景夜晚遮罩颜色
 		public static var SCENE_MASK_APHLA:Number  = 0.55;// 场景夜晚遮罩透明度
+		public static var GAME_RES_TYPE:String = "atf";		// 游戏使用的资源类型
+		public static var GAME_PING_DELAY:int = 5000;		// ping 的间隔
+		public static var GAME_IP:String = "192.168.0.107:21000";		// IP地址
 		
+		/***********************游戏公有的变量***************/
+		public static var DRAG_DATA:DragData = new DragData();
 		/**舞台宽*/		
 		public static var STAGE_WIDTH:int  = 800;
 		/**舞台高*/
@@ -37,14 +43,11 @@ package com.Game.Globel
 			}
 			else if(Singleton.platform.Platform == Constants.PLATFORM_WINDOW)
 			{
-				// home 开发环境
-				_resRoot = "E:/workpath/work/XLib/TeamX/TeamX_Moblie/src/asset";
-				// MF开发环境
-//				_resRoot = "F:/workPath/work/TeamX/trunk/TeamX_Moblie/src/asset";
+				_resRoot = File.applicationDirectory.resolvePath("asset").url;
 			}
 			else  if(Singleton.platform.Platform == Constants.PLATFORM_IOS)
 			{
-				_resRoot = File.applicationDirectory.resolvePath("asset").nativePath;
+				_resRoot = File.applicationDirectory.resolvePath("asset").url;
 			}
 			else  if(Singleton.platform.Platform == Constants.PLATFORM_ANDROID)
 			{
@@ -56,7 +59,7 @@ package com.Game.Globel
 		/**初始化常量配置*/		
 		public static function  init():void
 		{
-			loadConfig();
+//			readXml();
 			
 			ScreenManager.screenNavigator;
 			ScreenManager.addScreen(SCREEN_WELCOME,new ScreenNavigatorItem(WelcomeScreen));
@@ -66,9 +69,14 @@ package com.Game.Globel
 		}
 		
 		/**加载全局配置表*/
-		public static function  loadConfig():void
+		public static function  readXml(xml:XML):void
 		{
-			// 加载全局配置xml
+			SCENE_ZOOM_MAX  		= xml.SCENE_ZOOM_MAX;
+			SCENE_MASK_COLOR  		= xml.SCENE_MASK_COLOR;
+			SCENE_MASK_APHLA  		=  xml.SCENE_MASK_APHLA;
+			GAME_RES_TYPE 				=  xml.GAME_RES_TYPE;
+			GAME_PING_DELAY 			=  xml.GAME_PING_DELAY;
+			GAME_IP 							=  xml.GAME_IP;
 		}
 		
 		/***********************静态常量配置 UISCREEN屏幕*****************/
@@ -86,12 +94,43 @@ package com.Game.Globel
 		
 		
 		/***********************静态常量配置 信号事件*****************/
-		public static const SIGNAL_STARLING_INIT:String = "StarlingInit";
-		
+		public static const SIGNAL_STARLING_INIT:String = "StarlingInit";// starling 初始化完毕
+		public static const SIGNAL_SCENE_CREATE_COMPLETE:String = "SceneCreateCompele";// 创建场景完毕
 		
 		/***********************场景的状态*****************/
 		public static const SCENE_STATE_DAY:int = 1;			// 白天
-		public static const SCENE_STATE_NIGHT:int = 2;			// 晚上
+		public static const SCENE_STATE_NIGHT:int = 2;		// 晚上
+		
+		/***********************点击效果*****************/
+		public static const CLICK_EFFECT_SHAKE:int = 1;			// 抖动
+
+		/***********************建筑的事件类型*****************/
+		public static const BUILDER_EVENT_TYPE_FIXED:int = 1;			// 固定的
+		public static const BUILDER_EVENT_TYPE_FREE:int = 2;			// 自由的
+		public static const BUILDER_EVENT_TYPE_DESTORY:int = 4;	// 可被攻击的
+		public static const BUILDER_EVENT_TYPE_NODESTORY:int = 8;// 不可被攻击的
+		
+		/***********************建筑类型*****************/
+		public static const BUILDER_FUNCTION_TYPE_DRAGON_FORCE:String = "dragonForce";// 龙穴
+		public static const BUILDER_FUNCTION_TYPE_MAGIC_CENTER:String = "magicCenter";			// 魔法研究所
+		public static const BUILDER_FUNCTION_TYPE_TRAIN_HP:String = "trainHp";			//耐力训练
+		public static const BUILDER_FUNCTION_TYPE_TRAIN_ATTACK:String = "trainAttack";			// 战斗训练营
+		public static const BUILDER_FUNCTION_TYPE_PRAY_CENTER:String = "prayCenter";			// 祈祷神殿
+		public static const BUILDER_FUNCTION_TYPE_HOUSE:String = "house";			// 民居
+		public static const BUILDER_FUNCTION_TYPE_PET_CENTER:String = "petCenter";			// 战争神殿
+		public static const BUILDER_FUNCTION_TYPE_SUMMON_CENTER:String = "summonCenter";			// 召唤之门
+		public static const BUILDER_FUNCTION_TYPE_INCOME_BUILD:String = "incomeBuild";			// 酒馆
+		public static const BUILDER_FUNCTION_TYPE_TOWER:String = "tower";			// 箭塔
+		public static const BUILDER_FUNCTION_TYPE_WALL:String = "wall";			// 城墙
+		public static const BUILDER_FUNCTION_TYPE_TREASURY:String = "treasury";			// 宝库
+		public static const BUILDER_FUNCTION_TYPE_SHOP:String = "shop";			// 商店
+		
+		/***********************建筑类型*****************/
+		public static const BUILDER_RESOURCE_TYPE_GOLD:String = "gold";			// 金币
+		public static const BUILDER_RESOURCE_TYPE_ENERGY:String = "magicEnergy";			// 能源
+		
+		
+		
 		
 		
 	}

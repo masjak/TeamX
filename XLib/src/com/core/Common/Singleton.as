@@ -1,12 +1,12 @@
 package com.core.Common
 {
+	import com.Game.Globel.Constants;
+	
 	import dragonBones.factorys.StarlingFactory;
 	
 	import feathers.controls.ScreenNavigator;
 	
 	import starling.utils.AssetManager;
-	import starling.utils.ScaleMode;
-	import com.Game.Globel.Constants;
 
 	/**
 	 * 单例管理器
@@ -14,7 +14,7 @@ package com.core.Common
 	 * 
 	 */	
 	
-	public class Singleton
+	public class Singleton 
 	{
 		/***平台管理 实例对象  */
 		private static var _platform:PlatformManager;
@@ -31,6 +31,29 @@ package com.core.Common
 		/***信号槽管理器 */		
 		private static var _signal:SignalManager;
 		
+		/***建筑管理器 */		
+		private static var _builders:BuilderManager;
+		
+		/***装饰管理器 */		
+		private static var _decorates:DecoratesManager;
+		
+		/***单位管理器 */		
+		private static var _units:UnitManager;
+		
+		/***灯光管理器 */		
+		private static var _lights:LightManager;
+		
+		/***帧监听 */		
+		private static var _enterFrame:EnterFrameManager;
+		
+		/***网络管理器 */		
+		private static var _socket:SocketManager;
+		
+		/***自动更新管理器 */		
+		private static var _update:UpDateManager;
+		
+		/***自动更新管理器 */		
+		private static var _netData:NetDataManager;
 		
 		public function Singleton()
 		{
@@ -95,6 +118,86 @@ package com.core.Common
 			return ScreenManager.screenNavigator;
 		}
 		
+		/***建筑 对象 */
+		public static function get builders():BuilderManager
+		{
+			if(_builders == null)
+			{
+				_builders = new BuilderManager;
+			}
+			return _builders;
+		}
+		
+		/***装饰 对象 */
+		public static function get decorates():DecoratesManager
+		{
+			if(_decorates == null)
+			{
+				_decorates = new DecoratesManager;
+			}
+			return _decorates;
+		}
+		
+		/***单位对象 */
+		public static function get units():UnitManager
+		{
+			if(_units == null) 
+			{
+				_units = new UnitManager;
+			}
+			return _units;
+		}
+		
+		/***灯光 对象 */
+		public static function get lights():LightManager
+		{
+			if(_lights == null)
+			{
+				_lights = new LightManager;
+			}
+			return _lights;
+		}
+		
+		/***帧监听 对象 */
+		public static function get enterFrame():EnterFrameManager
+		{
+			if(_enterFrame == null)
+			{
+				_enterFrame = new EnterFrameManager;
+				_enterFrame.start();
+			}
+			return _enterFrame;
+		}
+		
+		/***网络协议 对象 */
+		public static function get socket():SocketManager
+		{
+			if(_socket == null)
+			{
+				_socket = new SocketManager;
+			}
+			return _socket;
+		}	
+		
+		/***自动更新管理器 */
+		public static function get update():UpDateManager
+		{
+			if(_update == null)
+			{
+				_update = new UpDateManager;
+			}
+			return _update;
+		}
+		
+		/***网络数据模块 */
+		public static function get netData():NetDataManager
+		{
+			if(_netData == null)
+			{
+				_netData = new NetDataManager;
+			}
+			return _netData;
+		}
 		
 		/***销毁 */
 		public static function dispose():void
@@ -121,6 +224,61 @@ package com.core.Common
 			{
 				_camera.dispose();
 				_camera = null;
+			}
+			
+			if(_signal != null)
+			{
+				_signal.dispose();
+				_signal = null;
+			}
+			
+			if(_decorates != null)
+			{
+				_decorates.dispose();
+				_decorates = null;
+			}
+			
+			if(_builders != null)
+			{
+				_builders.dispose();
+				_builders = null;
+			}
+			
+			if(_units != null)
+			{
+				_units.dispose();
+				_units = null;
+			}
+			
+			if(_lights != null)
+			{
+				_lights.dispose();
+				_lights = null;
+			}
+			
+			if(_enterFrame != null)
+			{
+				_enterFrame.dispose();
+				_enterFrame.stop();
+				_enterFrame = null;
+			}
+			
+			if(_socket != null)
+			{
+				_socket.dispose();
+				_socket = null;
+			}
+			
+			if(_update != null)
+			{
+				_update.dispose();
+				_update = null;
+			}
+			
+			if(_netData != null)
+			{
+				_netData.dispose();
+				_netData = null;
 			}
 			
 			ScreenManager.dispose();
