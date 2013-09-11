@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <flexLibProperties includeAllClasses="true" useMultiPlatformConfig="false" version="3">
   <includeClasses>
-    <classEntry path="Test.Scene.ResManager"/>
     <classEntry path="com.core.TileMap.TileScene"/>
     <classEntry path="com.Game.Common.ScreenManager"/>
     <classEntry path="com.Game.Common.SignalManager"/>
@@ -14,6 +13,19 @@
     <classEntry path="com.Game.GameScreen.MainScreen"/>
     <classEntry path="com.Game.Common.DataStruct.AtlasStruct"/>
     <classEntry path="com.core.Utils.Util"/>
+    <classEntry path="Test.EffectTest"/>
+    <classEntry path="dragonBones.Bone"/>
+    <classEntry path="dragonBones.Slot"/>
+    <classEntry path="Test.ParticleTest"/>
+    <classEntry path="com.core.Basic.XLight"/>
+    <classEntry path="com.core.Effect.BuilderState.StateManager"/>
+    <classEntry path="com.core.Basic.XPSprite"/>
+    <classEntry path="com.Game.Protocol.VO.BaseNetRequest"/>
+    <classEntry path="com.Game.Protocol.VO.BaseNetResponse"/>
+    <classEntry path="com.Game.Protocol.PingRequest"/>
+    <classEntry path="com.Game.Protocol.Data.BaseNetData"/>
+    <classEntry path="com.Game.Protocol.Data.PingData"/>
+    <classEntry path="com.core.Common.NetDataManager"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

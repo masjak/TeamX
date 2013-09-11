@@ -15,11 +15,13 @@ package Test
 	import starling.display.QuadBatch;
 	import starling.display.Sprite;
 	import starling.events.Event;
+	import starling.extensions.ParticleSystem;
 	import starling.textures.Texture;
 	
 	public class XGameTest extends Sprite
 	{	
-
+		private var effect:EffectTest;
+		private var particle:ParticleTest;
 		
 		public function XGameTest()
 		{
@@ -47,7 +49,15 @@ package Test
 //			randerTex256bitmapData();
 			
 			// 测试2048*2048 单ATF纹理 渲染速度
-//			randerSingleATF2048();			
+//			randerSingleATF2048();	
+			
+			effect = new EffectTest();
+			addChild(effect);
+			
+			
+			
+//			particle = new ParticleTest;
+//			addChild(particle);
 		}
 		
 		/**

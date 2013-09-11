@@ -109,7 +109,7 @@ class StarlingGame extends Sprite {
 	
 	public function StarlingGame() {
 		factory = new StarlingFactory();
-		factory.parseData(new AssetsManager.DragonData());
+//		factory.parseData(new AssetsManager.DragonData());
 		factory.addEventListener(Event.COMPLETE, textureCompleteHandler);
 	}
 	

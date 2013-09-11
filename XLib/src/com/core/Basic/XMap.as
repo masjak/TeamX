@@ -2,7 +2,7 @@ package com.core.Basic
 {
 	import com.core.Astar.SilzAstar;
 	import com.Game.Globel.Constants;
-	import com.core.Common.DataStruct.SceneDataStruct;
+	import com.core.Common.DataStruct.SceneDataVO;
 	import com.core.Math.FastRectangleTools;
 	import com.core.Utils.File.OpenFile;
 	
@@ -27,7 +27,7 @@ package com.core.Basic
 		public static var LIB_DIR:String = '/asset/';
 		
 		/**tile 的高*/
-		public var _sds:SceneDataStruct;	
+		public var _sds:SceneDataVO;	
 		
 		//////////////////////////////////////////////////////////////////////////
 		/** * 显示区域X数量*/
@@ -56,7 +56,7 @@ package com.core.Basic
 		private var _roadMap:BitmapData;
 		
 		//////////////////////////////////////////////////////////////////////////
-		public function XMap(sds:SceneDataStruct)
+		public function XMap(sds:SceneDataVO)
 		{
 			_sds = sds;
 			casheMap = {tiles:new Object()};
@@ -160,15 +160,15 @@ package com.core.Basic
 		
 		public function draw():void
 		{
-			var cameraView:Rectangle = XWorld.instance.camera.cameraCutView;
-			var num:int = this.numChildren;
-			for(var i:int = 0; i < num; i++)
-			{
-				var img:Image = this.getChildAt(i) as Image;
-				if(img == null) continue;
-				var bDraw:Boolean = FastRectangleTools.intersects(cameraView,new Rectangle(img.x,img.y,img.width,img.height));
-				img.visible = bDraw;
-			}
+//			var cameraView:Rectangle = XWorld.instance.camera.cameraCutView;
+//			var num:int = this.numChildren;
+//			for(var i:int = 0; i < num; i++)
+//			{
+//				var img:Image = this.getChildAt(i) as Image;
+//				if(img == null) continue;
+//				var bDraw:Boolean = FastRectangleTools.intersects(cameraView,new Rectangle(img.x,img.y,img.width,img.height));
+//				img.visible = bDraw;
+//			}
 		}
 		
 		public function reset():void
@@ -247,8 +247,8 @@ package com.core.Basic
 		/*** 根据世界坐标获取在屏幕内的坐标 */ 
 		public function getScreenPostion(x:Number,y:Number):Point
 		{			
-			_turnResult.x = x - XWorld.instance.camera.zeroX;
-			_turnResult.y = y - XWorld.instance.camera.zeroY;
+//			_turnResult.x = x - XWorld.instance.camera.zeroX;
+//			_turnResult.y = y - XWorld.instance.camera.zeroY;
 			return _turnResult;
 		}
 		

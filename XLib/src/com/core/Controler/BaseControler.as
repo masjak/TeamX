@@ -1,6 +1,6 @@
 package com.core.Controler
 {
-	import com.core.Basic.XGameObject;
+	import com.core.Basic.XObject;
 	
 	import flash.geom.Point;
 	
@@ -41,7 +41,7 @@ package com.core.Controler
 		/**
 		 * 控制器的控制对象
 		 */ 
-		protected var _me:XGameObject;
+		protected var _me:XObject;
 		
 		public static function RUN():void
 		{
@@ -142,7 +142,7 @@ package com.core.Controler
 		}
 
 		/*** 控制对象*/ 
-		public function set me(nc:XGameObject):void
+		public function set me(nc:XObject):void
 		{
 			_me=nc;
 		}

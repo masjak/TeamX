@@ -1,6 +1,7 @@
 package com.core.Basic
 {
-	import feathers.themes.MetalWorksMobileTheme;
+	import com.Game.Globel.Constants;
+	import com.core.Common.Singleton;
 	
 	import starling.display.Sprite;
 	import starling.events.Event;
@@ -21,8 +22,8 @@ package com.core.Basic
 		/**UI层*/	
 		protected var _hud:XHud;
 		
-		/**feathers UI 主题 */		
-		protected var theme:MetalWorksMobileTheme;
+//		/**feathers UI 主题 */		
+//		protected var theme:MetalWorksMobileTheme; 暂时不使用主题
 		
 		public function XStage()
 		{
@@ -36,7 +37,7 @@ package com.core.Basic
 		
 		protected function addedToStageHandler(event:Event):void
 		{
-			theme = new MetalWorksMobileTheme(this);
+//			theme = new MetalWorksMobileTheme(this);
 			init();
 			this.removeEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
 		}
@@ -48,6 +49,9 @@ package com.core.Basic
 			// 场景层在最下面 UI在最上面
 			addChild(_world);
 			addChild(_hud);
+			
+			Singleton.socket.openDirect(Constants.GAME_IP);
+			_world.enterScene("1");
 		}
 		
 		/**获取场景层*/		
@@ -64,6 +68,7 @@ package com.core.Basic
 		/**销毁*/		
 		override public function dispose():void
 		{
+			super.dispose();
 			if(_world != null)
 			{
 				_world.dispose();

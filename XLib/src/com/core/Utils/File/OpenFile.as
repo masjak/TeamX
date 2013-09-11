@@ -224,6 +224,54 @@ package com.core.Utils.File
 		}
 		
 		
+		/**
+		 * 异步方式写文件
+		 * @param data
+		 * @param path
+		 * @return
+		 *
+		 */
+		public static function writeAsync(data:*, path:String,onFileOpenedToSave:Function = null):File
+		{
+			var stream:FileStream;
+			var byte:ByteArray
+			if (data is ByteArray)
+			{
+				byte=data as ByteArray;
+			}
+			else if (data is String)
+			{
+				byte=new ByteArray();
+				byte.writeUTFBytes(data);
+			}
+			else
+			{
+				byte=new ByteArray();
+				byte.writeObject(data);
+			}
+			
+			byte.position=0;
+			
+			try
+			{
+				var _file:File=new File(path);
+				stream=new FileStream();
+				if(onFileOpenedToSave != null)
+				{
+					stream.addEventListener(Event.CLOSE, onFileOpenedToSave);
+				}
+				stream.openAsync(_file, FileMode.WRITE);
+				stream.writeBytes(byte);
+				stream.close();
+				return _file;
+			}
+			catch (e:Error)
+			{
+				trace("写入文件错误-------------------->>>" + e.message);
+			}
+			return null;
+		}
+		
 	}
 }
 import flash.events.Event;

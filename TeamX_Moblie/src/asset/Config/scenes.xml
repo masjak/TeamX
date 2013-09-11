@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2013 (http://www.altova.com) by  () -->
+<!-- 被2011 rel. 2 sp1 (haog) 使用XMLSpy vmf编辑的 (http://www.altova.com) by -->
+<Root>
+	<!--场景ID 场景的配置路径 场景类型 暂定0为普通场景-->
+	<scene sceneId="1" scenePath="scene/1/scene.xml" sceneType="0"/>
+	<scene sceneId="2" scenePath="scene/2/scene.xml" sceneType="0"/>
+</Root>
